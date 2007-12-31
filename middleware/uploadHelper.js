@@ -10,7 +10,7 @@ module.exports = {
 
         files = !files.length ? [ files ] : files;
 		files.forEach((file) => {
-            let filename = fileName ?? `${Date.now()}-${file.name}`;
+            let filename = fileName ? fileName : `${Date.now()}-${file.name}`;
 			let fileExtenstion = file.name.split(".")[file.name.split(".").length - 1];
 			let finalName = ud + path  + filename + "." + fileExtenstion;
 			

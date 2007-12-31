@@ -66,7 +66,7 @@ const NewCategory = ({ setAlert, clearErrors, createCategory, projects: { error,
 					</label>
 				</div>
 				<button type="submit" value="Submit">
-					ثبت پروژه و پرداخت
+					ثبت دسته‌بندی جدید
 				</button>
 			</form>
 		</section>

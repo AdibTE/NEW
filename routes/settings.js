@@ -64,7 +64,7 @@ router.get('/types', async (req, res) => {
 
 // @ID دسته بندی ها
 // @router POST api/settings/categories
-// @desc make a category type
+// @desc make a category
 // @access Private + Admin
 router.post(
 	'/categories',
@@ -88,7 +88,7 @@ router.post(
 			let cat = await Category.findOne({ title });
 			if (cat) return res.status(400).json({ msg: 'این عنوان قبلا ثبت شده است' });
 
-			let picName = upload(req.files.picture, `/categories/`, title);
+			let picName = upload(req.files.picture, `/categories/`, ID);
 
 			cat = new Category({
 				title,
