@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+/* Global */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Roboto;
+}
+
+* a,
+* a:hover {
+    text-decoration: none;
+}
+
+/* Bootstrap Override */
+
+.container {
+    padding: 20px 0;
+}
+
+.pull-right {
+    float: right;
+}
+
+.pull-left {
+    float: left;
+}
+
+.p-t-10 {
+    padding-top: 10px;
+}
+
+.p-t-20 {
+    padding-top: 20px;
+}
+.p-b-10 {
+    padding-bottom: 10px;
+}
+
+.p-b-20 {
+    padding-bottom: 20px;
+}
+.m-t-10 {
+    margin-top: 10px;
+}
+
+.m-t-20 {
+    margin-top: 20px;
+}
+.m-b-10 {
+    margin-bottom: 10px;
+}
+
+.m-b-20 {
+    margin-bottom: 20px;
+}
+
+/* navbar */
+
+.navbar {
+    background-color: #8370d4;
+    color: white;
+    height: 50px;
+}
+
+.navbar h1 {
+    font-size: 22px;
+}
+
+.navbar h1 i {
+    padding: 0 10px;
+}
+
+.navbar ul {
+    list-style-type: none;
+    display: flex;
+}
+
+.navbar ul li {
+    padding: 0 5px;
+}
+
+.navbar a {
+    color: white;
+}
+
+/* Version */
+
+.version {
+    background-color: #3c3c3c;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+/* Text */
+
+.text-12 > * {
+    font-size: 18px;
+}
+
+/* Lists */
+
+ul {
+    list-style-type: none;
+}
+
+.List {
+    padding-top: 5px;
+}
+
+.List li {
+    padding-top: 5px;
+}
+
+.List i {
+    padding-right: 5px;
+}
+
+
+/* Transition Group */
+.item-enter {
+    opacity:0;
+}
+
+.item-enter-active{
+    opacity:1;
+    transition: opacity .5s ease-in;
+}
+
+.item-exit {
+    opacity: 1;
+}
+
+.item-exit-active {
+    opacity: 0;
+    transition: opacity .5s ease-in;
+}
