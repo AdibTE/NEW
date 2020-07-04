@@ -18,7 +18,7 @@ router.get('/',auth, async(req, res) => {
         res.json(user);
     } catch (err){
         console.error(err.message);
-        res.status(500).json({msg:"Server Error"})
+        res.status(500).json({msg:"خطای سرور"})
     }
 });
 
@@ -27,18 +27,21 @@ router.get('/',auth, async(req, res) => {
 // @access Public
 router.post(
     '/',
-    [ check('email', 'Please enter a valid email').isEmail(), check('password', 'Password is required').exists() ],
+    [ check('email', 'لطفا یک ایمیل معتبر وارد کنید').isEmail(), check('password', 'کلمه عبور را وارد نمایید').exists() ],
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
+        
         const {email , password} = req.body;
         try {
             let user = await User.findOne({email});
-            if(!user) return res.status(400).json({msg:'email not found'});
+            if(!user) return res.status(400).json({msg:'این ایمیل پیدا نشد!'});
+            
             const isMatch = await bcrypt.compare(password,user.password);
-            if(!isMatch) return res.status(400).json({msg:'Password Wrong'})
+            if(!isMatch) return res.status(400).json({msg:'رمز عبور وارد شده اشتباه است!'})
+
             const payLoad = {
                 user:{
                     id: user.id
@@ -50,7 +53,7 @@ router.post(
             })
         } catch (err) {
             console.error(err.message)
-            res.status(500).send('Server Error')
+            res.status(500).send('خطای سرور!')
         }
     }
 );

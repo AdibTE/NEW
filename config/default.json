@@ -1,4 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://TEDB:Ai27RqEkY3Xv75rk@clusterfree-dft3g.azure.mongodb.net/ContactApp",
-    "jwtSecret":"secret"
+    "mongoURI": "mongodb://localhost:27017/NEW",
+    "jwtSecret":"NeW"
 }
