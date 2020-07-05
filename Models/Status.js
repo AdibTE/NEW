@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 
-const userTypesSchema = mongoose.Schema({
+const statusSchema = mongoose.Schema({
     title:{
         type: String,
         required: true
     },
-    refrence:{
+    step:{
         type: Number,
         required: true,
         unique:true
     }
 });
 
-module.exports = mongoose.model('UserTypes',userTypesSchema)
+module.exports = mongoose.model('Status',statusSchema)

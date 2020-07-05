@@ -18,7 +18,7 @@ router.get('/',auth, async(req, res) => {
         res.json(user);
     } catch (err){
         console.error(err.message);
-        res.status(500).json({msg:"خطای سرور"})
+        res.status(500).json({ msg: 'خطای سرور!',error:err.message });
     }
 });
 
@@ -53,7 +53,7 @@ router.post(
             })
         } catch (err) {
             console.error(err.message)
-            res.status(500).send('خطای سرور!')
+            res.status(500).json({ msg: 'خطای سرور!',error:err.message });
         }
     }
 );
