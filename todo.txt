@@ -11,10 +11,12 @@
 
 3. add projects field to user
 
-4. add usertype2 actions {
+4. view single project
+
+5. add usertype2 actions {
     add project,
     addable projects,
     handling points,
 }
 
-5. payment and project tahviling
+6. payment and project tahviling
