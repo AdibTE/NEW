@@ -2,11 +2,13 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
+const idGenerator = require('../middleware/idGenerator');
 
 // Models
-const UserTypes = require('../Models/UserTypes');
+const UserType = require('../Models/UserType');
 const Status = require('../Models/Status');
 const Star = require('../Models/Star');
+const Category = require('../Models/Category');
 
 // @router POST api/settings/types
 // @desc make a user type
@@ -15,7 +17,7 @@ router.post(
     '/types',
     auth,
     [ check('title', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
-    [ check('refrence', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
+    [ check('ID', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
     async (req, res) => {
         if (req.user.type != 0) {
             return res.status(401).json({ msg: 'شما به این صفحه دسترسی ندارید!' });
@@ -26,14 +28,14 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        let { title, refrence } = req.body;
+        let { title, ID } = req.body;
         try {
-            let type = await UserTypes.findOne({ refrence });
+            let type = await UserType.findOne({ ID });
             if (type) return res.status(400).json({ msg: 'این آیدی قبلا ثبت شده است' });
 
-            type = new UserTypes({
+            type = new UserType({
                 title,
-                refrence
+                ID
             });
             await type.save();
             return res.json(type);
@@ -48,9 +50,61 @@ router.post(
 // @desc Get all user types
 // @access Public
 router.get('/types', async (req, res) => {
-    let types = await UserTypes.find({ refrence: { $ne: 0 } });
+    let types = await UserType.find({ ID: { $ne: 0 } });
     try {
         res.json(types);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ msg: 'خطای سرور!',error:err.message });
+    }
+});
+
+
+// @ID دسته بندی ها
+// @router POST api/settings/categories
+// @desc make a category type
+// @access Private + Admin
+router.post(
+    '/categories',
+    auth,
+    [ check('title', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
+    async (req, res) => {
+        if (req.user.type != 0) {
+            return res.status(401).json({ msg: 'شما به این صفحه دسترسی ندارید!' });
+        }
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        let { title } = req.body;
+        let ID = await idGenerator(Category);
+
+        try {
+            let cat = await Category.findOne({ title });
+            if (cat) return res.status(400).json({ msg: 'این نام قبلا ثبت شده است' });
+
+            cat = new Category({
+                title,
+                ID
+            });
+            await cat.save();
+            return res.json(cat);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ msg: 'خطای سرور!',error:err.message });
+        }
+    }
+);
+
+// @router GET api/settings/categories
+// @desc Get all categories
+// @access Public
+router.get('/categories', async (req, res) => {
+    let cats = await Category.find({});
+    try {
+        res.json(cats);
     } catch (err) {
         console.log(err);
         res.status(500).json({ msg: 'خطای سرور!',error:err.message });

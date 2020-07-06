@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
-const statusSchema = mongoose.Schema(
+const categorySchema = mongoose.Schema(
     {
         title: {
             type: String,
-            required: true
+            required: true,
+            unique: true
         },
-        step: {
+        ID: {
             type: Number,
             required: true,
             unique: true
@@ -15,4 +16,4 @@ const statusSchema = mongoose.Schema(
     { versionKey: false }
 );
 
-module.exports = mongoose.model('Status', statusSchema);
+module.exports = mongoose.model('Category', categorySchema);

@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const statusSchema = mongoose.Schema(
+const userTypeSchema = mongoose.Schema(
     {
         title: {
             type: String,
             required: true
         },
-        step: {
+        ID: {
             type: Number,
             required: true,
             unique: true
@@ -15,4 +15,4 @@ const statusSchema = mongoose.Schema(
     { versionKey: false }
 );
 
-module.exports = mongoose.model('Status', statusSchema);
+module.exports = mongoose.model('UserType', userTypeSchema);

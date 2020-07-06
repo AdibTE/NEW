@@ -1,0 +1,20 @@
+1. CRUD: {
+    project,
+    stars,
+    status,
+    user,
+    category,
+    usertype
+}
+
+2. add isSatisfied in project
+
+3. add projects field to user
+
+4. add usertype2 actions {
+    add project,
+    addable projects,
+    handling points,
+}
+
+5. payment and project tahviling

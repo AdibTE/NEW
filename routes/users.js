@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const idGenerator = require('../middleware/idGenerator');
 
 // Models
 const User = require('../Models/User');
@@ -30,14 +31,17 @@ router.post(
         try {
             let user = await User.findOne({ email });
 
-            if (type == 0) return res.status(401).json({ msg: 'عدم دسترسی' });
+            if (type == 0) return res.status(403).json({ msg: 'غیر مجاز!' });
             if (user) return res.status(400).json({ msg: 'این ایمیل قبلا ثبت شده است' });
             if (password != confirmPassword) return res.status(400).json({ msg: 'کلمه عبور با هم مطابقت ندارد' });
 
             const salt = await bcrypt.genSalt(10);
             password = await bcrypt.hash(password, salt);
 
+            let ID = await idGenerator(User);
+
             user = new User({
+                ID,
                 email,
                 type,
                 name,

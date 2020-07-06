@@ -13,7 +13,8 @@ module.exports = async function(req, res, next, restriction = null) {
     }
     try {
         const decoded = jwt.verify(token, config.get('jwtSecret'));
-        req.user = await User.findOne({ _id: decoded.user.id });
+        req.user = await User.findOne({ _id: decoded.user.id }).select('-password');
+        req.userObjectId = decoded.user;
         next();
     } catch (err) {
         console.log(err)
