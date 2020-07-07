@@ -23,9 +23,18 @@ const userSchema = mongoose.Schema(
             type: Date,
             required: true,
             default: Date.now
-        }
+        },
+        points: {
+            type: Number,
+            default: 0
+        },
+        projects: [
+            {
+                type: mongoose.Schema.Types.ObjectId
+            }
+        ]
     },
-    { versionKey: false }
+    { versionKey: false, usePushEach: true }
 );
 
 module.exports = mongoose.model('User', userSchema);

@@ -11,14 +11,13 @@ const projectSchema = mongoose.Schema(
             type: String,
             required: true
         },
+        auditionText: String,
         category: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Category',
+            type: Number, // @ref: 'Category'
             required: true
         },
-        star: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Star',
+        starsNeed: {
+            type: Number, // @ref: 'Star'
             required: true
         },
         price: {
@@ -30,9 +29,8 @@ const projectSchema = mongoose.Schema(
             required: true
         },
         status: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Status',
-            default: '5f021ca15dd78111c8b24229'
+            type: Number, // @ref: 'Status',
+            default: 100
         },
         employer: {
             type: mongoose.Schema.Types.ObjectId,
