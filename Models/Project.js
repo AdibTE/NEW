@@ -11,7 +11,6 @@ const projectSchema = mongoose.Schema(
             type: String,
             required: true
         },
-        auditionText: String,
         category: {
             type: Number, // @ref: 'Category'
             required: true
@@ -28,6 +27,14 @@ const projectSchema = mongoose.Schema(
             type: Date,
             required: true
         },
+        attachments: [
+            {
+                type: String
+            }
+        ],
+        applyFile: String, // @type File
+        applyFilePreview: String, // @type File
+        applyFeedBack: String, // @type File
         status: {
             type: Number, // @ref: 'Status',
             default: 100
@@ -41,13 +48,19 @@ const projectSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         },
+        bannedApplicants: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        ],
         submitDate: {
             type: Date,
             required: true,
             default: Date.now
         }
     },
-    { versionKey: false }
+    { versionKey: false, usePushEach: true }
 );
 
 module.exports = mongoose.model('Project', projectSchema);

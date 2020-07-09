@@ -14,7 +14,7 @@ module.exports = function(point) {
     if (point >= 40 && point < 50) {
         return 4;
     }
-    if (point >= 50 && point < 60) {
+    if (point >= 50 && point <= 60) {
         return 5;
     }
     else return 0

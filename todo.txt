@@ -7,20 +7,9 @@
     usertype
 }
 
-// 2. add isSatisfied in Project
+** Step 150 + Payment [ type1 will pay, money will add to his wallet ]
+** add Wallet + payment actions
 
-// 3. add projects field to user
-
-// 4. view single project
-
-5. add usertype2 actions {
-    // add project,
-    // addable projects,
+refactoring: {
+    1. step restriction function + isCanceled
 }
-
-6. پایان پروژه توسط کارجو
-7. پرداخت کارفرما
-8. تحویل پروژه
-9. تایید پایان پروژه توسط کارفرما
-10. رضایت کارفرما
-11. امتیاز های کارجو
