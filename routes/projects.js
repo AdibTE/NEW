@@ -73,7 +73,7 @@ router.post(
     }
 );
 
-// @router POST api/projects/pay
+// @router POST api/projects/:id/pay
 // @desc pay the project price cost
 // @access Private
 // @step 150
@@ -90,13 +90,13 @@ router.post('/:id/pay', auth, async (req, res) => {
         }
 
         let user = await User.findById(req.user.id);
-        if(user.balance && user.balance >= project.price){
-            await user.update({ balance: user.balance - project.price });
+        if (user.balance && user.balance >= project.price) {
+            await user.updateOne({ balance: user.balance - project.price });
         } else {
-            return res.status(402).json({msg:"موجودی حساب شما کافی نمی‌باشد!"})
+            return res.status(402).json({ msg: 'موجودی حساب شما کافی نمی‌باشد!' });
         }
 
-        await project.update({ status: 150 });
+        await project.updateOne({ status: 150 });
         return res.send(await Project.findOne({ ID: req.params.id }));
     } catch (err) {
         console.log(err);
@@ -139,7 +139,7 @@ router.post('/:id/add', auth, async (req, res) => {
         if (project.status < 150) {
             return res.status(402).json({ msg: 'شما هنوز نمی‌توانید پروژه را ثبت کنید!' });
         }
-        await project.update({ status: 200, applicant: req.user.id });
+        await project.updateOne({ status: 200, applicant: req.user.id });
         return res.json(await Project.findOne({ ID: req.params.id }));
     } catch (err) {
         console.log(err);
@@ -177,7 +177,7 @@ router.post(
             if (project.status < 200) {
                 return res.status(403).json({ msg: 'شما هنوز به این مرحله نرسیدید!' });
             }
-            await project.update({ applyFile, applyFilePreview, status: 250 });
+            await project.updateOne({ applyFile, applyFilePreview, status: 250 });
             return res.json(await Project.findOne({ ID: req.params.id }).select('-applyFile'));
         } catch (err) {
             console.log(err);
@@ -186,45 +186,14 @@ router.post(
     }
 );
 
-// @router POST api/projects/:id/applyConfirm
-// @desc project confirming apply
+// @router POST api/projects/:id/applyFeedback
+// @desc project confirming or rejecting apply
 // @access Private
 // @step 300
-router.post('/:id/applyConfirm', auth, async (req, res) => {
-    let project = await Project.findOne({ ID: req.params.id }).populate('employer');
-    if (!project) return res.status(404).json({ msg: 'این صفحه هنوز وجود ندارد!' });
-    if (req.user.id !== project.employer.id) {
-        return res.status(403).json({ msg: 'شما کارفرمای این پروژه نیستید!' });
-    }
-
-    try {
-        if (project.status >= 300) {
-            return res.status(403).json({ msg: 'شما قبلا پیشنمایش را تایید کردید.!' });
-        }
-        if (project.status < 250) {
-            return res.status(403).json({ msg: 'شما هنوز به این مرحله نرسیدید!' });
-        }
-
-        let user = await User.findById(req.userObjectId.id);
-        let newPoint = user.points + config.get('pointsPerChange');
-        await user.update({ points: newPoint });
-
-        await project.update({ status: 300 });
-        return res.json(await Project.findOne({ ID: req.params.id }).select('-applyFile'));
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
-    }
-});
-
-// @router POST api/projects/:id/applyReject
-// @desc project rejecting apply
-// @access Private
-// @step 300 ( to: 200 )
 router.post(
-    '/:id/applyReject',
+    '/:id/applyFeedback',
     auth,
-    [ check('applyFeedBack', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
+    [ check('feedback', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
     async (req, res) => {
         let project = await Project.findOne({ ID: req.params.id }).populate('employer');
         if (!project) return res.status(404).json({ msg: 'این صفحه هنوز وجود ندارد!' });
@@ -237,10 +206,9 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        let { applyFeedBack } = req.body;
-
+        let { feedback, applyFeedBack } = req.body;
         try {
-            if (project.status >= 350) {
+            if (project.status >= 300) {
                 return res.status(403).json({ msg: 'شما قبلا پیشنمایش را تایید کردید.!' });
             }
             if (project.status < 250) {
@@ -248,12 +216,17 @@ router.post(
             }
 
             let user = await User.findById(req.userObjectId.id);
-            let newPoint = user.points - config.get('pointsPerChange') / 5;
-            newPoint = newPoint < 0 ? 0 : newPoint;
-            await user.update({ points: newPoint });
-
-            await project.update({ status: 200, applyFeedBack });
-
+            if (feedback) {
+                let newPoint = user.points + config.get('pointsPerChange');
+                await user.updateOne({ points: newPoint });
+                await project.updateOne({ status: 300 });
+            } else {
+                if(!applyFeedBack) return res.status(400).json({ msg: 'applyFeedBack این فیلد اجباری می‌باشد' });
+                let newPoint = user.points - config.get('pointsPerChange') / 5;
+                newPoint = newPoint < 0 ? 0 : newPoint;
+                await user.updateOne({ points: newPoint });
+                await project.updateOne({ status: 200, applyFeedBack });
+            }
             return res.json(await Project.findOne({ ID: req.params.id }).select('-applyFile'));
         } catch (err) {
             console.log(err);
@@ -261,6 +234,7 @@ router.post(
         }
     }
 );
+
 
 // @router POST api/projects/:id/aprove
 // @desc project aproving by employer(can see applyFile)
@@ -282,7 +256,7 @@ router.post('/:id/aprove', auth, async (req, res) => {
             return res.status(403).json({ msg: 'شما هنوز به این مرحله نرسیدید!' });
         }
 
-        await project.update({ status: 350 });
+        await project.updateOne({ status: 350 });
         return res.json(await Project.findOne({ ID: req.params.id }));
     } catch (err) {
         console.log(err);
@@ -320,57 +294,14 @@ router.post(
             let user = await User.findById(req.userObjectId.id);
             if (isSatisfied) {
                 var newPoint = user.points + config.get('pointsPerChange');
-                await project.update({ status: 400 });
+                await project.updateOne({ status: 400 });
             } else {
                 var newPoint = user.points - config.get('pointsPerChange');
                 newPoint = newPoint < 0 ? 0 : newPoint;
-                await project.update({ status: 350 });
+                await project.updateOne({ status: 350 });
             }
 
-            await user.update({ points: newPoint });
-            return res.json(await Project.findOne({ ID: req.params.id }));
-        } catch (err) {
-            console.log(err);
-            return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
-        }
-    }
-);
-
-// @router POST api/projects/:id/isSatisfied
-// @desc project aproving by employer(can see applyFile)
-// @access Private
-// @step 400
-router.post(
-    '/:id/isSatisfied',
-    auth,
-    [ check('isSatisfied', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
-    async (req, res) => {
-        let project = await Project.findOne({ ID: req.params.id }).populate('employer');
-        if (!project) return res.status(404).json({ msg: 'این صفحه هنوز وجود ندارد!' });
-        if (req.user.id !== project.employer.id) {
-            return res.status(403).json({ msg: 'شما کارفرمای این پروژه نیستید!' });
-        }
-
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-
-        let { isSatisfied } = req.body;
-
-        try {
-            if (project.status != 350) {
-                return res.status(403).json({ msg: 'شما هنوز به این مرحله نرسیدید!' });
-            }
-
-            let user = await User.findById(req.userObjectId.id);
-            let newPoint = isSatisfied
-                ? user.points + config.get('pointsPerChange')
-                : user.points - config.get('pointsPerChange');
-            newPoint = newPoint < 0 ? 0 : newPoint;
-            await user.update({ points: newPoint });
-
-            await project.update({ status: 400 });
+            await user.updateOne({ points: newPoint });
             return res.json(await Project.findOne({ ID: req.params.id }));
         } catch (err) {
             console.log(err);
@@ -405,14 +336,14 @@ router.post(
             let user = await User.findById(req.userObjectId.id);
             let newPoint = user.points - config.get('pointsPerChange');
             newPoint = newPoint < 0 ? 0 : newPoint;
-            await user.update({ points: newPoint });
+            await user.updateOne({ points: newPoint });
 
             project.bannedApplicants.push(project.applicant);
             await project.save();
 
             let newStatus = project.status >= 150 ? 150 : -1;
 
-            await project.update({
+            await project.updateOne({
                 status: newStatus,
                 applyFeedBack,
                 applicant: null,
@@ -465,7 +396,6 @@ router.get('/', getUser, async (req, res) => {
 // @router GET api/projects/:id/status
 // @desc Get project status
 // @access Public
-// @todo admin check 250
 router.get('/:id/status', auth, async (req, res) => {
     let project = await Project.findOne({ ID: req.params.id }).populate([
         { path: 'employer', select: '-password' },
@@ -478,16 +408,16 @@ router.get('/:id/status', auth, async (req, res) => {
     if (!project) return res.status(404).json({ msg: 'این صفحه هنوز وجود ندارد!' });
 
     try {
-        let isEmployer = project.employer && req.userObjectId.id == project.employer.id ? true : false;
-        let isApplicant = project.applicant && req.userObjectId.id == project.applicant.id ? true : false;
+        let isProjectEmployer = project.employer && req.userObjectId.id == project.employer.id ? true : false;
+        let isProjectApplicant = project.applicant && req.userObjectId.id == project.applicant.id ? true : false;
         let isAdmin = req.user.id == 0 ? true : false;
 
-        if (isEmployer || isApplicant || isAdmin) {
+        if (isProjectEmployer || isProjectApplicant || isAdmin) {
             if (project.status < 250 || project.status >= 350) {
                 return res.json(project);
             } else if (project.status == 250 || project.status == 300) {
-                if (isEmployer) return res.json(filterdProject);
-                if (isAdmin || isApplicant) return res.json(project);
+                if (isProjectEmployer) return res.json(filterdProject);
+                if (isAdmin || isProjectApplicant) return res.json(project);
             }
         } else {
             return res.status(403).json({ msg: 'شما کارجو یا کارفرمای این پروژه نیستید!' });
