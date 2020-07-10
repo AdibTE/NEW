@@ -73,6 +73,37 @@ router.post(
     }
 );
 
+// @router POST api/projects/pay
+// @desc pay the project price cost
+// @access Private
+// @step 150
+router.post('/:id/pay', auth, async (req, res) => {
+    try {
+        let project = await Project.findOne({ ID: req.params.id }).populate('employer');
+        if (!project) return res.status(404).json({ msg: 'این صفحه هنوز وجود ندارد!' });
+        if (req.user.id !== project.employer.id) {
+            return res.status(403).json({ msg: 'شما کارفرمای این پروژه نیستید!' });
+        }
+
+        if (project.status >= 150) {
+            return res.status(403).json({ msg: 'شما قبلا پرداخت کرده اید!' });
+        }
+
+        let user = await User.findById(req.user.id);
+        if(user.balance && user.balance >= project.price){
+            await user.update({ balance: user.balance - project.price });
+        } else {
+            return res.status(402).json({msg:"موجودی حساب شما کافی نمی‌باشد!"})
+        }
+
+        await project.update({ status: 150 });
+        return res.send(await Project.findOne({ ID: req.params.id }));
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
+    }
+});
+
 // @router POST api/projects/:id/add
 // @desc adding project by applicant
 // @access Private
@@ -85,9 +116,11 @@ router.post('/:id/add', auth, async (req, res) => {
     let project = await Project.findOne({ ID: req.params.id });
     if (!project) return res.status(404).json({ msg: 'این صفحه هنوز وجود ندارد!' });
 
-    for (const key of project.bannedApplicants) {
-        if (req.userObjectId.id == key)
-            return res.status(403).json({ msg: 'کارفرما شما را برای این پروژه مسدود کرده است.' });
+    if (project.bannedApplicants) {
+        for (const key of project.bannedApplicants) {
+            if (req.userObjectId.id == key)
+                return res.status(403).json({ msg: 'کارفرما شما را برای این پروژه مسدود کرده است.' });
+        }
     }
 
     if (starHandler(req.user.points) < project.starsNeed) {
@@ -103,6 +136,9 @@ router.post('/:id/add', auth, async (req, res) => {
         if (project.status >= 200) {
             return res.status(403).json({ msg: 'این پروژه از قبل ثبت شده است!' });
         }
+        if (project.status < 150) {
+            return res.status(402).json({ msg: 'شما هنوز نمی‌توانید پروژه را ثبت کنید!' });
+        }
         await project.update({ status: 200, applicant: req.user.id });
         return res.json(await Project.findOne({ ID: req.params.id }));
     } catch (err) {
@@ -111,7 +147,7 @@ router.post('/:id/add', auth, async (req, res) => {
     }
 });
 
-// @router POST api/projects/apply/:id
+// @router POST api/projects/:id/apply
 // @desc project applying
 // @access Private
 // @step 250
@@ -124,7 +160,7 @@ router.post(
         let project = await Project.findOne({ ID: req.params.id }).populate('applicant');
         if (!project) return res.status(404).json({ msg: 'این صفحه هنوز وجود ندارد!' });
         if (req.user.id != project.applicant.id) {
-            return res.status(403).json({ msg: 'این پروژه توسط شخص دیگری ثبت شده است!' });
+            return res.status(403).json({ msg: 'این پروژه توسط کارجوی دیگری ثبت شده است!' });
         }
 
         const errors = validationResult(req);
@@ -150,7 +186,7 @@ router.post(
     }
 );
 
-// @router POST api/projects/applyConfirm/:id
+// @router POST api/projects/:id/applyConfirm
 // @desc project confirming apply
 // @access Private
 // @step 300
@@ -181,7 +217,7 @@ router.post('/:id/applyConfirm', auth, async (req, res) => {
     }
 });
 
-// @router POST api/projects/applyReject/:id
+// @router POST api/projects/:id/applyReject
 // @desc project rejecting apply
 // @access Private
 // @step 300 ( to: 200 )
@@ -226,7 +262,7 @@ router.post(
     }
 );
 
-// @router POST api/projects/aprove/:id
+// @router POST api/projects/:id/aprove
 // @desc project aproving by employer(can see applyFile)
 // @access Private
 // @step 350
@@ -346,7 +382,7 @@ router.post(
 // @router POST api/projects/:id/cancel
 // @desc canceling apply from an apasdasd
 // @access Private
-// @step any (to: 100)
+// @step any (to: -1)
 router.post(
     '/:id/cancel',
     auth,
@@ -374,8 +410,10 @@ router.post(
             project.bannedApplicants.push(project.applicant);
             await project.save();
 
+            let newStatus = project.status >= 150 ? 150 : -1;
+
             await project.update({
-                status: -1,
+                status: newStatus,
                 applyFeedBack,
                 applicant: null,
                 applyFile: null,
@@ -400,21 +438,24 @@ router.get('/', getUser, async (req, res) => {
                 projects = await Project.find({ user: req.userObjectId }).populate([
                     { path: 'employer', select: 'email' }
                 ]);
-            } else if (req.user.type == 2) {
-                for (let i = 5; i >= 0; i--) {
-                    if (starHandler(req.user.points) >= i) {
-                        item = await Project.find({ starsNeed: starHandler(req.user.points) }).populate([
-                            { path: 'employer', select: 'email' }
-                        ]);
-                        projects = [];
-                        projects.push(item);
-                    }
-                }
+                return res.json(projects);
+            }
+            if (req.user.type == 2) {
+                projects = await Project.find({
+                    status: { $eq: 150 },
+                    starsNeed: { $lte: starHandler(req.user.points) }
+                }).populate([ { path: 'employer', select: 'email' } ]);
+                return res.json(projects);
+            } else {
+                projects = await Project.find({});
+                return res.json(projects);
             }
         } else {
-            projects = await Project.find({}).populate([ { path: 'employer', select: 'email' } ]);
+            projects = await Project.find({ status: { $gte: 150 } }).populate([
+                { path: 'employer', select: 'email' }
+            ]);
+            return res.json(projects);
         }
-        return res.json(projects);
     } catch (err) {
         console.log(err);
         return res.status(500).json({ msg: 'خطای سرور!', error: err.message });

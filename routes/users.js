@@ -5,6 +5,7 @@ const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const idGenerator = require('../middleware/idGenerator');
+const auth = require('../middleware/auth');
 
 // Models
 const User = require('../Models/User');
@@ -67,9 +68,31 @@ router.post(
             );
         } catch (err) {
             console.error(err);
-            res.status(500).json({ msg: 'خطای سرور!',error:err.message });
+            res.status(500).json({ msg: 'خطای سرور!', error: err.message });
         }
     }
 );
+
+// @router POST api/users/addBalance
+// @desc add money to balance
+// @access Public
+// @todo zarinpal
+router.post('/addBalance', auth, [ check('amount', 'این فیلد اجباری می‌باشد').not().isEmpty() ], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        let { amount } = req.body;
+        let user = await User.findOne({ _id: req.user.id });
+        user.update({ balance: (user.balance += amount) });
+        await user.save();
+        return res.json(await User.findOne({ _id: req.user.id }));
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
+    }
+});
 
 module.exports = router;

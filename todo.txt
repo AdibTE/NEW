@@ -7,9 +7,10 @@
     usertype
 }
 
-** Step 150 + Payment [ type1 will pay, money will add to his wallet ]
-** add Wallet + payment actions
+improve : {
+    1. write tests
+}
 
-refactoring: {
-    1. step restriction function + isCanceled
+refactor: {
+    1. project actions
 }
