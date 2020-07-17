@@ -1,34 +1,33 @@
-import React, { useState, useContext, useEffect } from 'react';
-import AlertContext from '../../context/alert/AlertContext';
-import AuthContext from '../../context/auth/AuthContext';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { clearErrors, register } from '../../actions/authActions';
+import { setAlert } from '../../actions/alertActions';
 
-const Register = (props) => {
-    const alertContext = useContext(AlertContext);
-    const authContext = useContext(AuthContext);
-    const { isAuthenticated, error, clearErrors, register } = authContext;
-    const { setAlert } = alertContext;
+const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, setAlert }) => {
     const [ user, setUser ] = useState({
         name: '',
         email: '',
         password: '',
-        password2: ''
+        confirmPassword: ''
     });
+    let history = useHistory();
 
     useEffect(
         () => {
             if (isAuthenticated) {
-                props.history.push('/');
+                history.push('/');
             }
             if (error) {
                 setAlert(error, 'danger');
                 clearErrors();
             }
-
-            // eslint-disable-next-line
-        },[ error, isAuthenticated, props.history ]
+        },
+        // eslint-disable-next-line
+        [ error, isAuthenticated, history ]
     );
 
-    const { name, email, password, password2 } = user;
+    const { type = 1, name, email, password, confirmPassword } = user;
 
     const onChange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value });
@@ -40,13 +39,15 @@ const Register = (props) => {
             setAlert('Please fill all fields', 'danger');
         } else if (password.length < 6) {
             setAlert('Password should contains at least 6 characters', 'danger');
-        } else if (password !== password2) {
+        } else if (password !== confirmPassword) {
             setAlert('Password does not match', 'danger');
         } else {
             register({
+                type,
                 name,
                 email,
-                password
+                password,
+                confirmPassword
             });
         }
     };
@@ -56,6 +57,13 @@ const Register = (props) => {
                 Account <span className='text-primary'>Register</span>
             </h1>
             <form onSubmit={onSubmit}>
+                <div className='form-group'>
+                    <label htmlFor='email'>Type</label>
+                    <select name='type' value={type} onChange={onChange}>
+                        <option value='1'>کارجو</option>
+                        <option value='2'>کارفرما</option>
+                    </select>
+                </div>
                 <div className='form-group'>
                     <label htmlFor='name'>Name</label>
                     <input type='text' name='name' className='form-control' value={name} onChange={onChange} />
@@ -75,12 +83,12 @@ const Register = (props) => {
                     />
                 </div>
                 <div className='form-group'>
-                    <label htmlFor='password2'>Confirm Password</label>
+                    <label htmlFor='confirmPassword'>Confirm Password</label>
                     <input
                         type='password'
-                        name='password2'
+                        name='confirmPassword'
                         className='form-control'
-                        value={password2}
+                        value={confirmPassword}
                         onChange={onChange}
                     />
                 </div>
@@ -90,4 +98,8 @@ const Register = (props) => {
     );
 };
 
-export default Register;
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+    alerts: state.alerts
+});
+export default connect(mapStateToProps, { register, clearErrors, setAlert })(Register);

@@ -8,7 +8,7 @@
 }
 
 improve : {
-    1. write tests
+    // 1. write tests
 }
 
 refactor: {

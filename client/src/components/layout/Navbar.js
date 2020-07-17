@@ -1,39 +1,13 @@
-import React, { useContext, Fragment } from 'react';
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import AuthContext from '../../context/auth/AuthContext';
-import ContactContext from '../../context/contact/contactContext';
+import { logout } from '../../actions/authActions';
 
-function Navbar({ title, icon }) {
-    const authContext = useContext(AuthContext);
-    const contactContext = useContext(ContactContext);
-    const { logout, user, isAuthenticated } = authContext;
+const Navbar = ({ title, icon, logout, auth: { isAuthenticated, user } }) => {
     const logOut = () => {
         logout();
-        contactContext.clearContacts();
     };
-
-    const AuthLinks = (
-        <Fragment>
-            <li>Hello {user && user.name}</li>
-            <li>
-                <a href="#!" onClick={logOut}>
-                Logout<i className='fas fa-sign-out-alt fa-sm' />
-                </a>
-            </li>
-        </Fragment>
-    );
-    const guestLinks = (
-        <Fragment>
-            <li>
-                <Link to='/register'>Register</Link>
-            </li>
-
-            <li>
-                <Link to='/login'>Login</Link>
-            </li>
-        </Fragment>
-    );
 
     return (
         <div className='navbar'>
@@ -44,11 +18,30 @@ function Navbar({ title, icon }) {
                 </Link>
             </h1>
             <ul>
-                {isAuthenticated ? AuthLinks : guestLinks}
+                {isAuthenticated ? (
+                    <Fragment>
+                        <li>Hello {user && user.name}</li>
+                        <li>
+                            <a href='#!' onClick={logOut}>
+                                Logout<i className='fas fa-sign-out-alt fa-sm' />
+                            </a>
+                        </li>
+                    </Fragment>
+                ) : (
+                    <Fragment>
+                        <li>
+                            <Link to='/register'>Register</Link>
+                        </li>
+
+                        <li>
+                            <Link to='/login'>Login</Link>
+                        </li>
+                    </Fragment>
+                )}
             </ul>
         </div>
     );
-}
+};
 
 Navbar.propTypes = {
     title: PropTypes.string.isRequired,
@@ -60,4 +53,8 @@ Navbar.defaultProps = {
     icon: 'fas fa-id-card-alt'
 };
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps, { logout })(Navbar);

@@ -6,17 +6,26 @@ import {
     USER_LOADED,
     AUTH_ERROR,
     LOGOUT,
-    CLEAR_ERRORS
-} from '../Types';
+    CLEAR_ERRORS,
+    AUTH_LOADING
+} from '../actions/types';
 
-export default (state, action) => {
+const initialState = {
+    token: localStorage.getItem('token'),
+    isAuthenticated: null,
+    user: null,
+    loading: true,
+    error: null
+};
+
+export default (state = initialState, action) => {
     switch (action.type) {
         case USER_LOADED:
             return {
                 ...state,
                 isAuthenticated: true,
-                loading: false,
-                user: action.payload
+                user: action.payload,
+                loading: false
             };
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
@@ -33,17 +42,22 @@ export default (state, action) => {
         case LOGOUT:
             localStorage.removeItem('token');
             return {
-                ...state,
                 token: null,
-                isAuthenticated: false,
-                loading: false,
+                isAuthenticated: null,
                 user: null,
+                loading: false,
                 error: action.payload
             };
         case CLEAR_ERRORS:
             return {
                 ...state,
-                error: null
+                error: null,
+                loading: false
+            };
+        case AUTH_LOADING:
+            return {
+                ...state,
+                loading: true
             };
         default:
             return state;

@@ -1,30 +1,29 @@
-import React, { useState, useEffect, useContext } from 'react';
-import AlertContext from '../../context/alert/AlertContext';
-import AuthContext from '../../context/auth/AuthContext';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { clearErrors, login, loadUser } from '../../actions/authActions';
+import { setAlert } from '../../actions/alertActions';
 
-const Login = (props) => {
-    const alertContext = useContext(AlertContext);
-    const authContext = useContext(AuthContext);
-    const { isAuthenticated, error, clearErrors, login } = authContext;
-    const { setAlert } = alertContext;
-
+const Login = ({ auth: { isAuthenticated, error }, loadUser, clearErrors, login, setAlert }) => {
     const [ user, setUser ] = useState({
         email: '',
         password: ''
     });
+    let history = useHistory();
 
     useEffect(
         () => {
+            loadUser();
             if (isAuthenticated) {
-                props.history.push('/');
+                history.push('/');
             }
             if (error) {
                 setAlert(error, 'danger');
                 clearErrors();
             }
-
-            // eslint-disable-next-line
-        },[ error, isAuthenticated, props.history ]
+        },
+        // eslint-disable-next-line
+        [ error, isAuthenticated ]
     );
 
     const { email, password } = user;
@@ -33,10 +32,10 @@ const Login = (props) => {
     };
     const onSubmit = async (e) => {
         e.preventDefault();
-        if(email === '' || password === ''){
-            setAlert('Please fill all fields','danger')
+        if (email === '' || password === '') {
+            setAlert('Please fill all fields', 'danger');
         } else {
-            login(user)
+            login(user);
         }
     };
     return (
@@ -65,4 +64,9 @@ const Login = (props) => {
     );
 };
 
-export default Login;
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+    alerts: state.alerts
+});
+
+export default connect(mapStateToProps, { login, clearErrors, setAlert, loadUser })(Login);
