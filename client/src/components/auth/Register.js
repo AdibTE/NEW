@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { clearErrors, register } from '../../actions/authActions';
+import { clearErrors, register, loadUser } from '../../actions/authActions';
 import { setAlert } from '../../actions/alertActions';
 
-const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, setAlert }) => {
+const Register = ({ auth: { isAuthenticated, error }, loadUser, clearErrors, register, setAlert }) => {
     const [ user, setUser ] = useState({
         name: '',
         email: '',
@@ -15,6 +15,7 @@ const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, set
 
     useEffect(
         () => {
+            loadUser();
             if (isAuthenticated) {
                 history.push('/');
             }
@@ -24,7 +25,7 @@ const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, set
             }
         },
         // eslint-disable-next-line
-        [ error, isAuthenticated, history ]
+        [ error, isAuthenticated ]
     );
 
     const { type = 1, name, email, password, confirmPassword } = user;
@@ -102,4 +103,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
     alerts: state.alerts
 });
-export default connect(mapStateToProps, { register, clearErrors, setAlert })(Register);
+export default connect(mapStateToProps, { register, clearErrors, setAlert, loadUser })(Register);
