@@ -21,10 +21,14 @@
     "config": "^3.3.1",
     "express": "^4.17.1",
     "express-validator": "^6.6.0",
+    "jalali-moment": "^3.3.8",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^8.0.1",
+    "moment": "^2.27.0",
+    "moment-jalaali": "^0.9.2",
     "mongoose": "^5.9.21",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "persian-date": "^1.1.0"
   },
   "devDependencies": {
     "concurrently": "^5.1.0"

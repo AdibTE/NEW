@@ -32,7 +32,7 @@ router.post(
         try {
             let user = await User.findOne({ email });
 
-            if (type == 0) return res.status(403).json({ msg: 'غیر مجاز!' });
+            if (type != 1 && type != 2) return res.status(403).json({ msg: 'غیر مجاز!' });
             if (user) return res.status(400).json({ msg: 'این ایمیل قبلا ثبت شده است' });
             if (password != confirmPassword) return res.status(400).json({ msg: 'کلمه عبور با هم مطابقت ندارد' });
 

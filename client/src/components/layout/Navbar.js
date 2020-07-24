@@ -21,6 +21,7 @@ const Navbar = ({ title, icon, logout, auth: { isAuthenticated, user } }) => {
                 {isAuthenticated ? (
                     <Fragment>
                         <li>Hello {user && user.name}</li>
+                        <li><Link to='/projects'>Projects</Link></li>
                         <li>
                             <a href='#!' onClick={logOut}>
                                 Logout<i className='fas fa-sign-out-alt fa-sm' />

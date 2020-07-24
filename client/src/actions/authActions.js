@@ -7,12 +7,14 @@ import {
     LOGIN_FAIL,
     USER_LOADED,
     AUTH_ERROR,
+    AUTH_LOADING,
     LOGOUT,
     CLEAR_ERRORS
 } from './types';
 
 // Load User
 export const loadUser = () => async (dispatch) => {
+    dispatch({ type: AUTH_LOADING });
     if (localStorage.token) {
         setAuthToken(localStorage.token);
         try {
@@ -28,6 +30,7 @@ export const loadUser = () => async (dispatch) => {
 
 // Register User
 export const register = (formData) => async (dispatch) => {
+    dispatch({ type: AUTH_LOADING });
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -45,6 +48,7 @@ export const register = (formData) => async (dispatch) => {
 
 // Login User
 export const login = (formData) => async (dispatch) => {
+    dispatch({ type: AUTH_LOADING });
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -62,10 +66,12 @@ export const login = (formData) => async (dispatch) => {
 
 // Logout
 export const logout = () => (dispatch) => {
+    dispatch({ type: AUTH_LOADING });
     dispatch({ type: LOGOUT });
 };
 
 // Clear Errors
 export const clearErrors = () => (dispatch) => {
+    dispatch({ type: AUTH_LOADING });
     dispatch({ type: CLEAR_ERRORS });
 };

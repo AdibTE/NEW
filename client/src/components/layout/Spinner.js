@@ -1,21 +1,12 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { isLoaded, isLoading } from '../../actions/loadingActions';
+import React from 'react';
 import gif from './spinner.gif';
 
-const Spinner = ({ auth, loading, isLoaded, isLoading }) => {
-    useEffect(() => {
-        isLoaded();
-    });
-    if (loading || auth.loading) {
-        return (
-            <div style={spinner}>
-                <img src={gif} alt='' />
-            </div>
-        );
-    } else {
-        return null;
-    }
+const Spinner = () => {
+    return (
+        <div style={spinner}>
+            <img src={gif} alt='' />
+        </div>
+    );
 };
 
 const spinner = {
@@ -30,9 +21,4 @@ const spinner = {
     zIndex: '999999999999'
 };
 
-const mapStateToProps = (state) => ({
-    loading: state.loading,
-    auth: state.auth
-});
-
-export default connect(mapStateToProps, { isLoaded, isLoading })(Spinner);
+export default Spinner;

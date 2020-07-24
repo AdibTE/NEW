@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { clearErrors, login, loadUser } from '../../actions/authActions';
+import { clearErrors, login } from '../../actions/authActions';
 import { setAlert } from '../../actions/alertActions';
 
-const Login = ({ auth: { isAuthenticated, error }, loadUser, clearErrors, login, setAlert }) => {
+const Login = ({ auth: { isAuthenticated, error }, clearErrors, login, setAlert, params }) => {
     const [ user, setUser ] = useState({
         email: '',
         password: ''
     });
+
+    let query = (function useQuery() {
+        return new URLSearchParams(useLocation().search);
+    })()
     let history = useHistory();
 
     useEffect(
         () => {
-            loadUser();
             if (isAuthenticated) {
-                history.push('/');
-            }
-            if (error) {
+                query.get('returnURL') ? history.push(query.get('returnURL')) : history.push('/');
+            } else if (error) {
                 setAlert(error, 'danger');
                 clearErrors();
             }
@@ -69,4 +71,4 @@ const mapStateToProps = (state) => ({
     alerts: state.alerts
 });
 
-export default connect(mapStateToProps, { login, clearErrors, setAlert, loadUser })(Login);
+export default connect(mapStateToProps, { login, clearErrors, setAlert })(Login);

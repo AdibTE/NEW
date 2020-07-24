@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { clearErrors, register, loadUser } from '../../actions/authActions';
+import { clearErrors, register } from '../../actions/authActions';
 import { setAlert } from '../../actions/alertActions';
 
-const Register = ({ auth: { isAuthenticated, error }, loadUser, clearErrors, register, setAlert }) => {
+const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, setAlert }) => {
     const [ user, setUser ] = useState({
         name: '',
         email: '',
         password: '',
         confirmPassword: ''
     });
+    let query = (function useQuery() {
+        return new URLSearchParams(useLocation().search);
+    })()
     let history = useHistory();
 
     useEffect(
         () => {
-            loadUser();
             if (isAuthenticated) {
-                history.push('/');
-            }
-            if (error) {
+                query.get('returnURL') ? history.push(query.get('returnURL')) : history.push('/');
+            } else if (error) {
                 setAlert(error, 'danger');
                 clearErrors();
             }
@@ -103,4 +104,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
     alerts: state.alerts
 });
-export default connect(mapStateToProps, { register, clearErrors, setAlert, loadUser })(Register);
+export default connect(mapStateToProps, { register, clearErrors, setAlert })(Register);
