@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { clearErrors, getCategories, createProject } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
 import Spinner from '../layout/Spinner';
+import Error from '../pages/Error';
 
 const NewProject = ({
     projects: { error, loading, categories },
+    auth: { user },
     clearErrors,
     setAlert,
     getCategories,
     createProject
 }) => {
-    const [ formData, setFormData ] = useState({
+    let history = useHistory();
+    const initialState = {
         title: '',
         description: '',
         category: '',
@@ -19,13 +23,19 @@ const NewProject = ({
         price: '',
         attachments: '',
         forceTime: ''
-    });
+    };
+    const [ formData, setFormData ] = useState(initialState);
     const changeHandler = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
-        createProject(formData);
+        let submited = await createProject(formData);
+        if (submited) {
+            setAlert('پروژه شما با موفقیت ثبت شد', 'success');
+            setFormData(initialState);
+            history.push('/projects');
+        }
     };
     useEffect(
         () => {
@@ -40,6 +50,7 @@ const NewProject = ({
         [ error ]
     );
     if (loading || !categories) return <Spinner />;
+    else if (user.type === 2) return <Error content='Restricted!' />;
     else {
         return (
             <div style={{ width: '50%', margin: 'auto' }}>
@@ -101,7 +112,8 @@ const NewProject = ({
 };
 
 const mapStateToProps = (state) => ({
-    projects: state.projects
+    projects: state.projects,
+    auth: state.auth
 });
 
 export default connect(mapStateToProps, { clearErrors, setAlert, getCategories, createProject })(NewProject);

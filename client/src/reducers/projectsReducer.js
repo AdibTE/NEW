@@ -2,10 +2,13 @@ import {
     GET_PROJECTS,
     PROJECTS_LOADING,
     PROJECTS_ERROR,
-    ADD_PROJECT,
+    CREATE_PROJECT,
     CLEAR_PROJECTS_ERRORS,
     GET_PROJECT_DETAILS,
-    GET_CATEGORIES
+    GET_CATEGORIES,
+    DELETE_PROJECT,
+    ADD_PROJECT,
+    PAY_PROJECT
 } from '../actions/types';
 
 const initState = {
@@ -13,7 +16,8 @@ const initState = {
     loading: false,
     error: null,
     current: null,
-    categories: null
+    categories: null,
+    projectCreated: false
 };
 
 export default (state = initState, action) => {
@@ -30,7 +34,20 @@ export default (state = initState, action) => {
                 current: action.payload,
                 loading: false
             };
+        case CREATE_PROJECT:
+            return {
+                ...state,
+                projectCreated: true,
+                loading: false
+            };
+        case DELETE_PROJECT:
+            return {
+                ...state,
+                items: state.items.filter((project) => project.ID !== action.payload),
+                loading: false
+            };
         case ADD_PROJECT:
+        case PAY_PROJECT:
             return {
                 ...state,
                 loading: false

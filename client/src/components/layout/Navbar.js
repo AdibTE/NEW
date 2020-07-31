@@ -12,17 +12,24 @@ const Navbar = ({ title, icon, logout, auth: { isAuthenticated, user } }) => {
     return (
         <div className='navbar'>
             <h1>
-                <Link to='/about'>
-                    <i className={icon} />
-                    {title}
-                </Link>
+                <Link to='/'>{title}</Link>
             </h1>
             <ul>
-                {isAuthenticated ? (
+                {isAuthenticated && user ? (
                     <Fragment>
-                        <li>Hello {user && user.name}</li>
-                        <li><Link to='/projects'>Projects</Link></li>
-                        <li><Link to='/projects/create'>Create Project</Link></li>
+                        <li>
+                            <Link to='/profile'>
+                                Hello {user.name} - Points: {user.points}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to='/projects'>Projects</Link>
+                        </li>
+                        {user.type !== 2 && (
+                            <li>
+                                <Link to='/projects/create'>Create Project</Link>
+                            </li>
+                        )}
                         <li>
                             <a href='#!' onClick={logOut}>
                                 Logout<i className='fas fa-sign-out-alt fa-sm' />
@@ -51,7 +58,7 @@ Navbar.propTypes = {
 };
 
 Navbar.defaultProps = {
-    title: 'Contact Keeper',
+    title: 'NEW',
     icon: 'fas fa-id-card-alt'
 };
 

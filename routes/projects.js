@@ -84,7 +84,7 @@ router.post(
 router.post('/:id/pay', auth, async (req, res) => {
     try {
         let project = await Project.findOne({ ID: req.params.id }).populate('employer');
-        if (!project) return res.status(404).json({ msg: 'این صفحه هنوز وجود ندارد!' });
+        if (!project) return res.status(404).json({ msg: 'این پروژه هنوز وجود ندارد!' });
         if (req.user.id !== project.employer.id) {
             return res.status(403).json({ msg: 'شما کارفرمای این پروژه نیستید!' });
         }
@@ -101,7 +101,7 @@ router.post('/:id/pay', auth, async (req, res) => {
         }
 
         await project.updateOne({ status: 150 });
-        return res.send(await Project.findOne({ ID: req.params.id }));
+        return res.send({msg:'پروژه با موفقیت پرداخت شد!'});
     } catch (err) {
         console.log(err);
         return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
@@ -144,7 +144,26 @@ router.post('/:id/add', auth, async (req, res) => {
             return res.status(402).json({ msg: 'شما هنوز نمی‌توانید پروژه را ثبت کنید!' });
         }
         await project.updateOne({ status: 200, applicant: req.user.id });
-        return res.json(await Project.findOne({ ID: req.params.id }));
+        return res.json({ msg: 'پروژه با موفقیت برای شما ثبت شد.' });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
+    }
+});
+
+// @router DELETE api/projects/:id/delete
+// @desc deleting project by applicant
+// @access Private
+router.delete('/:id/delete', auth, async (req, res) => {
+    let project = await Project.findOne({ ID: req.params.id }).populate('employer');
+    if (!project) return res.status(404).json({ msg: 'این صفحه هنوز وجود ندارد!' });
+    if (req.user.id !== project.employer.id) {
+        return res.status(403).json({ msg: 'شما کارفرمای این پروژه نیستید!' });
+    }
+
+    try {
+        await project.deleteOne();
+        return res.json({ msg: 'پروژه با موفقیت حذف شد!' });
     } catch (err) {
         console.log(err);
         return res.status(500).json({ msg: 'خطای سرور!', error: err.message });

@@ -62,8 +62,8 @@ const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, set
                 <div className='form-group'>
                     <label htmlFor='email'>Type</label>
                     <select name='type' value={type} onChange={onChange}>
-                        <option value='1'>کارجو</option>
-                        <option value='2'>کارفرما</option>
+                        <option value='2'>کارجو</option>
+                        <option value='1'>کارفرما</option>
                     </select>
                 </div>
                 <div className='form-group'>

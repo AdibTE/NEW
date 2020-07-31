@@ -113,6 +113,8 @@ ul {
     transition: opacity .5s ease-in;
 }
 
+/* forms */
+
 input{
     display: block;
 }
@@ -141,6 +143,48 @@ input[type=submit], button{
     cursor: pointer;
 }
 
+.navbar{
+    display:flex;
+    align-items: center;
+    width:100%;
+    background-color: #f5f5f5;
+    border-bottom:2px solid #eee;
+    padding: 0 12.5%;
+}
+
+.navbar h1{
+    border-right: 1px solid #e5e5e5;
+    margin-right: 2rem;
+    padding-right: 2rem;
+}
+
+.navbar ul{
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: .5rem;
+}
+
+.navbar ul li{
+    margin-right:1rem;
+    margin-bottom: .5rem;
+}
+
+.navbar a{
+    color: #4666ff;
+}
+
+.navbar ul li a{
+    color: #aaa;
+    background-color: #e5e5e5;
+    border-radius: .2rem;
+    padding: .1rem .2rem;
+    transition: .1s ease-out;
+}
+.navbar ul li a:hover{
+    color: #fff;
+    background-color: #4666ff;
+}
+
 #projects {
     display:flex;
     align-items: center;
@@ -159,9 +203,67 @@ input[type=submit], button{
     border-radius: .8rem;
     padding: 1rem;
     border: 1px solid #eee;
+    box-shadow: -1px 2px 3px #eee;
+    transition: .2s ease;
 }
 #projects .item:nth-of-type(2n){
     margin-left: 0;
 }
-#projects .item a {
-    color: red;
+#projects .item {
+    color: #333;
+}
+#projects .item:hover {
+    background: #eee;
+    border-color: #e5e5e5;
+    box-shadow: -3px 4px 5px #eee;
+}
+#projects .item:hover button:hover{
+    background: rgb(248, 83, 83);
+    color: white;
+}
+
+#projects .item:focus{
+    background-color: #4666ff;
+    color: white;
+}
+
+.alerts-container{
+    display: flex;
+    flex-direction: column-reverse;
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    direction: rtl;
+}
+
+@keyframes alertFade{
+    0%{
+        opacity: 0;
+    }
+    5% , 90%{
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.alert{
+    padding: .8rem 1rem;
+    border-radius: .8rem;
+    margin-top: .5rem;
+    animation: alertFade 5s ease 1 forwards;
+    font-weight: 900;
+}
+
+.alert-success{
+    border:1px solid #61bd75;
+    background-color: #a4f0b5;
+    color: #2c6d3a;
+}
+
+.alert-danger{
+    border:1px solid #bd6161;
+    background-color: #f0a4a4;
+    color: #6d2c2c;
+}

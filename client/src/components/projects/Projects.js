@@ -2,17 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getProjects, clearErrors, getUserProjects } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
-import { Fragment } from 'react';
 
 import Spinner from '../layout/Spinner';
 import ProjectItem from './ProjectItem';
 
-const Projects = ({ projects: { items, error, loading }, auth:{user}, getProjects, clearErrors, getUserProjects }) => {
-    let filterHandler = function(e) {
-        e.target.value === 'all' ? getProjects() : getUserProjects();
-        setFilter(e.target.value);
-    };
+const Projects = ({
+    projects: { items, error, loading },
+    auth: { user },
+    getProjects,
+    clearErrors,
+    getUserProjects
+}) => {
     const [ filter, setFilter ] = useState('all');
+    let filterHandler = function(e) {
+        setFilter(e.target.value);
+        e.target.value === 'mine' ? getUserProjects() : getProjects();
+    };
     useEffect(
         () => {
             getProjects();
@@ -27,9 +32,9 @@ const Projects = ({ projects: { items, error, loading }, auth:{user}, getProject
     if (loading) return <Spinner />;
     else {
         return (
-            <div id="projects">
+            <div id='projects'>
                 {user && (
-                    <select onChange={filterHandler} value={filter}>
+                    <select onChange={filterHandler} value={filter} style={{marginBottom:".5rem"}}>
                         <option value='all'>همه پروژه ها</option>
                         <option value='mine'>پروژه های من</option>
                     </select>
@@ -45,7 +50,7 @@ const Projects = ({ projects: { items, error, loading }, auth:{user}, getProject
 
 const mapStateToProps = (state) => ({
     projects: state.projects,
-    auth: state.auth,
+    auth: state.auth
 });
 
 export default connect(mapStateToProps, { getProjects, clearErrors, getUserProjects })(Projects);

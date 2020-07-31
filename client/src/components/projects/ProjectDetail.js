@@ -1,21 +1,32 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
-import { getProjectDetails, clearErrors } from '../../actions/projectActions';
+import { getProjectDetails, clearErrors, addProject } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
-import { Fragment } from 'react';
 import Spinner from '../layout/Spinner';
 
-const ProjectDetail = ({ projects: { current, error, loading }, getProjectDetails, clearErrors, setAlert }) => {
+const ProjectDetail = ({
+    projects: { current, error, loading },
+    getProjectDetails,
+    clearErrors,
+    setAlert,
+    addProject
+}) => {
     let { id } = useParams();
     let history = useHistory();
 
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        let response = await addProject(id);
+        setAlert(response.msg, response.type);
+        clearErrors();
+    };
     useEffect(
         () => {
             if (error) {
-                clearErrors();
-                setAlert(error, 'danger');
-                history.push('/404');
+                // clearErrors();
+                // setAlert(error, 'danger');
+                // history.push('/404');
             } else {
                 getProjectDetails(id);
             }
@@ -26,9 +37,13 @@ const ProjectDetail = ({ projects: { current, error, loading }, getProjectDetail
     if (loading || !current) return <Spinner />;
     else {
         return (
-            <Fragment>
-                {current.title}
-            </Fragment>
+            <form onSubmit={submitHandler} style={{ width: 75 + '%', margin: 'auto' }}>
+                <div className='form-group'>
+                    <label htmlFor=''>Title:</label>
+                    <input type='text' value={current.title} />
+                </div>
+                <button>ثبت پروژه</button>
+            </form>
         );
     }
 };
@@ -37,4 +52,4 @@ const mapStateToProps = (state) => ({
     projects: state.projects
 });
 
-export default connect(mapStateToProps, { getProjectDetails, clearErrors, setAlert })(ProjectDetail);
+export default connect(mapStateToProps, { getProjectDetails, clearErrors, setAlert, addProject })(ProjectDetail);
