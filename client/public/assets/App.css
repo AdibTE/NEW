@@ -60,35 +60,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* navbar */
-
-.navbar {
-    background-color: #8370d4;
-    color: white;
-    height: 50px;
-}
-
-.navbar h1 {
-    font-size: 22px;
-}
-
-.navbar h1 i {
-    padding: 0 10px;
-}
-
-.navbar ul {
-    list-style-type: none;
-    display: flex;
-}
-
-.navbar ul li {
-    padding: 0 5px;
-}
-
-.navbar a {
-    color: white;
-}
-
 /* Version */
 
 .version {
@@ -141,3 +112,56 @@ ul {
     opacity: 0;
     transition: opacity .5s ease-in;
 }
+
+input{
+    display: block;
+}
+
+.form-group{
+    margin-bottom: .5rem;
+}
+label{
+    display: block;
+    font-weight: 100;
+}
+
+input , textarea , button , select{
+    padding: .5rem 1rem;
+    border-radius: .8rem;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+input , textarea , button , select{
+    padding: .5rem 1rem;
+    border-radius: .8rem;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+input[type=submit], button{
+    cursor: pointer;
+}
+
+#projects {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 75%;
+    margin: auto;
+    flex-wrap: wrap;
+    direction: rtl;
+}
+#projects .item{
+    flex:0 0 calc(50% - .5rem);
+    text-align: right;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    background-color: #f5f5f5;
+    border-radius: .8rem;
+    padding: 1rem;
+    border: 1px solid #eee;
+}
+#projects .item:nth-of-type(2n){
+    margin-left: 0;
+}
+#projects .item a {
+    color: red;

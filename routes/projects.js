@@ -27,7 +27,9 @@ router.post(
     [ check('description', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
     [ check('category', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
     [ check('starsNeed', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
+    [ check('starsNeed', 'مقدار ستاره باید عدد باشد').isInt() ],
     [ check('price', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
+    [ check('price', 'قیمت پروژه باید عدد باشد').isInt() ],
     [ check('forceTime', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
     async (req, res) => {
         if (req.user.type == 2) {
@@ -43,10 +45,11 @@ router.post(
 
         try {
             let _star = await Star.findOne({ starCount: starsNeed });
-            if (!_star) return res.status(403).json({ msg: 'star غیر مجاز!' });
+            if (!_star) return res.status(403).json({ msg: 'تعداد ستاره های انتخاب شده مجاز نمی‌باشد!' });
 
             let _category = await Category.findOne({ ID: category });
-            if (!_category) return res.status(403).json({ msg: 'category غیر مجاز!' });
+            if (!_category) return res.status(403).json({ msg: 'دسته‌بندی انتخاب شده مجاز نمی‌باشد!' });
+
             let ID = await idGenerator(Project);
 
             let project = new Project({
@@ -57,6 +60,7 @@ router.post(
                 starsNeed,
                 price,
                 forceTime,
+                attachments,
                 employer: req.user
             });
 
@@ -221,7 +225,7 @@ router.post(
                 await user.updateOne({ points: newPoint });
                 await project.updateOne({ status: 300 });
             } else {
-                if(!applyFeedBack) return res.status(400).json({ msg: 'applyFeedBack این فیلد اجباری می‌باشد' });
+                if (!applyFeedBack) return res.status(400).json({ msg: 'applyFeedBack این فیلد اجباری می‌باشد' });
                 let newPoint = user.points - config.get('pointsPerChange') / 5;
                 newPoint = newPoint < 0 ? 0 : newPoint;
                 await user.updateOne({ points: newPoint });
@@ -234,7 +238,6 @@ router.post(
         }
     }
 );
-
 
 // @router POST api/projects/:id/aprove
 // @desc project aproving by employer(can see applyFile)
@@ -359,32 +362,39 @@ router.post(
 );
 
 // @router GET api/projects
-// @desc Get all user projects
-// @access Private + Public
-router.get('/', getUser, async (req, res) => {
+// @desc Get all projects
+// @access Public
+router.get('/', async (req, res) => {
     var projects;
     try {
-        if (req.user) {
-            if (req.user.type == 1) {
-                projects = await Project.find({ user: req.userObjectId }).populate([
-                    { path: 'employer', select: 'email' }
-                ]);
-                return res.json(projects);
-            }
-            if (req.user.type == 2) {
-                projects = await Project.find({
-                    status: { $eq: 150 },
-                    starsNeed: { $lte: starHandler(req.user.points) }
-                }).populate([ { path: 'employer', select: 'email' } ]);
-                return res.json(projects);
-            } else {
-                projects = await Project.find({});
-                return res.json(projects);
-            }
-        } else {
-            projects = await Project.find({ status: { $gte: 150 } }).populate([
+        projects = await Project.find({ status: { $lte: 150 } }).populate([ { path: 'employer', select: 'email' } ]);
+        return res.json(projects);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
+    }
+});
+
+// @router GET api/projects/me
+// @desc Get all user projects
+// @access Private
+router.get('/me', auth, async (req, res) => {
+    var projects;
+    try {
+        if (req.user.type == 1) {
+            projects = await Project.find({ user: req.userObjectId }).populate([
                 { path: 'employer', select: 'email' }
             ]);
+            return res.json(projects);
+        }
+        if (req.user.type == 2) {
+            projects = await Project.find({
+                status: { $lte: 150 },
+                starsNeed: { $lte: starHandler(req.user.points) }
+            }).populate([ { path: 'employer', select: 'email' } ]);
+            return res.json(projects);
+        } else {
+            projects = await Project.find({});
             return res.json(projects);
         }
     } catch (err) {
@@ -433,11 +443,11 @@ router.get('/:id/status', auth, async (req, res) => {
 // @access Public
 router.get('/:id', async (req, res) => {
     try {
-        let projects = await Project.findOne({ ID: req.params.id }).populate([ { path: 'employer', select: 'email' } ]);
+        let project = await Project.findOne({ ID: req.params.id }).populate([ { path: 'employer', select: 'email' } ]);
         if (!project) return res.status(404).json({ msg: 'این صفحه هنوز وجود ندارد!' });
-        return res.json(projects);
+        return res.json(project);
     } catch (err) {
-        console.log(err);
+        console.log('ERROR------', err);
         return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
     }
 });

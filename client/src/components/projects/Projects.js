@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getProjects, clearErrors } from '../../actions/projectActions';
+import { getProjects, clearErrors, getUserProjects } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
 import { Fragment } from 'react';
 
 import Spinner from '../layout/Spinner';
 import ProjectItem from './ProjectItem';
 
-const Projects = ({ projects: { items, error, loading }, getProjects, clearErrors }) => {
+const Projects = ({ projects: { items, error, loading }, auth:{user}, getProjects, clearErrors, getUserProjects }) => {
+    let filterHandler = function(e) {
+        e.target.value === 'all' ? getProjects() : getUserProjects();
+        setFilter(e.target.value);
+    };
+    const [ filter, setFilter ] = useState('all');
     useEffect(
         () => {
             getProjects();
@@ -22,18 +27,25 @@ const Projects = ({ projects: { items, error, loading }, getProjects, clearError
     if (loading) return <Spinner />;
     else {
         return (
-            <Fragment>
+            <div id="projects">
+                {user && (
+                    <select onChange={filterHandler} value={filter}>
+                        <option value='all'>همه پروژه ها</option>
+                        <option value='mine'>پروژه های من</option>
+                    </select>
+                )}
                 {items.length > 0 &&
                     items.map((item) => {
                         return <ProjectItem key={item.ID} data={item} />;
                     })}
-            </Fragment>
+            </div>
         );
     }
 };
 
 const mapStateToProps = (state) => ({
-    projects: state.projects
+    projects: state.projects,
+    auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getProjects, clearErrors })(Projects);
+export default connect(mapStateToProps, { getProjects, clearErrors, getUserProjects })(Projects);

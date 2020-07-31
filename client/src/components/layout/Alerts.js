@@ -2,11 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const Alerts = ({ alerts }) => {
+    let i = 0;
     return (
         <div>
-            {alerts &&
-                alerts.length > 0 &&
-                alerts.map((alert) => <div key={alert.id}>{alert.msg}</div>)}
+            {alerts.length > 0 &&
+                alerts.map((alert) => {
+                    if (typeof alert.msg.errors == 'object') {
+                        return alert.msg.errors.map((alrt) => <div key={i++}>{alrt.msg}</div>);
+                    } else {
+                        return <div key={alert.id}>{alert.msg}</div>;
+                    }
+                })}
         </div>
     );
 };

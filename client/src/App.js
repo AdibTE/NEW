@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 
@@ -9,8 +9,11 @@ import About from './components/pages/About';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Projects from './components/projects/Projects';
+import ProjectDetail from './components/projects/ProjectDetail';
+import NewProject from './components/projects/NewProject';
 import Alerts from './components/layout/Alerts';
-// import PrivateRoute from './components/routing/PrivateRoute';
+import Page404 from './components/pages/404';
+import PrivateRoute from './components/routing/PrivateRoute';
 import CustomRoute from './components/routing/CustomRoute';
 
 import setAuthToken from './utils/setAuthToken';
@@ -29,9 +32,11 @@ const App = () => {
                     <div className='container'>
                         <Alerts />
                         <Switch>
-                            {/* <PrivateRoute exact path='/' component={Home} /> */}
+                            <CustomRoute exact path='/404' component={Page404} />
                             <CustomRoute exact path='/' component={Home} />
                             <CustomRoute exact path='/projects' component={Projects} />
+                            <CustomRoute exact path='/projects/details/:id' component={ProjectDetail} />
+                            <PrivateRoute exact path='/projects/create' component={NewProject} />
                             <CustomRoute exact path='/about' component={About} />
                             <CustomRoute exact path='/register' component={Register} />
                             <CustomRoute exact path='/login' component={Login} />

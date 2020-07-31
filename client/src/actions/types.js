@@ -1,11 +1,4 @@
-export const ADD_CONTACT = 'ADD_CONTACT';
-export const DELETE_CONTACT = 'DELETE_CONTACT';
-export const UPDATE_CONTACT = 'UPDATE_CONTACT';
-export const CONTACT_ERROR = 'CONTACT_ERROR';
-export const GET_CONTACTS = 'GET_CONTACTS';
-export const CLEAR_CONTACTS = 'CLEAR_CONTACTS';
-
-export const FILTER_CONTACT = 'FILTER_CONTACT';
+export const FILTER_PROJECT = 'FILTER_PROJECT';
 export const CLEAR_FILTER = 'CLEAR_FILTER';
 
 export const SET_CURRENT = 'SET_CURRENT';
@@ -18,15 +11,20 @@ export const REMOVE_ALERT = 'REMOVE_ALERT';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const USER_LOADED = 'USER_LOADED';
-export const AUTH_ERROR = 'AUTH_USER';
+export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const AUTH_LOADING = 'AUTH_LOADING';
 
-// Projects Type
+// Projects Types
 export const PROJECTS_LOADING = 'PROJECTS_LOADING';
 export const GET_PROJECTS = 'GET_PROJECTS';
+export const GET_PROJECT_DETAILS = 'GET_PROJECT_DETAILS';
 export const PROJECTS_ERROR = 'PROJECTS_ERROR';
 export const CLEAR_PROJECTS_ERRORS = 'CLEAR_PROJECTS_ERRORS';
+export const ADD_PROJECT = 'ADD_PROJECT';
+export const DELETE_PROJECT = 'DELETE_PROJECT';
+export const UPDATE_PROJECT = 'UPDATE_PROJECT';
+export const GET_CATEGORIES = 'GET_CATEGORIES';

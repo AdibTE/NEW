@@ -1,9 +1,19 @@
-import { GET_PROJECTS, PROJECTS_LOADING, PROJECTS_ERROR, CLEAR_PROJECTS_ERRORS } from '../actions/types';
+import {
+    GET_PROJECTS,
+    PROJECTS_LOADING,
+    PROJECTS_ERROR,
+    ADD_PROJECT,
+    CLEAR_PROJECTS_ERRORS,
+    GET_PROJECT_DETAILS,
+    GET_CATEGORIES
+} from '../actions/types';
 
 const initState = {
     items: [],
     loading: false,
-    error: null
+    error: null,
+    current: null,
+    categories: null
 };
 
 export default (state = initState, action) => {
@@ -12,6 +22,23 @@ export default (state = initState, action) => {
             return {
                 ...state,
                 items: action.payload,
+                loading: false
+            };
+        case GET_PROJECT_DETAILS:
+            return {
+                ...state,
+                current: action.payload,
+                loading: false
+            };
+        case ADD_PROJECT:
+            return {
+                ...state,
+                loading: false
+            };
+        case GET_CATEGORIES:
+            return {
+                ...state,
+                categories: action.payload,
                 loading: false
             };
         case PROJECTS_ERROR:
