@@ -34,7 +34,7 @@ const Projects = ({
         return (
             <div id='projects'>
                 {user && (
-                    <select onChange={filterHandler} value={filter} style={{marginBottom:".5rem"}}>
+                    <select onChange={filterHandler} value={filter} style={{ marginBottom: '.5rem' }}>
                         <option value='all'>همه پروژه ها</option>
                         <option value='mine'>پروژه های من</option>
                     </select>

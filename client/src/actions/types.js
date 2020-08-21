@@ -28,5 +28,6 @@ export const CREATE_PROJECT = 'CREATE_PROJECT';
 export const DELETE_PROJECT = 'DELETE_PROJECT';
 export const UPDATE_PROJECT = 'UPDATE_PROJECT';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
+export const GET_AllSTARS = 'GET_AllSTARS';
 export const ADD_PROJECT = 'ADD_PROJECT';
 export const PAY_PROJECT = 'PAY_PROJECT';

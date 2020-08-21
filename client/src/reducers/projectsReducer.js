@@ -6,6 +6,7 @@ import {
     CLEAR_PROJECTS_ERRORS,
     GET_PROJECT_DETAILS,
     GET_CATEGORIES,
+    GET_AllSTARS,
     DELETE_PROJECT,
     ADD_PROJECT,
     PAY_PROJECT
@@ -17,6 +18,7 @@ const initState = {
     error: null,
     current: null,
     categories: null,
+    allStars: null,
     projectCreated: false
 };
 
@@ -56,6 +58,12 @@ export default (state = initState, action) => {
             return {
                 ...state,
                 categories: action.payload,
+                loading: false
+            };
+        case GET_AllSTARS:
+            return {
+                ...state,
+                allStars: action.payload,
                 loading: false
             };
         case PROJECTS_ERROR:

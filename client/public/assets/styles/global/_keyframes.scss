@@ -1,0 +1,38 @@
+@keyframes searchSpinner{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes profileIn{
+    0%{
+        width: 0;
+        padding: 0;
+    }
+    100%{
+        width: unset;
+        padding: .1rem 1.5rem;
+        padding-left: 1rem;
+    }
+}
+
+@keyframes profileInChildren{
+    0%{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+@keyframes bounce{
+    0%{
+        transform: translateY(0) translateX(-50%);
+    }
+    to{
+        transform: translateY(-10px) translateX(-50%);
+    }
+}

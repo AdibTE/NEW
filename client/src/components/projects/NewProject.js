@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { clearErrors, getCategories, createProject } from '../../actions/projectActions';
+import { clearErrors, getCategories, createProject, getAllStars } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
 import Spinner from '../layout/Spinner';
 import Error from '../pages/Error';
 
 const NewProject = ({
-    projects: { error, loading, categories },
+    projects: { error, loading, categories, allStars },
     auth: { user },
     clearErrors,
     setAlert,
     getCategories,
+    getAllStars,
     createProject
 }) => {
     let history = useHistory();
@@ -20,7 +21,7 @@ const NewProject = ({
         description: '',
         category: '',
         starsNeed: '0',
-        price: '',
+        // price: '',
         attachments: '',
         forceTime: ''
     };
@@ -44,12 +45,13 @@ const NewProject = ({
                 clearErrors();
             } else {
                 getCategories();
+                getAllStars();
             }
         },
         // eslint-disable-next-line
         [ error ]
     );
-    if (loading || !categories) return <Spinner />;
+    if (loading || !categories || !allStars) return <Spinner />;
     else if (user.type === 2) return <Error content='Restricted!' />;
     else {
         return (
@@ -87,13 +89,28 @@ const NewProject = ({
                         </select>
                     </div>
                     <div className='form-group'>
+                        <label htmlFor='starsNeed'>Project Quality</label>
+                        <select name='starsNeed' value={formData.starsNeed} onChange={changeHandler}>
+                            <option value='' disabled>
+                                -- انتخاب کنید --
+                            </option>
+                            {allStars.map((star) => {
+                                return (
+                                    <option value={star.starCount} key={star.starCount}>
+                                        {star.starCount} ستاره - {star.price} تومان
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
+                    {/* <div className='form-group'>
                         <label htmlFor='starsNeed'>starsNeed</label>
                         <input type='number' name='starsNeed' value={formData.starsNeed} onChange={changeHandler} />
-                    </div>
-                    <div className='form-group'>
+                    </div> */}
+                    {/* <div className='form-group'>
                         <label htmlFor='price'>price</label>
                         <input type='number' name='price' value={formData.price} onChange={changeHandler} />
-                    </div>
+                    </div> */}
                     <div className='form-group'>
                         <label htmlFor='forceTime'>forceTime</label>
                         <input type='date' name='forceTime' value={formData.forceTime} onChange={changeHandler} />
@@ -103,7 +120,7 @@ const NewProject = ({
                         <input type='file' name='attachments' value={formData.attachments} onChange={changeHandler} />
                     </div>
                     <div className='form-group'>
-                        <input type='submit' value='Login' className='btn btn-primary btn-block' />
+                        <input type='submit' value='Submit' className='btn btn-primary btn-block' />
                     </div>
                 </form>
             </div>
@@ -116,4 +133,6 @@ const mapStateToProps = (state) => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps, { clearErrors, setAlert, getCategories, createProject })(NewProject);
+export default connect(mapStateToProps, { clearErrors, setAlert, getCategories, getAllStars, createProject })(
+    NewProject
+);

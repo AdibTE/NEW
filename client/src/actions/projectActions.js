@@ -9,7 +9,8 @@ import {
     GET_CATEGORIES,
     DELETE_PROJECT,
     ADD_PROJECT,
-    PAY_PROJECT
+    PAY_PROJECT,
+    GET_AllSTARS
 } from './types';
 
 // get all projects
@@ -31,6 +32,7 @@ export const getUserProjects = () => async (dispatch) => {
 
     try {
         let items = await axios.get('/api/projects/me');
+        console.log('projects==>',items)
         dispatch({ type: GET_PROJECTS, payload: items.data });
     } catch (err) {
         console.log('PROJECTS_ERROR');
@@ -118,6 +120,19 @@ export const getCategories = () => async (dispatch) => {
     try {
         let items = await axios.get('/api/settings/categories');
         dispatch({ type: GET_CATEGORIES, payload: items.data });
+    } catch (err) {
+        console.log('PROJECTS_ERROR');
+        dispatch({ type: PROJECTS_ERROR, payload: err.response.data });
+    }
+};
+
+// get all categories
+export const getAllStars = () => async (dispatch) => {
+    dispatch({ type: PROJECTS_LOADING });
+
+    try {
+        let items = await axios.get('/api/settings/stars');
+        dispatch({ type: GET_AllSTARS, payload: items.data });
     } catch (err) {
         console.log('PROJECTS_ERROR');
         dispatch({ type: PROJECTS_ERROR, payload: err.response.data });

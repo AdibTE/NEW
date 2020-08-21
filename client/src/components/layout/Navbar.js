@@ -10,45 +10,78 @@ const Navbar = ({ title, icon, logout, auth: { isAuthenticated, user } }) => {
     };
 
     return (
-        <div className='navbar'>
-            <h1>
-                <Link to='/'>{title}</Link>
-            </h1>
-            <ul>
-                {isAuthenticated && user ? (
-                    <Fragment>
-                        <li>
-                            <Link to='/profile'>
-                                Hello {user.name} - Points: {user.points}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to='/projects'>Projects</Link>
-                        </li>
-                        {user.type !== 2 && (
+        <header>
+            <nav className='container'>
+                <ul>
+                    {isAuthenticated && user ? (
+                        <Fragment>
+                            {/* <li>
+                                <Link to=''>
+                                    <i className='fas fa-bars' />
+                                </Link>
+                            </li> */}
                             <li>
-                                <Link to='/projects/create'>Create Project</Link>
+                                <Link to='' className='profile'>
+                                    <img src={process.env.PUBLIC_URL + '/assets/images/index.jpg'} alt='' />
+                                    <div className='user-info'>
+                                        <h6>{user.name}</h6>
+                                        <span className='stars'>
+                                            <img
+                                                src={process.env.PUBLIC_URL + '/assets/images/icons/star_rate-24px.svg'}
+                                                alt=''
+                                            />
+                                            <img
+                                                src={process.env.PUBLIC_URL + '/assets/images/icons/star_rate-24px.svg'}
+                                                alt=''
+                                            />
+                                            <img
+                                                src={process.env.PUBLIC_URL + '/assets/images/icons/star_rate-24px.svg'}
+                                                alt=''
+                                            />
+                                            <img
+                                                src={process.env.PUBLIC_URL + '/assets/images/icons/star_rate-24px.svg'}
+                                                alt=''
+                                            />
+                                            <img
+                                                src={process.env.PUBLIC_URL + '/assets/images/icons/star_rate-24px.svg'}
+                                                alt=''
+                                            />
+                                            <p>({user.points} امتیاز)</p>
+                                        </span>
+                                    </div>
+                                </Link>
                             </li>
-                        )}
-                        <li>
-                            <a href='#!' onClick={logOut}>
-                                Logout<i className='fas fa-sign-out-alt fa-sm' />
-                            </a>
+                            {user.type !== 2 && (
+                                <li>
+                                    <Link to='/projects/create'>ایجاد پروژه</Link>
+                                </li>
+                            )}
+                            <li>
+                                <Link to='/' onClick={logOut}>
+                                    خروج
+                                </Link>
+                            </li>
+                        </Fragment>
+                    ) : (
+                        <li className='login-register'>
+                            <Link to='/login'>ورود</Link>
+                            <Link to='/register'>ثبت‌نام</Link>
                         </li>
-                    </Fragment>
-                ) : (
-                    <Fragment>
-                        <li>
-                            <Link to='/register'>Register</Link>
-                        </li>
-
-                        <li>
-                            <Link to='/login'>Login</Link>
-                        </li>
-                    </Fragment>
-                )}
-            </ul>
-        </div>
+                    )}
+                    <li>
+                        <Link to='/projects'>پروژه‌ها</Link>
+                    </li>
+                    <li>
+                        <Link to='/'>نیو چیه؟</Link>
+                    </li>
+                </ul>
+                <div className='nav-logo'>
+                    <Link to='/'>
+                        <h1>نیو</h1>
+                    </Link>
+                </div>
+            </nav>
+        </header>
     );
 };
 

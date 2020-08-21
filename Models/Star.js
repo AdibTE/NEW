@@ -11,6 +11,10 @@ const starSchema = mongoose.Schema(
             type: Number,
             required: true,
             unique: true
+        },
+        price: {
+            type: Number,
+            required: true,
         }
     },
     { versionKey: false }

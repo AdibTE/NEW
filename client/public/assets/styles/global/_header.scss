@@ -1,0 +1,122 @@
+header {
+    // border-bottom: 5px solid var(--blue);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+    background-color: var(--white);
+    position: relative;
+    z-index: 2;
+    nav {
+        height: 85px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        ul {
+            color: var(--blue);
+            display: flex;
+            align-items: center;
+            li {
+                a {
+                    font-size: 18px;
+                    i {
+                        font-size: 2rem;
+                    }
+                }
+                .profile {
+                    display: flex;
+                    background: var(--grey);
+                    height: 50px;
+                    border-radius: 25px;
+                    transition: .3s ease;
+                    & > img {
+                        height: 100%;
+                        width: 50px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+                    .user-info {
+                        padding: .1rem 1.5rem;
+                        padding-left: 1rem;
+                        color: var(--blue);
+                        direction: rtl;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: space-evenly;
+                        animation: profileIn 1s ease-out forwards;
+                        h6 {
+                            font-size: 16px;
+                            font-weight: 100;
+                            animation: profileInChildren 2s ease-out forwards;
+                        }
+                        .stars {
+                            display: flex;
+                            align-items: center;
+                            animation: profileInChildren 2s ease-out forwards;
+                            img {
+                                filter: invert(75%) sepia(45%) saturate(2605%) hue-rotate(322deg) brightness(102%)
+                                    contrast(102%);
+                                margin-left: 5px;
+                                width: 13px;
+                                transform: translateY(-1px);
+                            }
+                            p {
+                                font-size: 10px;
+                            }
+                        }
+                    }
+                    &:hover {
+                        background: var(--blue);
+                        .user-info {
+                            color: white;
+                            .stars img {
+                                filter: invert(80%) sepia(55%) saturate(510%) hue-rotate(347deg) brightness(104%)
+                                    contrast(105%);
+                            }
+                        }
+                    }
+                }
+                &.login-register {
+                    display: flex;
+                    direction: rtl;
+                    width: 200px;
+                    a {
+                        width: 100%;
+                        padding: .5rem 0;
+                        border-radius: 25px 0 0 25px;
+                        background: var(--grey);
+                        text-align: center;
+                        &:hover {
+                            background: var(--blue);
+                            color: white;
+                        }
+                        &:first-of-type {
+                            border-radius: 0 25px 25px 0;
+                            position: relative;
+                            &:after {
+                                content: '';
+                                position: absolute;
+                                width: 1px;
+                                height: 50%;
+                                top: 50%;
+                                left: 0%;
+                                transform: translateY(-50%);
+                                background-color: var(--darkgrey);
+                                z-index: 1;
+                            }
+                        }
+                    }
+                }
+            }
+            li:not(:last-of-type) {
+                margin-right: 2rem;
+            }
+        }
+        .nav-logo {
+            h1 {
+                color: var(--blue);
+                font-size: 2.5em;
+                letter-spacing: -1px;
+                transform: translateY(-3px);
+            }
+        }
+    }
+}

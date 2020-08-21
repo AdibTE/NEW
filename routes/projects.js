@@ -28,8 +28,8 @@ router.post(
     [ check('category', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
     [ check('starsNeed', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
     [ check('starsNeed', 'مقدار ستاره باید عدد باشد').isInt() ],
-    [ check('price', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
-    [ check('price', 'قیمت پروژه باید عدد باشد').isInt() ],
+    // [ check('price', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
+    // [ check('price', 'قیمت پروژه باید عدد باشد').isInt() ],
     [ check('forceTime', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
     async (req, res) => {
         if (req.user.type == 2) {
@@ -46,6 +46,8 @@ router.post(
         try {
             let _star = await Star.findOne({ starCount: starsNeed });
             if (!_star) return res.status(403).json({ msg: 'تعداد ستاره های انتخاب شده مجاز نمی‌باشد!' });
+
+            price = price ? price : _star.price;
 
             let _category = await Category.findOne({ ID: category });
             if (!_category) return res.status(403).json({ msg: 'دسته‌بندی انتخاب شده مجاز نمی‌باشد!' });
@@ -101,7 +103,7 @@ router.post('/:id/pay', auth, async (req, res) => {
         }
 
         await project.updateOne({ status: 150 });
-        return res.send({msg:'پروژه با موفقیت پرداخت شد!'});
+        return res.send({ msg: 'پروژه با موفقیت پرداخت شد!' });
     } catch (err) {
         console.log(err);
         return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
@@ -386,7 +388,7 @@ router.post(
 router.get('/', async (req, res) => {
     var projects;
     try {
-        projects = await Project.find({ status: { $lte: 150 } }).populate([ { path: 'employer', select: 'email' } ]);
+        projects = await Project.find({ status: 150 }).populate([ { path: 'employer', select: 'email' } ]);
         return res.json(projects);
     } catch (err) {
         console.log(err);
@@ -400,20 +402,20 @@ router.get('/', async (req, res) => {
 router.get('/me', auth, async (req, res) => {
     var projects;
     try {
-        if (req.user.type == 1) {
-            projects = await Project.find({ user: req.userObjectId }).populate([
+        if (req.user.type == 1 || req.user.type == 0) {
+            projects = await Project.find({ employer: req.user._id }).populate([
                 { path: 'employer', select: 'email' }
             ]);
             return res.json(projects);
         }
         if (req.user.type == 2) {
             projects = await Project.find({
-                status: { $lte: 150 },
+                status: 150,
                 starsNeed: { $lte: starHandler(req.user.points) }
             }).populate([ { path: 'employer', select: 'email' } ]);
             return res.json(projects);
         } else {
-            projects = await Project.find({});
+            projects = await Project.find({ status: 150 });
             return res.json(projects);
         }
     } catch (err) {

@@ -165,13 +165,14 @@ router.get('/status',auth, async (req, res) => {
 
 
 // @router POST api/settings/stars
-// @desc make a status type
+// @desc make a star
 // @access Private + Admin
 router.post(
     '/stars',
     auth,
     [ check('starCount', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
     [ check('point', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
+    [ check('price', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
     async (req, res) => {
         if (req.user.type != 0) {
             return res.status(401).json({ msg: 'شما به این صفحه دسترسی ندارید!' });
@@ -182,14 +183,15 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        let { starCount, point } = req.body;
+        let { starCount, point, price } = req.body;
         try {
             let star = await Star.findOne({ starCount });
             if (star) return res.status(400).json({ msg: 'این آیدی قبلا ثبت شده است' });
 
             star = new Star({
                 starCount,
-                point
+                point,
+                price
             });
             await star.save();
             return res.json(star);

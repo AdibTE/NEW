@@ -35,6 +35,7 @@ const ProjectItem = ({
             <p>ستاره: {data.starsNeed}</p>
             <p>قیمت: {data.price}</p>
             <p>کارفرما: {data.employer.email}</p>
+            <p>وضعیت: {data.status}</p>
             <p>تا {new persianDate(Date.parse(data.forceTime)).format('D MMMM ماه YYYY')}</p>
             {isOwner && <button onClick={deleteItem} className='fa fa-times' />}
             {isOwner && <button onClick={payItem} className='fa fa-credit-card' />}

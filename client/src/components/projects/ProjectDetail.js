@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getProjectDetails, clearErrors, addProject } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
 import Spinner from '../layout/Spinner';
@@ -13,7 +13,7 @@ const ProjectDetail = ({
     addProject
 }) => {
     let { id } = useParams();
-    let history = useHistory();
+    // let history = useHistory();
 
     const submitHandler = async (e) => {
         e.preventDefault();

@@ -1,0 +1,59 @@
+@import './footer';
+@import './header';
+@import "./keyframes";
+
+@font-face {
+    font-family: 'IranSans';
+    src: url("../../fonts/IRANSansWeb.eot"), url("../../fonts/IRANSansWeb.woff2") format("woff2"),
+        url("../../fonts/IRANSansWeb.woff") format("woff"), url("../../fonts/IRANSansWeb.ttf") format("truetype");
+}
+@font-face {
+    font-family: 'IranSans';
+    src: url("../../fonts/IRANSansWeb_Bold.eot"), url("../../fonts/IRANSansWeb_Bold.ttf") format("woff2"),
+        url("../../fonts/IRANSansWeb_Bold.woff") format("woff"),
+        url("../../fonts/IRANSansWeb_Bold.woff2") format("truetype");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'BYekan';
+    src: url("../../fonts/byekan.eot"), url("../../fonts/byekan.woff") format("woff"),
+        url("../../fonts/byekan.ttf") format("truetype");
+}
+
+:root {
+    --blue: #5c53ff;
+    --blue-shadow: #5b53ff3a;
+    --grey: #eeecff;
+    --darkgrey: #b2b1ba;
+    --orange: #ff9454;
+    --black: #666;
+    --white: #fdfdfd;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'IranSans';
+}
+
+a {
+    text-decoration: none;
+    color: var(--black);
+    transition: .1s ease;
+    &:hover{
+        color: var(--blue);
+    }
+}
+
+ul {
+    list-style-type: none;
+}
+
+.container {
+    width: 95%;
+    margin: auto;
+}
+
+@import './responsive';

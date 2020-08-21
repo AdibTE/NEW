@@ -16,5 +16,3 @@ refactor: {
 }
 
 TODO: [server] add errors an array
-TODO: [react] bug on selecting my prjects for new member
-TODO [react] improve my projects for karjoo
