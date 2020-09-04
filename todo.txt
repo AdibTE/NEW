@@ -1,4 +1,4 @@
-1. CRUD: {
+** TODO: CRUD {
     project,
     stars,
     status,
@@ -7,12 +7,20 @@
     usertype
 }
 
-improve : {
-    // 1. write tests
-}
+*** TODO: [BUG] guests can submit project! + improve visible projects(has bugs...)
+* TODO: [Server] improve errors
+* TODO: [Server] file saving in create project
+* TODO: [Server] sending email on register and forget password
+** TODO: [Design] single project page
+* TODO: [Design] loading
+* TODO: [React] improve loading
+* TODO: [React] forget password page
+* TODO: [React + Design] profile Page
+*** TODO: [React + Design] pay or delete button in single project page
+** TODO: [React + Server + design] applicant sending project files to employer
+** TODO: [Server + React] Search querys (character and category)
 
-refactor: {
-    1. project actions
-}
-
-TODO: [server] add errors an array
+// later on...
+[Payment]
+[Design more]
+[refactor codes]

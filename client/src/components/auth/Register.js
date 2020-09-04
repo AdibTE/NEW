@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, Fragment } from 'react';
+import { useHistory, useLocation, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { clearErrors, register } from '../../actions/authActions';
 import { setAlert } from '../../actions/alertActions';
@@ -13,7 +13,7 @@ const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, set
     });
     let query = (function useQuery() {
         return new URLSearchParams(useLocation().search);
-    })()
+    })();
     let history = useHistory();
 
     useEffect(
@@ -29,7 +29,7 @@ const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, set
         [ error, isAuthenticated ]
     );
 
-    const { type = 1, name, email, password, confirmPassword } = user;
+    const { type = 2, name, email, phone, password, confirmPassword } = user;
 
     const onChange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value });
@@ -38,11 +38,11 @@ const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, set
     const onSubmit = (e) => {
         e.preventDefault();
         if (name === '' || email === '' || password === '') {
-            setAlert('Please fill all fields', 'danger');
+            setAlert('لطفا همه فیلد ها را پر کنید', 'danger');
         } else if (password.length < 6) {
-            setAlert('Password should contains at least 6 characters', 'danger');
+            setAlert('کلمه عبور باید حداقل 6 کاراکتر باشد', 'danger');
         } else if (password !== confirmPassword) {
-            setAlert('Password does not match', 'danger');
+            setAlert('کلمه عبور همخوانی ندارد', 'danger');
         } else {
             register({
                 type,
@@ -54,49 +54,77 @@ const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, set
         }
     };
     return (
-        <div style={{ width: '50%', margin: 'auto' }}>
-            <h1 className='text-center'>
-                Account <span className='text-primary'>Register</span>
-            </h1>
-            <form onSubmit={onSubmit}>
-                <div className='form-group'>
-                    <label htmlFor='email'>Type</label>
-                    <select name='type' value={type} onChange={onChange}>
-                        <option value='2'>کارجو</option>
-                        <option value='1'>کارفرما</option>
-                    </select>
-                </div>
-                <div className='form-group'>
-                    <label htmlFor='name'>Name</label>
-                    <input type='text' name='name' className='form-control' value={name} onChange={onChange} />
-                </div>
-                <div className='form-group'>
-                    <label htmlFor='email'>Email</label>
-                    <input type='email' name='email' className='form-control' value={email} onChange={onChange} />
-                </div>
-                <div className='form-group'>
-                    <label htmlFor='password'>Password</label>
-                    <input
-                        type='password'
-                        name='password'
-                        className='form-control'
-                        value={password}
-                        onChange={onChange}
-                    />
-                </div>
-                <div className='form-group'>
-                    <label htmlFor='confirmPassword'>Confirm Password</label>
-                    <input
-                        type='password'
-                        name='confirmPassword'
-                        className='form-control'
-                        value={confirmPassword}
-                        onChange={onChange}
-                    />
-                </div>
-                <input type='submit' value='Register' className='btn btn-primary btn-block' />
-            </form>
-        </div>
+        <Fragment>
+            <link rel='stylesheet' href='/assets/styles/login-register/login-register.css' />
+            <section id='Login'>
+                <form onSubmit={onSubmit}>
+                    <h1>ثبت نام در نیو</h1>
+                    <div className='toggle-radio'>
+                        <div className='radio'>
+                            <input
+                                type='radio'
+                                name='type'
+                                id='applicant'
+                                value='2'
+                                onChange={onChange}
+                                {...(type === 2 ? {checked: 'checked'} : {})}
+                            />
+                            <label htmlFor='applicant'>کارجو هستم</label>
+                        </div>
+                        <div className='radio'>
+                            <input
+                                type='radio'
+                                name='type'
+                                id='employer'
+                                value='1'
+                                {...(type === 1 ? {checked: 'checked'} : {})}
+                                onChange={onChange}
+                            />
+                            <label htmlFor='employer'>کارفرما هستم</label>
+                        </div>
+                    </div>
+                    <div className='input'>
+                        <label>نام کامل</label>
+                        <input type='text' name='name' value={name} onChange={onChange} />
+                    </div>
+                    <div className='input'>
+                        <label>شماره تلفن</label>
+                        <input type='isnumber' name='phone' value={phone} onChange={onChange} />
+                    </div>
+                    <div className='input'>
+                        <label>آدرس ایمیل</label>
+                        <input type='email' name='email' value={email} onChange={onChange} />
+                    </div>
+                    <div className='input'>
+                        <label>کلمه عبور</label>
+                        <input
+                            type='password'
+                            name='password'
+                            autocomplete='new-password'
+                            value={password}
+                            onChange={onChange}
+                        />
+                    </div>
+                    <div className='input'>
+                        <label>تکرار کلمه عبور</label>
+                        <input
+                            type='password'
+                            name='confirmPassword'
+                            autocomplete='new-password'
+                            value={confirmPassword}
+                            onChange={onChange}
+                        />
+                    </div>
+                    <button type='submit' value='Register'>
+                        ثبت‌نام
+                    </button>
+                    <div className='links'>
+                        <Link to='/login'>حساب دارید؟</Link>
+                        <Link to='/forgot'>رمز عبور خود را فراموش کرده‌اید؟</Link>
+                    </div>
+                </form>
+            </section>
+        </Fragment>
     );
 };
 

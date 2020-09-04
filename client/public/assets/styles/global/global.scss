@@ -24,11 +24,12 @@
 :root {
     --blue: #5c53ff;
     --blue-shadow: #5b53ff3a;
-    --grey: #eeecff;
+    --grey: #e8e6f8;
     --darkgrey: #b2b1ba;
     --orange: #ff9454;
     --black: #666;
     --white: #fdfdfd;
+    --radius: 10px;
 }
 
 * {
@@ -36,14 +37,33 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'IranSans';
+    &:focus{
+        outline:none;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--white);
 }
 
 a {
     text-decoration: none;
     color: var(--black);
     transition: .1s ease;
-    &:hover{
+    &:hover {
         color: var(--blue);
+    }
+}
+
+input {
+    outline: none;
+    &[type="email"],
+    &[type="isnumber"] {
+        direction: ltr;
     }
 }
 
@@ -54,6 +74,50 @@ ul {
 .container {
     width: 95%;
     margin: auto;
+}
+
+.alerts-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 3;
+    .alert {
+        direction: rtl;
+        display: flex;
+        align-items: center;
+        padding: .8rem;
+        margin-top: 1rem;
+        border-radius: var(--radius);
+        background-color: var(--white);
+        box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1), 0 5px 20px rgba(0, 0, 0, 0.05);
+        animation: alertIn .8s ease 1 forwards;
+        position: relative;
+        > i {
+            margin-left: 1rem;
+            padding: .5rem;
+            border-radius: var(--radius);
+            color: white;
+            &.fa-check {
+                background-color: green;
+            }
+            &.fa-exclamation {
+                background-color: #e1b300;
+            }
+            &.fa-times {
+                background-color: #db2121;
+            }
+        }
+        button {
+            margin-right: 1rem;
+            background: none;
+            border: none;
+            line-height: 14px;
+            cursor: pointer;
+            color: var(--darkgrey);
+        }
+    }
 }
 
 @import './responsive';

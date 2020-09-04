@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, Fragment } from 'react';
+import { useHistory, useLocation, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { clearErrors, login } from '../../actions/authActions';
 import { setAlert } from '../../actions/alertActions';
@@ -12,7 +12,7 @@ const Login = ({ auth: { isAuthenticated, error }, clearErrors, login, setAlert,
 
     let query = (function useQuery() {
         return new URLSearchParams(useLocation().search);
-    })()
+    })();
     let history = useHistory();
 
     useEffect(
@@ -35,34 +35,39 @@ const Login = ({ auth: { isAuthenticated, error }, clearErrors, login, setAlert,
     const onSubmit = async (e) => {
         e.preventDefault();
         if (email === '' || password === '') {
-            setAlert('Please fill all fields', 'danger');
+            setAlert('لطفا همه فیلد ها را پر کنید', 'danger');
         } else {
             login(user);
         }
     };
     return (
-        <div style={{ width: '50%', margin: 'auto' }}>
-            <h1 className='text-center'>
-                Account <span className='text-primary'>Login</span>
-            </h1>
-            <form onSubmit={onSubmit}>
-                <div className='form-group'>
-                    <label htmlFor='email'>Email</label>
-                    <input type='email' name='email' className='form-control' value={email} onChange={onChange} />
-                </div>
-                <div className='form-group'>
-                    <label htmlFor='password'>Password</label>
-                    <input
-                        type='password'
-                        name='password'
-                        className='form-control'
-                        value={password}
-                        onChange={onChange}
-                    />
-                </div>
-                <input type='submit' value='Login' className='btn btn-primary btn-block' />
-            </form>
-        </div>
+        <Fragment>
+            <link rel='stylesheet' href='/assets/styles/login-register/login-register.css' />
+            <section id='Login'>
+                <form onSubmit={onSubmit}>
+                    <h1>ورود به نیو</h1>
+                    <div className='input'>
+                        <label>آدرس ایمیل</label>
+                        <input type='email' name='email' value={email} onChange={onChange} />
+                    </div>
+                    <div className='input'>
+                        <label>کلمه عبور</label>
+                        <input
+                            type='password'
+                            name='password'
+                            autocomplete='new-password'
+                            value={password}
+                            onChange={onChange}
+                        />
+                    </div>
+                    <button type='submit' value='Login'>ورود</button>
+                    <div className='links'>
+                    <Link to='/register'>حساب ندارید؟</Link>
+                        <Link to='/forgot'>رمز عبور خود را فراموش کرده‌اید؟</Link>
+                    </div>
+                </form>
+            </section>
+        </Fragment>
     );
 };
 

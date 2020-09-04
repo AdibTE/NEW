@@ -4,19 +4,29 @@ import { connect } from 'react-redux';
 const Alerts = ({ alerts }) => {
     let i = 0;
     return (
-        <div className='alerts-container'>
+        <div className='alerts-wrapper'>
             {alerts.length > 0 &&
                 alerts.map((alert) => {
                     if (typeof alert.msg.errors == 'object') {
+                        let type = alert.type === 'success' ? 'check' : 'times';
                         return alert.msg.errors.map((alrt) => (
-                            <div className={'alert alert-' + alert.type} key={i++}>
+                            <div className={'alert'} key={i++}>
+                                <i className={'fas fa-' + type} />
                                 {alrt.msg}
+                                <button type='button'>
+                                    <i className='fas fa-times' />
+                                </button>
                             </div>
                         ));
                     } else {
+                        let type = alert.type === 'success' ? 'check' : 'times';
                         return (
-                            <div className={'alert alert-' + alert.type} key={alert.id}>
+                            <div className='alert' key={alert.id}>
+                                <i className={'fas fa-' + type} />
                                 {typeof alert.msg == 'string' ? alert.msg : alert.msg.msg}
+                                <button type='button'>
+                                    <i className='fas fa-times' />
+                                </button>
                             </div>
                         );
                     }

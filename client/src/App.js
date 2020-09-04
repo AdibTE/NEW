@@ -29,7 +29,7 @@ const App = () => {
             <Router>
                 <Fragment>
                     <Navbar />
-                    <div className='container'>
+                    <Fragment>
                         <Alerts />
                         <Switch>
                             <CustomRoute exact path='/404' component={Error} />
@@ -42,7 +42,7 @@ const App = () => {
                             <CustomRoute exact path='/login' component={Login} />
                             <CustomRoute path='*' component={Error} />
                         </Switch>
-                    </div>
+                    </Fragment>
                 </Fragment>
             </Router>
         </Provider>

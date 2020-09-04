@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { getProjects, clearErrors, getUserProjects } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
@@ -32,18 +32,56 @@ const Projects = ({
     if (loading) return <Spinner />;
     else {
         return (
-            <div id='projects'>
-                {user && (
-                    <select onChange={filterHandler} value={filter} style={{ marginBottom: '.5rem' }}>
-                        <option value='all'>همه پروژه ها</option>
-                        <option value='mine'>پروژه های من</option>
-                    </select>
-                )}
-                {items.length > 0 &&
-                    items.map((item) => {
-                        return <ProjectItem key={item.ID} data={item} />;
-                    })}
-            </div>
+            <Fragment>
+                <link rel='stylesheet' href='/assets/styles/projects/projects.css' />
+                <section id='SearchBox' className='container'>
+                    <form className='search-box'>
+                        <select id='projects' onChange={filterHandler} value={filter}>
+                            <option value='all'>
+                                همه پروژه ها
+                            </option>
+                            <option value='mine'>پروژه های من</option>
+                        </select>
+                        <i className='fas fa-angle-down' />
+                        <input type='text' placeholder='جستجو در میان هزاران پروژه...' />
+                        <button>
+                            <img src='/assets/images/icons/search-24px.svg' />
+                        </button>
+                    </form>
+                </section>
+                <section id='Categories' className='container'>
+                    <div className='categories'>
+                        <a href='' className='category'>
+                            کامپیوتر
+                            <img src='/assets/images/computer.jpg' alt='' />
+                        </a>
+                        <a href='' className='category'>
+                            کامپیوتر
+                            <img src='/assets/images/computer.jpg' alt='' />
+                        </a>
+                        <a href='' className='category'>
+                            کامپیوتر
+                            <img src='/assets/images/computer.jpg' alt='' />
+                        </a>
+                        <a href='' className='category'>
+                            کامپیوتر
+                            <img src='/assets/images/computer.jpg' alt='' />
+                        </a>
+                        <a href='' className='category'>
+                            کامپیوتر
+                            <img src='/assets/images/computer.jpg' alt='' />
+                        </a>
+                    </div>
+                </section>
+                <section id='Projects' class='container'>
+                    <div class='project-list'>
+                        {items.length > 0 &&
+                            items.map((item) => {
+                                return <ProjectItem key={item.ID} data={item} />;
+                            })}
+                    </div>
+                </section>
+            </Fragment>
         );
     }
 };

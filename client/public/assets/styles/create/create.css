@@ -1,0 +1,211 @@
+section#CreateProject {
+  direction: rtl;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: column-reverse;
+          flex-direction: column-reverse;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 3rem auto;
+}
+
+section#CreateProject form {
+  background: white;
+  -webkit-box-shadow: 0 0 10px var(--grey);
+          box-shadow: 0 0 10px var(--grey);
+  padding: 2rem;
+  border-radius: 10px;
+  color: var(--black);
+  width: 600px;
+}
+
+section#CreateProject form h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+section#CreateProject form .toggle-radio {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-radius: 25px;
+  overflow: hidden;
+  border: 2px solid var(--blue);
+  margin-bottom: .5rem;
+}
+
+section#CreateProject form .toggle-radio .radio {
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+section#CreateProject form .toggle-radio .radio input {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+section#CreateProject form .toggle-radio .radio input:checked + label {
+  position: absolute;
+  color: white;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--blue);
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  -webkit-box-shadow: 0 0 50px var(--blue-shadow);
+          box-shadow: 0 0 50px var(--blue-shadow);
+}
+
+section#CreateProject form .toggle-radio .radio label {
+  cursor: pointer;
+  display: block;
+  padding: .5rem;
+  -webkit-transition: .2s;
+  transition: .2s;
+  font-size: 12px;
+}
+
+section#CreateProject form .input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: .8rem;
+}
+
+section#CreateProject form .input input,
+section#CreateProject form .input textarea,
+section#CreateProject form .input select,
+section#CreateProject form .input .file-label {
+  border-radius: 25px;
+  padding: .5rem 1rem;
+  border: 2px solid var(--grey);
+  color: var(--blue);
+  -webkit-transition: .2s ease;
+  transition: .2s ease;
+  resize: none;
+}
+
+section#CreateProject form .input input:focus,
+section#CreateProject form .input textarea:focus,
+section#CreateProject form .input select:focus,
+section#CreateProject form .input .file-label:focus {
+  border-right-color: var(--blue);
+}
+
+section#CreateProject form .input select {
+  -moz-appearance: none;
+}
+
+section#CreateProject form .input input[type="file"] {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+section#CreateProject form .input input[type="file"]:focus + label,
+section#CreateProject form .input input[type="file"] + label:hover {
+  background-color: var(--grey);
+}
+
+section#CreateProject form .input input[type="file"] + label {
+  cursor: pointer;
+  color: var(--darkgrey);
+}
+
+section#CreateProject form .input input[type="file"] + label i {
+  margin-left: .5rem;
+}
+
+section#CreateProject form button {
+  margin-top: 1rem;
+  padding: .5rem;
+  border-radius: 25px;
+  border: 0;
+  background-color: var(--blue);
+  color: white;
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+section#CreateProject .steps-container {
+  background-color: var(--grey);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  padding: 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  width: 600px;
+}
+
+section#CreateProject .steps-container .step {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 14px;
+  color: var(--darkgrey);
+  width: 100%;
+  -webkit-transition: .2s;
+  transition: .2s;
+  width: 100%;
+  white-space: nowrap;
+}
+
+section#CreateProject .steps-container .step span {
+  background-color: var(--darkgrey);
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: block;
+  margin-left: .5rem;
+}
+
+section#CreateProject .steps-container .step:not(:last-of-type) {
+  margin-left: 2rem;
+  position: relative;
+  color: var(--orange);
+}
+
+section#CreateProject .steps-container .step:not(:last-of-type) span {
+  background-color: var(--orange);
+}
+
+section#CreateProject .steps-container .step:not(:last-of-type) :before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -3.5rem;
+  width: 5rem;
+  border-bottom: 2px dashed var(--darkgrey);
+}
+/*# sourceMappingURL=create.css.map */

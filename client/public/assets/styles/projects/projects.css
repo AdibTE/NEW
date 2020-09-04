@@ -1,0 +1,227 @@
+section#SearchBox {
+  direction: rtl;
+}
+
+section#SearchBox .search-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border: 6px solid #f3f3f3;
+  background-color: #fff;
+  border-radius: 50px;
+  -webkit-transition: .1s ease;
+  transition: .1s ease;
+  width: 50%;
+  margin: auto;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+section#SearchBox .search-box input,
+section#SearchBox .search-box button {
+  border: 0;
+  outline: none;
+}
+
+section#SearchBox .search-box select {
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  background: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+          appearance: none;
+  border: none;
+  border-left: 1px solid #f3f3f3;
+  padding: 0 1rem 0 2rem;
+  color: var(--black);
+}
+
+section#SearchBox .search-box select + i {
+  -webkit-transform: translateX(23px);
+          transform: translateX(23px);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: var(--black);
+  font-size: 12px;
+}
+
+section#SearchBox .search-box input {
+  background-color: transparent;
+  padding: 0 12px 0 2rem;
+  color: var(--blue);
+  width: calc(100% - 175px);
+}
+
+section#SearchBox .search-box input:placeholder-shown {
+  color: var(--darkgrey);
+}
+
+section#SearchBox .search-box button {
+  background-color: var(--blue);
+  width: 50px;
+  height: 50px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  border-radius: 25px;
+  -webkit-box-shadow: 0 0 10px #5b53ff7d;
+          box-shadow: 0 0 10px #5b53ff7d;
+  -webkit-transition: margin .2s ease, -webkit-transform .1s ease;
+  transition: margin .2s ease, -webkit-transform .1s ease;
+  transition: margin .2s ease, transform .1s ease;
+  transition: margin .2s ease, transform .1s ease, -webkit-transform .1s ease;
+  cursor: pointer;
+}
+
+section#SearchBox .search-box button img {
+  -webkit-filter: invert(1);
+          filter: invert(1);
+}
+
+section#SearchBox .search-box button:active img {
+  -webkit-animation: searchSpinner 1s linear forwards infinite;
+          animation: searchSpinner 1s linear forwards infinite;
+}
+
+section#SearchBox .search-box:focus-within {
+  border-right-color: var(--blue);
+}
+
+section#SearchBox .search-box:focus-within button:hover {
+  -webkit-transform: scale(0.9);
+          transform: scale(0.9);
+}
+
+section#Categories {
+  direction: rtl;
+  margin-bottom: 3rem;
+}
+
+section#Categories h2 {
+  color: var(--darkgrey);
+  font-size: 20px;
+  margin-bottom: .5em;
+}
+
+section#Categories .categories {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[5];
+      grid-template-columns: repeat(5, 1fr);
+  grid-gap: 1rem;
+}
+
+section#Categories .categories .category {
+  height: 100px;
+  position: relative;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-weight: 900;
+}
+
+section#Categories .categories .category img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+section#Categories .categories .category:after {
+  content: '';
+  border-radius: 10px;
+  background-color: #0005;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  -webkit-transition: .2s ease;
+  transition: .2s ease;
+}
+
+section#Categories .categories .category:hover:after {
+  background-color: var(--blue-shadow);
+}
+
+section#Projects {
+  direction: rtl;
+  margin-bottom: 5rem;
+}
+
+section#Projects .project-list {
+  -webkit-column-count: 2;
+          column-count: 2;
+}
+
+section#Projects .project-list .project-item {
+  display: inline-block;
+  width: 100%;
+  background-color: var(--grey);
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1rem 2rem;
+  margin-bottom: 1rem;
+  -webkit-box-shadow: 0 0 10px var(--grey);
+          box-shadow: 0 0 10px var(--grey);
+  color: var(--black);
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+section#Projects .project-list .project-item h3 {
+  margin-bottom: 2rem;
+  font-size: 18px;
+}
+
+section#Projects .project-list .project-item p {
+  font-size: 12px;
+  text-align: left;
+  display:flex;
+  justify-content: flex-end;
+  flex-wrap:wrap;
+}
+
+section#Projects .project-list .project-item p span {
+  background-color: #fff;
+  padding: .2rem .5rem;
+  border-radius: 10px;
+  border: 1px solid var(--grey);
+  -webkit-transition: .2s ease;
+  transition: .2s ease;
+}
+
+section#Projects .project-list .project-item p span i {
+  color: var(--orange);
+  margin-left: .2rem;
+}
+
+section#Projects .project-list .project-item p span:not(:last-of-type) {
+  margin-left: 1rem;
+}
+
+section#Projects .project-list .project-item p span:hover {
+  background-color: var(--grey);
+  color: var(--orange);
+}
+
+section#Projects .project-list .project-item:hover {
+  color: var(--blue);
+  -webkit-box-shadow: 0 0px 10px var(--grey), 0 5px 10px var(--grey);
+          box-shadow: 0 0px 10px var(--grey), 0 5px 10px var(--grey);
+}
+/*# sourceMappingURL=projects.css.map */

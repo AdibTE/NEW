@@ -30,15 +30,34 @@ const ProjectItem = ({
         clearErrors();
     };
     return (
-        <Link to={'/projects/details/' + data.ID} className='item'>
-            <p>عنوان: {data.title}</p>
-            <p>ستاره: {data.starsNeed}</p>
-            <p>قیمت: {data.price}</p>
-            <p>کارفرما: {data.employer.email}</p>
-            <p>وضعیت: {data.status}</p>
-            <p>تا {new persianDate(Date.parse(data.forceTime)).format('D MMMM ماه YYYY')}</p>
-            {isOwner && <button onClick={deleteItem} className='fa fa-times' />}
-            {isOwner && <button onClick={payItem} className='fa fa-credit-card' />}
+        <Link to={'/projects/details/' + data.ID} className='project-item'>
+            <h3> {data.title}</h3>
+            <p>
+                <span>
+                    <i class='fas fa-star' />
+                    {data.starsNeed} ستاره
+                </span>
+                <span>
+                    <i class='far fa-money-bill-alt' />
+                    {data.price} تومان
+                </span>
+                <span>
+                    <i class='fas fa-calendar-alt' />
+                    تا {new persianDate(Date.parse(data.forceTime)).format('D MMMM YYYY')}
+                </span>
+                <span>
+                    <i class='fas fa-list' />
+                    {data.category}
+                </span>
+                <span>
+                    <i class='fas fa-list' />
+                    {data.employer.email}
+                </span>
+                <span>
+                    <i class='fas fa-list' />
+                    {data.status}
+                </span>
+            </p>
         </Link>
     );
 };
