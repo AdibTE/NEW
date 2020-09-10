@@ -32,7 +32,6 @@ export const getUserProjects = () => async (dispatch) => {
 
     try {
         let items = await axios.get('/api/projects/me');
-        console.log('projects==>',items)
         dispatch({ type: GET_PROJECTS, payload: items.data });
     } catch (err) {
         console.log('PROJECTS_ERROR');

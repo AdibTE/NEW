@@ -4,7 +4,6 @@ import { SET_ALERT, REMOVE_ALERT } from './types';
 // Set Alert
 export const setAlert = (error, type, timeout = 5000) => async (dispatch) => {
     const id = uuid.v4();
-    console.log(error);
     if (!error) return;
     let msg = typeof error == 'string' ? error : error.data;
     let status = typeof error == 'string' ? 500 : error.status;

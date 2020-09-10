@@ -30,7 +30,7 @@ const Projects = ({
             }
         },
         // eslint-disable-next-line
-        [ error ]
+        [ error , filter ]
     );
     if (loading) return <Spinner />;
     else {

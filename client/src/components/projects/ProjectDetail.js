@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { useParams, Link , useHistory } from 'react-router-dom';
+import { useParams, Link, useHistory } from 'react-router-dom';
 import persianDate from 'persian-date';
 import { getProjectDetails, clearErrors, addProject, deleteProject, payProject } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
@@ -18,7 +18,7 @@ const ProjectDetail = ({
     deleteProject
 }) => {
     let { id } = useParams();
-    let history = useHistory()
+    let history = useHistory();
     let [ isProjectOwner, setIsProjectOwner ] = useState(false);
 
     const takeProjectHandler = async (e) => {
@@ -42,17 +42,18 @@ const ProjectDetail = ({
     };
     useEffect(
         () => {
-            current && user && current.employer._id === user._id && setIsProjectOwner(true);
             if (error) {
                 // clearErrors();
                 setAlert(error, 'danger');
             } else {
+                current && user && current.employer._id === user._id && setIsProjectOwner(true);
                 getProjectDetails(id);
             }
         },
         // eslint-disable-next-line
-        [ error ]
+        [ error, user ]
     );
+
     if (loading || !current) return <Spinner />;
     else {
         return (
@@ -179,7 +180,7 @@ const ProjectDetail = ({
                         <i className='fas fa-angle-down' />
                         <input type='text' placeholder='جستجو در میان هزاران پروژه...' />
                         <button>
-                            <img src='/assets/images/icons/search-24px.svg' alt="جستجو"/>
+                            <img src='/assets/images/icons/search-24px.svg' alt='جستجو' />
                         </button>
                     </form>
                 </section>

@@ -45,7 +45,7 @@ const Navbar = ({ title, icon, logout, auth: { isAuthenticated, user } }) => {
                                 </li>
                             )}
                             <li>
-                                <Link to='/' onClick={logOut}>
+                                <Link to='' onClick={logOut}>
                                     خروج
                                 </Link>
                             </li>
