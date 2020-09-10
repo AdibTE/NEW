@@ -5,7 +5,7 @@ import { setAlert } from '../../actions/alertActions';
 
 import Spinner from '../layout/Spinner';
 import ProjectItem from './ProjectItem';
-import "../../assets/styles/projects/projects.css";
+import '../../assets/styles/projects/projects.css';
 
 const Projects = ({
     projects: { items, error, loading },
@@ -15,13 +15,15 @@ const Projects = ({
     getUserProjects
 }) => {
     const [ filter, setFilter ] = useState('all');
+
     let filterHandler = function(e) {
         setFilter(e.target.value);
         e.target.value === 'mine' ? getUserProjects() : getProjects();
     };
     useEffect(
         () => {
-            getProjects();
+            user && setFilter('mine');
+            filter === 'mine' ? getUserProjects() : getProjects();
             if (error) {
                 setAlert(error, 'danger');
                 clearErrors();
@@ -37,9 +39,7 @@ const Projects = ({
                 <section id='SearchBox' className='container'>
                     <form className='search-box'>
                         <select id='projects' onChange={filterHandler} value={filter}>
-                            <option value='all'>
-                                همه پروژه ها
-                            </option>
+                            <option value='all'>همه پروژه ها</option>
                             <option value='mine'>پروژه های من</option>
                         </select>
                         <i className='fas fa-angle-down' />

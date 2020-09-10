@@ -100,7 +100,7 @@ const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, set
                         <input
                             type='password'
                             name='password'
-                            autocomplete='new-password'
+                            autoComplete='new-password'
                             value={password}
                             onChange={onChange}
                         />
@@ -110,7 +110,7 @@ const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, set
                         <input
                             type='password'
                             name='confirmPassword'
-                            autocomplete='new-password'
+                            autoComplete='new-password'
                             value={confirmPassword}
                             onChange={onChange}
                         />

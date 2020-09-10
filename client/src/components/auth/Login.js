@@ -55,7 +55,7 @@ const Login = ({ auth: { isAuthenticated, error }, clearErrors, login, setAlert,
                         <input
                             type='password'
                             name='password'
-                            autocomplete='new-password'
+                            autoComplete='new-password'
                             value={password}
                             onChange={onChange}
                         />

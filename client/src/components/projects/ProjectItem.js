@@ -21,15 +21,15 @@ const ProjectItem = ({
             <h3> {data.title}</h3>
             <p>
                 <span>
-                    <i class='fas fa-star' />
+                    <i className='fas fa-star' />
                     {data.starsNeed} ستاره
                 </span>
                 <span>
-                    <i class='far fa-money-bill-alt' />
+                    <i className='far fa-money-bill-alt' />
                     {data.price} تومان
                 </span>
                 <span>
-                    <i class='fas fa-calendar-alt' />
+                    <i className='fas fa-calendar-alt' />
                     تا {new persianDate(Date.parse(data.forceTime)).format('D MMMM YYYY')}
                 </span>
             </p>

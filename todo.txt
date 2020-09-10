@@ -8,20 +8,19 @@
 }
 
 *** TODO: [BUG] guests can submit project! + improve visible projects(has bugs...)
-* TODO: [Server] improve errors
+*** TODO: پروژه ها به سه بخش همه، پروژه های من، پروژه های مخصوص من تقسیم شود
+** TODO: [React + Server + design] applicant sending project files to employer
 * TODO: [Server] file saving in create project
 * TODO: [Server] sending email on register and forget password
-** TODO: [Design] single project page
-=== Done: [Design] loading
-* TODO: [React] improve loading
-* TODO: [React] forget password page
 * TODO: [React] validation for create project + server errors
+* TODO: [React] forget password page
 * TODO: [React + Design] profile Page
+* TODO: [Server + React] Search querys (character and category)
+=== Done: [Design] single project page
+=== Done: [Design] loading
 === Done: [React + Design] pay or delete button in single project page
-** TODO: [React + Server + design] applicant sending project files to employer
-** TODO: [Server + React] Search querys (character and category)
 
 // later on...
 [Payment]
 [Design more]
-[refactor codes]
+[Refactor codes: loading , errors]

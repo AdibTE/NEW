@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link , useHistory } from 'react-router-dom';
 import persianDate from 'persian-date';
 import { getProjectDetails, clearErrors, addProject, deleteProject, payProject } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
@@ -18,6 +18,7 @@ const ProjectDetail = ({
     deleteProject
 }) => {
     let { id } = useParams();
+    let history = useHistory()
     let [ isProjectOwner, setIsProjectOwner ] = useState(false);
 
     const takeProjectHandler = async (e) => {
@@ -37,6 +38,7 @@ const ProjectDetail = ({
         let response = await deleteProject(id);
         setAlert(response.msg, response.type);
         clearErrors();
+        history.push('/projects');
     };
     useEffect(
         () => {
@@ -177,7 +179,7 @@ const ProjectDetail = ({
                         <i className='fas fa-angle-down' />
                         <input type='text' placeholder='جستجو در میان هزاران پروژه...' />
                         <button>
-                            <img src='/assets/images/icons/search-24px.svg' />
+                            <img src='/assets/images/icons/search-24px.svg' alt="جستجو"/>
                         </button>
                     </form>
                 </section>

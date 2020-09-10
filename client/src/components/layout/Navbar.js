@@ -1,13 +1,16 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { logout } from '../../actions/authActions';
 
 const Navbar = ({ title, icon, logout, auth: { isAuthenticated, user } }) => {
     const logOut = () => {
         logout();
+        window.location.reload();
     };
+    let location = useLocation();
+    const returnUrl = location.pathname + location.search;
 
     return (
         <header>
@@ -26,26 +29,11 @@ const Navbar = ({ title, icon, logout, auth: { isAuthenticated, user } }) => {
                                     <div className='user-info'>
                                         <h6>{user.name}</h6>
                                         <span className='stars'>
-                                            <img
-                                                src={'/assets/images/icons/star_rate-24px.svg'}
-                                                alt=''
-                                            />
-                                            <img
-                                                src={'/assets/images/icons/star_rate-24px.svg'}
-                                                alt=''
-                                            />
-                                            <img
-                                                src={'/assets/images/icons/star_rate-24px.svg'}
-                                                alt=''
-                                            />
-                                            <img
-                                                src={'/assets/images/icons/star_rate-24px.svg'}
-                                                alt=''
-                                            />
-                                            <img
-                                                src={'/assets/images/icons/star_rate-24px.svg'}
-                                                alt=''
-                                            />
+                                            <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
+                                            <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
+                                            <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
+                                            <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
+                                            <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
                                             <p>({user.points} امتیاز)</p>
                                         </span>
                                     </div>
@@ -64,7 +52,7 @@ const Navbar = ({ title, icon, logout, auth: { isAuthenticated, user } }) => {
                         </Fragment>
                     ) : (
                         <li className='login-register'>
-                            <Link to='/login'>ورود</Link>
+                            <Link to={'/login?returnURL=' + returnUrl}>ورود</Link>
                             <Link to='/register'>ثبت‌نام</Link>
                         </li>
                     )}

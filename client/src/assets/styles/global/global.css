@@ -340,18 +340,21 @@ header nav .nav-logo a img {
 
 @font-face {
   font-family: 'IranSans';
-  src: url("../../fonts/IRANSansWeb.eot"), url("../../fonts/IRANSansWeb.woff2") format("woff2"), url("../../fonts/IRANSansWeb.woff") format("woff"), url("../../fonts/IRANSansWeb.ttf") format("truetype");
+  src: url("../../fonts/IRANSansWeb.eot");
+  src: url("../../fonts/IRANSansWeb.woff2") format("woff2"), url("../../fonts/IRANSansWeb.woff") format("woff"), url("../../fonts/IRANSansWeb.ttf") format("truetype");
 }
 
 @font-face {
   font-family: 'IranSans';
-  src: url("../../fonts/IRANSansWeb_Bold.eot"), url("../../fonts/IRANSansWeb_Bold.ttf") format("woff2"), url("../../fonts/IRANSansWeb_Bold.woff") format("woff"), url("../../fonts/IRANSansWeb_Bold.woff2") format("truetype");
+  src: url("../../fonts/IRANSansWeb_Bold.eot");
+  src: url("../../fonts/IRANSansWeb_Bold.ttf") format("woff2"), url("../../fonts/IRANSansWeb_Bold.woff") format("woff"), url("../../fonts/IRANSansWeb_Bold.woff2") format("truetype");
   font-weight: bold;
 }
 
 @font-face {
   font-family: 'BYekan';
-  src: url("../../fonts/byekan.eot"), url("../../fonts/byekan.woff") format("woff"), url("../../fonts/byekan.ttf") format("truetype");
+  src: url("../../fonts/byekan.eot");
+  src: url("../../fonts/byekan.woff") format("woff"), url("../../fonts/byekan.ttf") format("truetype");
 }
 
 :root {
