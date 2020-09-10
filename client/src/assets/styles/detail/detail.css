@@ -1,0 +1,393 @@
+section#SearchBox {
+  direction: rtl;
+}
+
+section#SearchBox .search-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border: 6px solid var(--lightgrey);
+  background-color: #fff;
+  border-radius: 50px;
+  -webkit-transition: .1s ease;
+  transition: .1s ease;
+  width: 50%;
+  margin: auto;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+section#SearchBox .search-box input,
+section#SearchBox .search-box button {
+  border: 0;
+  outline: none;
+}
+
+section#SearchBox .search-box select {
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  background: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+          appearance: none;
+  border: none;
+  border-left: 1px solid var(--lightgrey);
+  padding: 0 1rem 0 2rem;
+  color: var(--black);
+}
+
+section#SearchBox .search-box select + i {
+  -webkit-transform: translateX(23px);
+          transform: translateX(23px);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: var(--black);
+  font-size: 12px;
+}
+
+section#SearchBox .search-box input {
+  background-color: transparent;
+  padding: 0 12px 0 2rem;
+  color: var(--blue);
+  width: calc(100% - 185px);
+}
+
+section#SearchBox .search-box input:placeholder-shown {
+  color: var(--darkgrey);
+}
+
+section#SearchBox .search-box button {
+  background-color: var(--blue);
+  width: 50px;
+  height: 50px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  border-radius: 25px;
+  -webkit-box-shadow: 0 0 10px #5b53ff7d;
+          box-shadow: 0 0 10px #5b53ff7d;
+  -webkit-transition: margin .2s ease, -webkit-transform .1s ease;
+  transition: margin .2s ease, -webkit-transform .1s ease;
+  transition: margin .2s ease, transform .1s ease;
+  transition: margin .2s ease, transform .1s ease, -webkit-transform .1s ease;
+  cursor: pointer;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+section#SearchBox .search-box button img {
+  -webkit-filter: invert(1);
+          filter: invert(1);
+}
+
+section#SearchBox .search-box button:active img {
+  -webkit-animation: searchSpinner 1s linear forwards infinite;
+          animation: searchSpinner 1s linear forwards infinite;
+}
+
+section#SearchBox .search-box button:hover {
+  background-color: var(--brightblue);
+}
+
+section#SearchBox .search-box:focus-within {
+  border-right-color: var(--blue);
+}
+
+section#SearchBox .search-box:focus-within button:focus {
+  -webkit-transform: scale(0.9);
+          transform: scale(0.9);
+}
+
+section#Project_Details {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 70ch 1fr;
+      grid-template-columns: 70ch 1fr;
+  grid-gap: 1rem;
+  direction: rtl;
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+section#Project_Details main {
+  border-radius: var(--radius);
+  -webkit-box-shadow: 0 0 10px var(--grey);
+          box-shadow: 0 0 10px var(--grey);
+  padding: 2rem;
+  color: var(--black);
+}
+
+section#Project_Details main > h1 {
+  margin-bottom: 1rem;
+}
+
+section#Project_Details main .categories {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 1.5rem;
+}
+
+section#Project_Details main .categories li a {
+  border: 1px solid var(--lightgrey);
+  border-radius: var(--radius);
+  padding: .2rem .5rem;
+  margin-left: .5rem;
+  background-color: var(--lightgrey);
+  -webkit-transition: .5s;
+  transition: .5s;
+  font-size: 12px;
+}
+
+section#Project_Details main .categories li a.main {
+  background-color: var(--grey);
+}
+
+section#Project_Details main .categories li a:hover {
+  border-color: var(--blue);
+  background-color: var(--white);
+  font-size: 14px;
+}
+
+section#Project_Details main > p {
+  font-size: 14px;
+  line-height: 26px;
+  margin-bottom: 2rem;
+}
+
+section#Project_Details main .attachments {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+section#Project_Details main .attachments a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-left: .5rem;
+  padding: .2rem .5rem;
+  border: 1px dashed var(--darkgrey);
+  border-radius: var(--radius);
+}
+
+section#Project_Details main .attachments a i {
+  margin-left: .5rem;
+}
+
+section#Project_Details main .attachments a:hover {
+  border-color: var(--blue);
+}
+
+section#Project_Details aside {
+  padding: 2rem 2rem 0;
+}
+
+section#Project_Details aside .details {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  color: var(--black);
+}
+
+section#Project_Details aside .details .price {
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: .3rem;
+  text-align: center;
+}
+
+section#Project_Details aside .details button {
+  background-color: var(--blue);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  padding: 1rem;
+  cursor: pointer;
+  -webkit-transition: .2s;
+  transition: .2s;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+section#Project_Details aside .details button span {
+  font-weight: 100;
+  font-size: 12px;
+}
+
+section#Project_Details aside .details button:hover {
+  -webkit-box-shadow: 0 0 10px var(--blue-shadow), 0 10px 20px var(--blue-shadow);
+          box-shadow: 0 0 10px var(--blue-shadow), 0 10px 20px var(--blue-shadow);
+  background-color: var(--brightblue);
+}
+
+section#Project_Details aside .details .forceTime {
+  text-align: right;
+  font-size: 12px;
+  margin-top: .5rem;
+}
+
+section#Project_Details aside .details .forceTime i {
+  margin-left: .2rem;
+  color: var(--orange);
+}
+
+section#Project_Details aside .related {
+  margin-top: 2rem;
+}
+
+section#Project_Details aside .related > span {
+  color: var(--black);
+  font-size: 12px;
+}
+
+section#Project_Details aside .related .project {
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--lightgrey);
+  padding: 1rem;
+  color: var(--black);
+  margin-bottom: .5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+section#Project_Details aside .related .project h2 {
+  font-size: 12px;
+  font-weight: 100;
+  width: 37ch;
+  overflow: hidden;
+}
+
+section#Project_Details aside .related .project span {
+  color: var(--darkgrey);
+}
+
+section#Project_Details aside .related .project:hover {
+  color: var(--blue);
+  -webkit-box-shadow: 0 0 10px var(--grey), 0 0 20px var(--lightgrey);
+          box-shadow: 0 0 10px var(--grey), 0 0 20px var(--lightgrey);
+}
+
+section#Project_Details aside .related .project:hover span {
+  color: var(--blue);
+}
+
+section#Project_Details aside .employer-box {
+  margin-top: 2rem;
+}
+
+section#Project_Details aside .employer-box .options {
+  padding: 1rem 1.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: var(--radius);
+  border: 1px solid var(--lightgrey);
+  color: var(--black);
+}
+
+section#Project_Details aside .employer-box .options .item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+  text-align: center;
+  padding: .3rem 0;
+  font-size: 14px;
+}
+
+section#Project_Details aside .employer-box .options .item .label {
+  font-weight: 900;
+}
+
+section#Project_Details aside .employer-box .options .item .file {
+  background: var(--orange);
+  padding: 0 1rem;
+  color: white;
+  border-radius: var(--radius);
+}
+
+section#Project_Details aside .employer-box .options .item:not(:last-of-type) {
+  border-bottom: 1px solid var(--lightgrey);
+}
+
+section#Project_Details aside .employer-box .actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: .5rem;
+}
+
+section#Project_Details aside .employer-box .actions .edit,
+section#Project_Details aside .employer-box .actions .delete {
+  font-size: 12px;
+  cursor: pointer;
+  -webkit-transition: .2s ease;
+  transition: .2s ease;
+  margin-bottom: .5rem;
+  color: var(--black);
+}
+
+section#Project_Details aside .employer-box .actions .edit i,
+section#Project_Details aside .employer-box .actions .delete i {
+  font-size: 10px;
+}
+
+section#Project_Details aside .employer-box .actions .edit:hover,
+section#Project_Details aside .employer-box .actions .delete:hover {
+  color: var(--blue);
+}
+
+section#Project_Details aside .employer-box .actions .edit.delete,
+section#Project_Details aside .employer-box .actions .delete.delete {
+  padding-right: .5rem;
+  margin-right: .5rem;
+  border-right: 1px solid var(--lightgrey);
+}
+
+section#Project_Details aside .employer-box .actions .edit.delete:hover,
+section#Project_Details aside .employer-box .actions .delete.delete:hover {
+  color: #f14343;
+}
+/*# sourceMappingURL=detail.css.map */

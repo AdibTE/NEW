@@ -1,11 +1,11 @@
 import React from 'react';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import "../../assets/styles/Home/home.css";
 
 function Home(props) {
     return (
         <Fragment>
-            <link rel='stylesheet' href='/assets/styles/home/home.css' />
             <section id='Home'>
                 <div className='content'>
                     <h2>با یک کلیک پروژه‌ای که می‌خوای رو تحویل بگیر</h2>

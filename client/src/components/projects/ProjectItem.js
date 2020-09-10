@@ -16,19 +16,6 @@ const ProjectItem = ({
     auth: { user }
 }) => {
     useEffect(() => {}, [ error ]);
-    let isOwner = user && data.employer._id === user._id;
-    let deleteItem = async (e) => {
-        e.preventDefault();
-        let response = await deleteProject(data.ID);
-        setAlert(response.msg, response.type);
-        clearErrors();
-    };
-    let payItem = async (e) => {
-        e.preventDefault();
-        let response = await payProject(data.ID);
-        setAlert(response.msg, response.type);
-        clearErrors();
-    };
     return (
         <Link to={'/projects/details/' + data.ID} className='project-item'>
             <h3> {data.title}</h3>
@@ -44,18 +31,6 @@ const ProjectItem = ({
                 <span>
                     <i class='fas fa-calendar-alt' />
                     تا {new persianDate(Date.parse(data.forceTime)).format('D MMMM YYYY')}
-                </span>
-                <span>
-                    <i class='fas fa-list' />
-                    {data.category}
-                </span>
-                <span>
-                    <i class='fas fa-list' />
-                    {data.employer.email}
-                </span>
-                <span>
-                    <i class='fas fa-list' />
-                    {data.status}
                 </span>
             </p>
         </Link>

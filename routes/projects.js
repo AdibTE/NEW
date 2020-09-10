@@ -464,7 +464,7 @@ router.get('/:id/status', auth, async (req, res) => {
 // @access Public
 router.get('/:id', async (req, res) => {
     try {
-        let project = await Project.findOne({ ID: req.params.id }).populate([ { path: 'employer', select: 'email' } ]);
+        let project = await Project.findOne({ ID: req.params.id }).populate([ { path: 'employer', select: 'email' },{ path: 'applicant', select: 'name' } ]);
         if (!project) return res.status(404).json({ msg: 'این صفحه هنوز وجود ندارد!' });
         return res.json(project);
     } catch (err) {

@@ -22,28 +22,28 @@ const Navbar = ({ title, icon, logout, auth: { isAuthenticated, user } }) => {
                             </li> */}
                             <li>
                                 <Link to='' className='profile'>
-                                    <img src={process.env.PUBLIC_URL + '/assets/images/index.jpg'} alt='' />
+                                    <img src={'/assets/images/index.jpg'} alt='' />
                                     <div className='user-info'>
                                         <h6>{user.name}</h6>
                                         <span className='stars'>
                                             <img
-                                                src={process.env.PUBLIC_URL + '/assets/images/icons/star_rate-24px.svg'}
+                                                src={'/assets/images/icons/star_rate-24px.svg'}
                                                 alt=''
                                             />
                                             <img
-                                                src={process.env.PUBLIC_URL + '/assets/images/icons/star_rate-24px.svg'}
+                                                src={'/assets/images/icons/star_rate-24px.svg'}
                                                 alt=''
                                             />
                                             <img
-                                                src={process.env.PUBLIC_URL + '/assets/images/icons/star_rate-24px.svg'}
+                                                src={'/assets/images/icons/star_rate-24px.svg'}
                                                 alt=''
                                             />
                                             <img
-                                                src={process.env.PUBLIC_URL + '/assets/images/icons/star_rate-24px.svg'}
+                                                src={'/assets/images/icons/star_rate-24px.svg'}
                                                 alt=''
                                             />
                                             <img
-                                                src={process.env.PUBLIC_URL + '/assets/images/icons/star_rate-24px.svg'}
+                                                src={'/assets/images/icons/star_rate-24px.svg'}
                                                 alt=''
                                             />
                                             <p>({user.points} امتیاز)</p>

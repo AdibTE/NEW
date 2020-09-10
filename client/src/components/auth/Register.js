@@ -3,6 +3,7 @@ import { useHistory, useLocation, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { clearErrors, register } from '../../actions/authActions';
 import { setAlert } from '../../actions/alertActions';
+import "../../assets/styles/login-register/login-register.css";
 
 const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, setAlert }) => {
     const [ user, setUser ] = useState({
@@ -55,7 +56,6 @@ const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, set
     };
     return (
         <Fragment>
-            <link rel='stylesheet' href='/assets/styles/login-register/login-register.css' />
             <section id='Login'>
                 <form onSubmit={onSubmit}>
                     <h1>ثبت نام در نیو</h1>

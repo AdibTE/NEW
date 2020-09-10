@@ -22,7 +22,7 @@ export const getProjects = () => async (dispatch) => {
         dispatch({ type: GET_PROJECTS, payload: items.data });
     } catch (err) {
         console.log('PROJECTS_ERROR');
-        dispatch({ type: PROJECTS_ERROR, payload: err.response.data });
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
     }
 };
 
@@ -36,7 +36,7 @@ export const getUserProjects = () => async (dispatch) => {
         dispatch({ type: GET_PROJECTS, payload: items.data });
     } catch (err) {
         console.log('PROJECTS_ERROR');
-        dispatch({ type: PROJECTS_ERROR, payload: err.response.data });
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
     }
 };
 
@@ -49,7 +49,7 @@ export const getProjectDetails = (id) => async (dispatch) => {
         dispatch({ type: GET_PROJECT_DETAILS, payload: item.data });
     } catch (err) {
         console.log('PROJECTS_ERROR');
-        dispatch({ type: PROJECTS_ERROR, payload: err.response.data });
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
     }
 };
 
@@ -67,7 +67,7 @@ export const createProject = (formData) => async (dispatch) => {
         return true;
     } catch (err) {
         console.log('PROJECTS_ERROR');
-        dispatch({ type: PROJECTS_ERROR, payload: err.response.data });
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
     }
 };
 
@@ -80,8 +80,8 @@ export const deleteProject = (id) => async (dispatch) => {
         return { msg: deleted.data.msg, type: 'success' };
     } catch (err) {
         console.log('PROJECTS_ERROR');
-        dispatch({ type: PROJECTS_ERROR, payload: err.response.data });
-        return { msg: err.response.data.msg, type: 'danger' };
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
+        return { msg: err.response.msg, type: 'danger' };
     }
 };
 
@@ -94,8 +94,8 @@ export const payProject = (id) => async (dispatch) => {
         return { msg: response.data.msg, type: 'success' };
     } catch (err) {
         console.log('PROJECTS_ERROR');
-        dispatch({ type: PROJECTS_ERROR, payload: err.response.data });
-        return { msg: err.response.data.msg, type: 'danger' };
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
+        return { msg: err.response.msg, type: 'danger' };
     }
 };
 
@@ -108,8 +108,8 @@ export const addProject = (id) => async (dispatch) => {
         return { msg: response.data.msg, type: 'success' };
     } catch (err) {
         console.log('PROJECTS_ERROR');
-        dispatch({ type: PROJECTS_ERROR, payload: err.response.data });
-        return { msg: err.response.data.msg, type: 'danger' };
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
+        return { msg: err.response.msg, type: 'danger' };
     }
 };
 
@@ -122,7 +122,7 @@ export const getCategories = () => async (dispatch) => {
         dispatch({ type: GET_CATEGORIES, payload: items.data });
     } catch (err) {
         console.log('PROJECTS_ERROR');
-        dispatch({ type: PROJECTS_ERROR, payload: err.response.data });
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
     }
 };
 
@@ -135,7 +135,7 @@ export const getAllStars = () => async (dispatch) => {
         dispatch({ type: GET_AllSTARS, payload: items.data });
     } catch (err) {
         console.log('PROJECTS_ERROR');
-        dispatch({ type: PROJECTS_ERROR, payload: err.response.data });
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
     }
 };
 

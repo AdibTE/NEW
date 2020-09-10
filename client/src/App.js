@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
 import Register from './components/auth/Register';
@@ -43,6 +44,7 @@ const App = () => {
                             <CustomRoute path='*' component={Error} />
                         </Switch>
                     </Fragment>
+                    <Footer />
                 </Fragment>
             </Router>
         </Provider>

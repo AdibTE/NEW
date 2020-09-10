@@ -5,6 +5,7 @@ import { clearErrors, getCategories, createProject, getAllStars } from '../../ac
 import { setAlert } from '../../actions/alertActions';
 import Spinner from '../layout/Spinner';
 import Error from '../pages/Error';
+import "../../assets/styles/create/create.css";
 
 const NewProject = ({
     projects: { error, loading, categories, allStars },
@@ -56,7 +57,6 @@ const NewProject = ({
     else {
         return (
             <Fragment>
-                <link rel='stylesheet' href='/assets/styles/create/create.css' />
                 <section id='CreateProject' className='container'>
                     <form onSubmit={submitHandler}>
                         <h1>ثبت پروژه جدید</h1>
@@ -91,7 +91,7 @@ const NewProject = ({
                         <div className='input'>
                             <label>دسته‌بندی</label>
                             <select name='category' value={formData.category} onChange={changeHandler}>
-                                <option value='' disabled selected>
+                                <option value='' disabled>
                                     -- انتخاب کنید --
                                 </option>
                                 {categories.map((cat) => {
@@ -106,7 +106,7 @@ const NewProject = ({
                         <div className='input'>
                             <label>کیفیت پروژه</label>
                             <select name='starsNeed' value={formData.starsNeed} onChange={changeHandler}>
-                                <option value='' disabled selected>
+                                <option value='' disabled>
                                     -- انتخاب کنید --
                                 </option>
                                 {allStars.map((star) => {

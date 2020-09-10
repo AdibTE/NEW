@@ -5,6 +5,7 @@ import { setAlert } from '../../actions/alertActions';
 
 import Spinner from '../layout/Spinner';
 import ProjectItem from './ProjectItem';
+import "../../assets/styles/projects/projects.css";
 
 const Projects = ({
     projects: { items, error, loading },
@@ -33,7 +34,6 @@ const Projects = ({
     else {
         return (
             <Fragment>
-                <link rel='stylesheet' href='/assets/styles/projects/projects.css' />
                 <section id='SearchBox' className='container'>
                     <form className='search-box'>
                         <select id='projects' onChange={filterHandler} value={filter}>
@@ -73,8 +73,8 @@ const Projects = ({
                         </a>
                     </div>
                 </section>
-                <section id='Projects' class='container'>
-                    <div class='project-list'>
+                <section id='Projects' className='container'>
+                    <div className='project-list'>
                         {items.length > 0 &&
                             items.map((item) => {
                                 return <ProjectItem key={item.ID} data={item} />;
