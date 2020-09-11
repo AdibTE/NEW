@@ -53,26 +53,22 @@ export const getProjectDetails = (id) => async (dispatch) => {
 };
 
 // create new project
-export const createProject = (formData) => async (dispatch) => {
+export const createProject = (requestData) => async (dispatch) => {
     dispatch({ type: PROJECTS_LOADING });
-    let uploadedFilesName;
     try {
-        var fileFormData = new FormData();
-        formData.attachments &&
-            Object.values(formData.attachments).forEach((file) => {
-                fileFormData.append('attachments', file);
+        var formData = new FormData();
+        if (requestData.attachments) {
+            Object.values(requestData.attachments).forEach((file) => {
+                formData.append('attachments', file);
             });
-
-        uploadedFilesName = await axios.post('/api/projects/upload', fileFormData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-        formData.attachments = uploadedFilesName.data;
+        }
+        for (let name in requestData) {
+            formData.append(name, requestData[name]);
+        }
 
         let item = await axios.post('/api/projects/create', formData, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data'
             }
         });
 
@@ -80,15 +76,6 @@ export const createProject = (formData) => async (dispatch) => {
         return true;
     } catch (err) {
         console.log('PROJECTS_ERROR');
-        await axios.delete(
-            '/api/projects/deleteUploads',
-            { fileNames: uploadedFilesName },
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
         dispatch({ type: PROJECTS_ERROR, payload: err.response });
     }
 };

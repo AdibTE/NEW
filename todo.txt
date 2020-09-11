@@ -7,15 +7,14 @@
     usertype
 }
 
-*** TODO: UPLOAD ATTACHMENT HAS SEVERAL BUGS AND DEVELOPING ISSUES- write it from scratch!
-*** TODO: پروژه ها به سه بخش همه، پروژه های من، پروژه های مخصوص من تقسیم شود
+*** TODO: [UX] پروژه ها به سه بخش همه، پروژه های من، پروژه های مخصوص من تقسیم شود
 ** TODO: [React + Server + design] applicant sending project files to employer
-* TODO: [Server] file saving in create project
 * TODO: [Server] sending email on register and forget password
 * TODO: [React] validation for create project + server errors
 * TODO: [React] forget password page
 * TODO: [React + Design] profile Page
 * TODO: [Server + React] Search querys (character and category)
+=== Done: [Server] file saving in create project
 === Done: [Design] single project page
 === Done: [Design] loading
 === Done: [React + Design] pay or delete button in single project page
@@ -23,5 +22,5 @@
 
 // later on...
 [Payment]
-[Design more]
+[Design more: Responsive , UX]
 [Refactor codes: loading , alerts , errors]

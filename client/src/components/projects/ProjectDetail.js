@@ -79,18 +79,12 @@ const ProjectDetail = ({
                         </ul>
                         <p>{current.description}</p>
                         <div className='attachments'>
-                            <Link to='#'>
-                                <i className='fas fa-paperclip' />
-                                پیوست
-                            </Link>
-                            <Link to='#'>
-                                <i className='fas fa-paperclip' />
-                                پیوست
-                            </Link>
-                            <Link to='#'>
-                                <i className='fas fa-paperclip' />
-                                پیوست
-                            </Link>
+                            {current.attachments.map((file) => (
+                                <a href={'/uploads/' + current.employer._id + '/' + file} key={file} target="_blank" rel="noopener noreferrer">
+                                    <i className='fas fa-paperclip' />
+                                    پیوست
+                                </a>
+                            ))}
                         </div>
                     </main>
                     <aside>
