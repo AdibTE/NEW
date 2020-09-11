@@ -35,21 +35,21 @@ function Home(props) {
             <section id='Categories' className='container'>
                 <h1>خدمات حرفه‌ای محبوب</h1>
                 <div className='cat-list'>
-                    <a href='#' className='cat-card'>
+                    <Link to="" className='cat-card'>
                         <img className='bg' src='/assets/images/computer.jpg' alt='' />
                         <h2>برنامه‌نویسی</h2>
                         <img className='icon' src='/assets/images/icons/fa-angle-down-light.svg' alt='' />
-                    </a>
-                    <a href='#' className='cat-card'>
+                    </Link>
+                    <Link to="" className='cat-card'>
                         <img className='bg' src='/assets/images/designer.webp' alt='' />
                         <h2>طراحی</h2>
                         <img className='icon' src='/assets/images/icons/fa-angle-down-light.svg' alt='' />
-                    </a>
-                    <a href='#' className='cat-card'>
+                    </Link>
+                    <Link to="" className='cat-card'>
                         <img className='bg' src='/assets/images/translator.webp' alt='' />
                         <h2>ترجمه</h2>
                         <img className='icon' src='/assets/images/icons/fa-angle-down-light.svg' alt='' />
-                    </a>
+                    </Link>
                 </div>
             </section>
             <section id='UserType' className='container'>

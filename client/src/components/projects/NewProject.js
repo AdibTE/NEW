@@ -1,11 +1,12 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
+import fs from 'fs';
 import { clearErrors, getCategories, createProject, getAllStars } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
 import Spinner from '../layout/Spinner';
 import Error from '../pages/Error';
-import "../../assets/styles/create/create.css";
+import '../../assets/styles/create/create.css';
 
 const NewProject = ({
     projects: { error, loading, categories, allStars },
@@ -23,21 +24,32 @@ const NewProject = ({
         category: '',
         starsNeed: '0',
         // price: '',
-        attachments: '',
+        attachments: null,
         forceTime: ''
     };
     const [ formData, setFormData ] = useState(initialState);
+    const [ fileInputLabel, setfileInputLabel ] = useState('انتخاب فایل');
+
     const changeHandler = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
     const submitHandler = async (e) => {
         e.preventDefault();
+        console.log(formData);
         let submited = await createProject(formData);
         if (submited) {
             setAlert('پروژه شما با موفقیت ثبت شد', 'success');
             setFormData(initialState);
             history.push('/projects');
         }
+    };
+    const fileHandler = async (e) => {
+        if (e.target.files[0]) {
+            setFormData({ ...formData, [e.target.name]: e.target.files });
+            if (e.target.files.length > 1) setfileInputLabel(`${e.target.files.length} فایل انتخاب شده`);
+            else setfileInputLabel(e.target.files[0].name);
+        }
+        // e.target.files[0].name
     };
     useEffect(
         () => {
@@ -78,14 +90,14 @@ const NewProject = ({
                             <input
                                 type='file'
                                 name='attachments'
-                                value={formData.attachments}
-                                onChange={changeHandler}
+                                onChange={fileHandler}
                                 dir='ltr'
                                 id='attach'
                                 multiple
                             />
                             <label className='file-label' htmlFor='attach'>
-                                <i className='fas fa-upload' />انتخاب فایل
+                                <i className='fas fa-upload' />
+                                {fileInputLabel}
                             </label>
                         </div>
                         <div className='input'>

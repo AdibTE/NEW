@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const config = require('config');
+const fs = require('fs');
 
 // middlewares
 const auth = require('../middleware/auth');
 const getUser = require('../middleware/getUser');
 const idGenerator = require('../middleware/idGenerator');
 const starHandler = require('../middleware/starHandler');
+const { uploadDir } = require('../middleware/uploadHelper');
 
 // Models
 const User = require('../Models/User');
@@ -53,7 +55,6 @@ router.post(
             if (!_category) return res.status(403).json({ msg: 'دسته‌بندی انتخاب شده مجاز نمی‌باشد!' });
 
             let ID = await idGenerator(Project);
-
             let project = new Project({
                 ID,
                 title,
@@ -78,6 +79,64 @@ router.post(
         }
     }
 );
+
+// @router POST api/projects/upload
+// @desc api for upload file
+// @access Private
+router.post('/upload', auth, (req, res) => {
+    try {
+        let attachments;
+        let response = [];
+        if (req.files) {
+            attachments = req.files.attachments;
+            if (attachments.length > 5) {
+                return res.status(416).json({ msg: 'شما حداکثر 5 پیوست می‌توانید داشته باشید!' });
+            }
+            attachments.forEach((file) => {
+                filename = `${Date.now()}-${file.name}`;
+                response.push(filename);
+                let fileError = false;
+                file.mv(uploadDir + `/${req.user._id}/` + filename, (err) => {
+                    if (err) {
+                        fileError = true;
+                    }
+                });
+                if (fileError) return res.status(500).json({ msg: 'خطایی در آپلود فایل رخ داد!' });
+            });
+            return res.status(202).send(response);
+        } else {
+            return res.status(204).send(null);
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
+    }
+});
+
+// @router DELETE api/projects/deleteUpload
+// @desc api for delete upload file
+// @access Private
+router.delete('/deleteUpload', auth, (req, res) => {
+    try {
+        if (req.body.fileNames) {
+            let { fileNames } = req.files;
+            fileNames.forEach((fn)=>{
+                fs.unlink(uploadDir + `/${req.user._id}/` + fn, (err) => {
+                    if (err){
+                        console.log(err)
+                        return res.status(500).json({ msg: 'خطایی در حذف فایل رخ داد!' });
+                    }
+                });
+            })
+            return res.status(200).send(true);
+        } else {
+            return res.status(204).send(null);
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
+    }
+});
 
 // @router POST api/projects/:id/pay
 // @desc pay the project price cost
@@ -464,7 +523,10 @@ router.get('/:id/status', auth, async (req, res) => {
 // @access Public
 router.get('/:id', async (req, res) => {
     try {
-        let project = await Project.findOne({ ID: req.params.id }).populate([ { path: 'employer', select: 'email' },{ path: 'applicant', select: 'name' } ]);
+        let project = await Project.findOne({ ID: req.params.id }).populate([
+            { path: 'employer', select: 'email' },
+            { path: 'applicant', select: 'name' }
+        ]);
         if (!project) return res.status(404).json({ msg: 'این صفحه هنوز وجود ندارد!' });
         return res.json(project);
     } catch (err) {

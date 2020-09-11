@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 import { getProjects, clearErrors, getUserProjects } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
 
@@ -45,32 +46,32 @@ const Projects = ({
                         <i className='fas fa-angle-down' />
                         <input type='text' placeholder='جستجو در میان هزاران پروژه...' />
                         <button>
-                            <img src='/assets/images/icons/search-24px.svg' />
+                            <img src='/assets/images/icons/search-24px.svg' alt='' />
                         </button>
                     </form>
                 </section>
                 <section id='Categories' className='container'>
                     <div className='categories'>
-                        <a href='' className='category'>
+                        <Link to="" className='category'>
                             کامپیوتر
                             <img src='/assets/images/computer.jpg' alt='' />
-                        </a>
-                        <a href='' className='category'>
+                        </Link>
+                        <Link to="" className='category'>
                             کامپیوتر
                             <img src='/assets/images/computer.jpg' alt='' />
-                        </a>
-                        <a href='' className='category'>
+                        </Link>
+                        <Link to="" className='category'>
                             کامپیوتر
                             <img src='/assets/images/computer.jpg' alt='' />
-                        </a>
-                        <a href='' className='category'>
+                        </Link>
+                        <Link to="" className='category'>
                             کامپیوتر
                             <img src='/assets/images/computer.jpg' alt='' />
-                        </a>
-                        <a href='' className='category'>
+                        </Link>
+                        <Link to="" className='category'>
                             کامپیوتر
                             <img src='/assets/images/computer.jpg' alt='' />
-                        </a>
+                        </Link>
                     </div>
                 </section>
                 <section id='Projects' className='container'>

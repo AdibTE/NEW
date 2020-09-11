@@ -2,12 +2,18 @@ const express = require('express');
 const app = express();
 const connectDB = require('./config/db');
 const path = require('path');
+const expressFileUpload = require('express-fileupload');
 
 // Database Connection
 connectDB();
 
 // Middlewares
 app.use(express.json({ extended: false }));
+app.use(
+    expressFileUpload({
+        createParentPath: true
+    })
+);
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
