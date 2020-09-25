@@ -1,79 +1,3 @@
-section#SearchBox {
-    direction: rtl;
-    .search-box {
-        display: flex;
-        justify-content: space-between;
-        border: 6px solid var(--lightgrey);
-        background-color: #fff;
-        border-radius: 50px;
-        transition: .1s ease;
-        width: 50%;
-        margin: auto;
-        margin-top: 3rem;
-        margin-bottom: 3rem;
-        input,
-        button {
-            border: 0;
-            outline: none;
-        }
-        select {
-            border-top-right-radius: 25px;
-            border-bottom-right-radius: 25px;
-            background: none;
-            -moz-appearance: none;
-            appearance: none;
-            border: none;
-            border-left: 1px solid var(--lightgrey);
-            padding: 0 1rem 0 2rem;
-            color: var(--black);
-        }
-        select + i {
-            transform: translateX(23px);
-            display: flex;
-            align-items: center;
-            color: var(--black);
-            font-size: 12px;
-        }
-        input {
-            background-color: transparent;
-            padding: 0 12px 0 2rem;
-            color: var(--blue);
-            width: calc(100% - 185px);
-            &:placeholder-shown {
-                color: var(--darkgrey);
-            }
-        }
-        button {
-            background-color: var(--blue);
-            width: 50px;
-            height: 50px;
-            display: grid;
-            place-items: center;
-            border-radius: 25px;
-            box-shadow: 0 0 10px #5b53ff7d;
-            transition: margin .2s ease, transform .1s ease;
-            cursor: pointer;
-            transition: .2s;
-            img {
-                filter: invert(1);
-            }
-            &:active img {
-                animation: searchSpinner 1s linear forwards infinite;
-            }
-            &:hover {
-                background-color: var(--brightblue);
-            }
-        }
-        &:focus-within {
-            border-right-color: var(--blue);
-            button {
-                &:focus {
-                    transform: scale(.9);
-                }
-            }
-        }
-    }
-}
 
 section#Project_Details {
     display: grid;
@@ -116,6 +40,7 @@ section#Project_Details {
             font-size: 14px;
             line-height: 26px;
             margin-bottom: 2rem;
+            word-break: break-word;
         }
         .attachments {
             display: flex;
@@ -257,10 +182,10 @@ section#Project_Details {
                     cursor: pointer;
                     transition: .2s ease;
                     margin-bottom: .5rem;
-					color: var(--black);
-					i{
-						font-size:10px;
-					}
+                    color: var(--black);
+                    i {
+                        font-size: 10px;
+                    }
                     &:hover {
                         color: var(--blue);
                     }

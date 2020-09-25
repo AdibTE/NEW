@@ -1,6 +1,6 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, useCallback, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import { getProjects, clearErrors, getUserProjects } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
 
@@ -16,22 +16,35 @@ const Projects = ({
     getUserProjects
 }) => {
     const [ filter, setFilter ] = useState('all');
+    const [ justLoaded, setJustLoaded ] = useState(true);
+    const [ userType, setUserType ] = useState(undefined);
 
-    let filterHandler = function(e) {
-        setFilter(e.target.value);
-        e.target.value === 'mine' ? getUserProjects() : getProjects();
-    };
+    let filterHandler = useCallback(
+        (e) => {
+            let value = e ? e.target.getAttribute('value') : filter;
+            if (justLoaded && user) {
+                value = 'mine';
+                setJustLoaded(false);
+            }
+            setFilter(value);
+            value === 'mine' ? getUserProjects() : getProjects();
+        },
+        // eslint-disable-next-line
+        [ filter ]
+    );
     useEffect(
         () => {
-            user && setFilter('mine');
-            filter === 'mine' ? getUserProjects() : getProjects();
+            filterHandler();
+            user && user.type === 0 && setUserType(0); // admin
+            user && user.type === 1 && setUserType(1); // employer
+            user && user.type === 2 && setUserType(2); // applicant
             if (error) {
                 setAlert(error, 'danger');
                 clearErrors();
             }
         },
         // eslint-disable-next-line
-        [ error , filter ]
+        [ error, user, filterHandler ]
     );
     if (loading) return <Spinner />;
     else {
@@ -39,36 +52,53 @@ const Projects = ({
             <Fragment>
                 <section id='SearchBox' className='container'>
                     <form className='search-box'>
-                        <select id='projects' onChange={filterHandler} value={filter}>
-                            <option value='all'>همه پروژه ها</option>
-                            <option value='mine'>پروژه های من</option>
-                        </select>
-                        <i className='fas fa-angle-down' />
                         <input type='text' placeholder='جستجو در میان هزاران پروژه...' />
                         <button>
                             <img src='/assets/images/icons/search-24px.svg' alt='' />
                         </button>
                     </form>
+                    <div className='filter-box'>
+                        {user && (
+                            <Fragment>
+                                <span
+                                    value='all'
+                                    onClick={filterHandler}
+                                    {...filter === 'all' && { className: 'active' }}
+                                >
+                                    <i className={filter === 'all' ? 'fas fa-check-circle' : 'far fa-circle'} />همه
+                                    پروژه ها
+                                </span>
+                                <span
+                                    value='mine'
+                                    onClick={filterHandler}
+                                    {...filter === 'mine' && { className: 'active' }}
+                                >
+                                    <i className={filter === 'mine' ? 'fas fa-check-circle' : 'far fa-circle'} />
+                                    {userType === 2 ? 'پروژه برای من' : 'پروژه های من'}
+                                </span>
+                            </Fragment>
+                        )}
+                    </div>
                 </section>
                 <section id='Categories' className='container'>
                     <div className='categories'>
-                        <Link to="" className='category'>
+                        <Link to='' className='category'>
                             کامپیوتر
                             <img src='/assets/images/computer.jpg' alt='' />
                         </Link>
-                        <Link to="" className='category'>
+                        <Link to='' className='category'>
                             کامپیوتر
                             <img src='/assets/images/computer.jpg' alt='' />
                         </Link>
-                        <Link to="" className='category'>
+                        <Link to='' className='category'>
                             کامپیوتر
                             <img src='/assets/images/computer.jpg' alt='' />
                         </Link>
-                        <Link to="" className='category'>
+                        <Link to='' className='category'>
                             کامپیوتر
                             <img src='/assets/images/computer.jpg' alt='' />
                         </Link>
-                        <Link to="" className='category'>
+                        <Link to='' className='category'>
                             کامپیوتر
                             <img src='/assets/images/computer.jpg' alt='' />
                         </Link>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import fs from 'fs';
 import { clearErrors, getCategories, createProject, getAllStars } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
 import Spinner from '../layout/Spinner';
@@ -23,6 +22,7 @@ const NewProject = ({
         description: '',
         category: '',
         starsNeed: '0',
+        tags: null,
         // price: '',
         attachments: null,
         forceTime: ''
@@ -35,12 +35,23 @@ const NewProject = ({
     };
     const submitHandler = async (e) => {
         e.preventDefault();
-        console.log(formData);
-        let submited = await createProject(formData);
-        if (submited) {
-            setAlert('پروژه شما با موفقیت ثبت شد', 'success');
-            setFormData(initialState);
-            history.push('/projects');
+
+        if (
+            formData.title === '' ||
+            formData.description === '' ||
+            formData.category === '' ||
+            formData.forceTime === ''
+        ) {
+            setAlert('لطفا همه فیلد ها را پر کنید', 'danger');
+        } else if (new Date(formData.forceTime) < new Date()) {
+            setAlert('نمی‌توانید تاریخ گذشته را انتخاب کنید', 'danger');
+        } else {
+            let submited = await createProject(formData);
+            if (submited) {
+                setAlert('پروژه شما با موفقیت ثبت شد', 'success');
+                setFormData(initialState);
+                history.push('/projects');
+            }
         }
     };
     const fileHandler = async (e) => {
@@ -114,6 +125,10 @@ const NewProject = ({
                                     );
                                 })}
                             </select>
+                        </div>
+                        <div className='input'>
+                            <label>برچسب ها</label>
+                            <input type='text' name='tags' placeholder="مهارت ها و برچسب های مرتبط" value={formData.tags} onChange={changeHandler} />
                         </div>
                         <div className='input'>
                             <label>کیفیت پروژه</label>

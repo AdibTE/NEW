@@ -9,6 +9,7 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import ForgotPassword from './components/auth/ForgotPassword';
 import Projects from './components/projects/Projects';
 import ProjectDetail from './components/projects/ProjectDetail';
 import NewProject from './components/projects/NewProject';
@@ -18,6 +19,7 @@ import PrivateRoute from './components/routing/PrivateRoute';
 import CustomRoute from './components/routing/CustomRoute';
 
 import setAuthToken from './utils/setAuthToken';
+import ScrollToTop from './utils/ScrollToTop';
 
 const App = () => {
     useEffect(() => {
@@ -28,24 +30,27 @@ const App = () => {
     return (
         <Provider store={store}>
             <Router>
-                <Fragment>
-                    <Navbar />
+                <ScrollToTop>
                     <Fragment>
-                        <Alerts />
-                        <Switch>
-                            <CustomRoute exact path='/404' component={Error} />
-                            <CustomRoute exact path='/' component={Home} />
-                            <CustomRoute exact path='/projects' component={Projects} />
-                            <CustomRoute exact path='/projects/details/:id' component={ProjectDetail} />
-                            <PrivateRoute exact path='/projects/create' component={NewProject} />
-                            <CustomRoute exact path='/about' component={About} />
-                            <CustomRoute exact path='/register' component={Register} />
-                            <CustomRoute exact path='/login' component={Login} />
-                            <CustomRoute path='*' component={Error} />
-                        </Switch>
+                        <Navbar />
+                        <Fragment>
+                            <Alerts />
+                            <Switch>
+                                <CustomRoute exact path='/404' component={Error} />
+                                <CustomRoute exact path='/' component={Home} />
+                                <CustomRoute exact path='/projects' component={Projects} />
+                                <CustomRoute exact path='/projects/details/:id' component={ProjectDetail} />
+                                <PrivateRoute exact path='/projects/create' component={NewProject} />
+                                <CustomRoute exact path='/about' component={About} />
+                                <CustomRoute exact path='/register' component={Register} />
+                                <CustomRoute exact path='/login' component={Login} />
+                                <CustomRoute exact path='/forgot' component={ForgotPassword} />
+                                <CustomRoute path='*' component={Error} />
+                            </Switch>
+                        </Fragment>
+                        <Footer />
                     </Fragment>
-                    <Footer />
-                </Fragment>
+                </ScrollToTop>
             </Router>
         </Provider>
     );

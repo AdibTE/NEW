@@ -484,6 +484,19 @@ ul {
   color: var(--darkgrey);
 }
 
+.error-page {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 195px);
+  direction: rtl;
+}
+
+.error-page h1 {
+  text-align: center;
+  color: var(--black);
+}
+
 header + section:not(#SearchBox) {
   min-height: calc(100vh - 292px);
 }

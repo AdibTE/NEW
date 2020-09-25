@@ -66,7 +66,7 @@ header {
                                 font-size: 10px;
                             }
                         }
-                        .projects{
+                        .projects {
                             color: var(--orange);
                         }
                     }
@@ -79,7 +79,7 @@ header {
                                 filter: invert(80%) sepia(55%) saturate(510%) hue-rotate(347deg) brightness(104%)
                                     contrast(105%);
                             }
-                            .projects{
+                            .projects {
                                 color: #ffe051;
                             }
                         }
@@ -138,10 +138,10 @@ header {
                 letter-spacing: -1px;
                 transform: translateY(-3px);
             }
-            a{
+            a {
                 display: grid;
                 place-items: center;
-                img{
+                img {
                     width: 3.5em;
                 }
             }

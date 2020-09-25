@@ -25,14 +25,14 @@ const Star = require('../Models/Star');
 router.post(
     '/create',
     auth,
-    [ check('title', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
-    [ check('description', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
-    [ check('category', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
-    [ check('starsNeed', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
+    [ check('title', 'فیلد عنوان اجبارری می‌باشد').not().isEmpty() ],
+    [ check('description', 'فیلد توضیحات اجبارری می‌باشد').not().isEmpty() ],
+    [ check('category', 'فیلد دسته‌بندی اجبارری می‌باشد').not().isEmpty() ],
+    [ check('starsNeed', 'فیلد کیفیت پروژه اجبارری می‌باشد').not().isEmpty() ],
     [ check('starsNeed', 'مقدار ستاره باید عدد باشد').isInt() ],
-    // [ check('price', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
+    // [ check('price', 'فیلد عنوان اجبارری می‌باشد').not().isEmpty() ],
     // [ check('price', 'قیمت پروژه باید عدد باشد').isInt() ],
-    [ check('forceTime', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
+    [ check('forceTime', 'فیلد زمان تحویل اجبارری می‌باشد').not().isEmpty() ],
     async (req, res) => {
         if (req.user.type == 2) {
             return res.status(401).json({ msg: 'شما به این صفحه دسترسی ندارید!' });
@@ -56,9 +56,12 @@ router.post(
 
             let attachmentFileNames = [];
             if (req.files) {
+                console.log();
                 attachments = req.files.attachments;
                 if (attachments.length > 5) {
-                    return res.status(416).json({ msg: 'شما حداکثر 5 پیوست می‌توانید داشته باشید!' });
+                    return res.status(416).json({ msg: 'شما حداکثر 5 پیوست می‌توانید اضافه کنید!' });
+                } else if (!req.files.attachments.length) {
+                    attachments = [ req.files.attachments ];
                 }
                 attachments.forEach((file) => {
                     filename = `${Date.now()}-${file.name}`;
@@ -177,7 +180,7 @@ router.post('/:id/add', auth, async (req, res) => {
 // @desc deleting project by applicant
 // @access Private
 router.delete('/:id/delete', auth, async (req, res) => {
-    let project = await Project.findOne({ ID: req.params.id }).populate('employer');
+    let project = await Project.findOne({ ID: req.params.id }).populate('employer', 'attachments');
     if (!project) return res.status(404).json({ msg: 'این صفحه هنوز وجود ندارد!' });
     if (req.user.id !== project.employer.id) {
         return res.status(403).json({ msg: 'شما کارفرمای این پروژه نیستید!' });
@@ -185,6 +188,11 @@ router.delete('/:id/delete', auth, async (req, res) => {
 
     try {
         await project.deleteOne();
+        project.attachments.forEach((filename) => {
+            fs.unlink(`${uploadDir}/${req.user._id}/${filename}`, (err) => {
+                if (err) console.log(err);
+            });
+        });
         return res.json({ msg: 'پروژه با موفقیت حذف شد!' });
     } catch (err) {
         console.log(err);

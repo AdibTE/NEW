@@ -28,15 +28,26 @@ const Navbar = ({ title, icon, logout, auth: { isAuthenticated, user } }) => {
                                     <img src={'/assets/images/index.jpg'} alt='' />
                                     <div className='user-info'>
                                         <h6>{user.name}</h6>
-                                        <span className='stars'>
-                                            <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
-                                            <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
-                                            <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
-                                            <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
-                                            <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
-                                            <p>({user.points} امتیاز)</p>
-                                        </span>
+                                        {user.type === 2 ? (
+                                            <span className='stars'>
+                                                <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
+                                                <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
+                                                <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
+                                                <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
+                                                <img src={'/assets/images/icons/star_rate-24px.svg'} alt='' />
+                                                <p>({user.points} امتیاز)</p>
+                                            </span>
+                                        ) : (
+                                            <span className='projects'>
+                                                <p>{user.projects.length || 0} پروژه فعال - 0 پروژه درحال انجام</p>
+                                            </span>
+                                        )}
                                     </div>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to='' onClick={logOut}>
+                                    خروج
                                 </Link>
                             </li>
                             {user.type !== 2 && (
@@ -44,11 +55,6 @@ const Navbar = ({ title, icon, logout, auth: { isAuthenticated, user } }) => {
                                     <Link to='/projects/create'>ایجاد پروژه</Link>
                                 </li>
                             )}
-                            <li>
-                                <Link to='' onClick={logOut}>
-                                    خروج
-                                </Link>
-                            </li>
                         </Fragment>
                     ) : (
                         <li className='login-register'>
