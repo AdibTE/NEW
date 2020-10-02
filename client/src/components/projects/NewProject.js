@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { clearErrors, getCategories, createProject, getAllStars } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
 import Spinner from '../layout/Spinner';
+import TagInput from './TagInput';
 import Error from '../pages/Error';
 import '../../assets/styles/create/create.css';
 
@@ -128,7 +129,7 @@ const NewProject = ({
                         </div>
                         <div className='input'>
                             <label>برچسب ها</label>
-                            <input type='text' name='tags' placeholder="مهارت ها و برچسب های مرتبط" value={formData.tags} onChange={changeHandler} />
+                            <TagInput formData={formData} setFormData={setFormData} />
                         </div>
                         <div className='input'>
                             <label>کیفیت پروژه</label>

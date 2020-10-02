@@ -144,4 +144,23 @@ header + section:not(#SearchBox) {
     min-height: calc(100vh - 292px);
 }
 
+/* Transition Group */
+.tg-enter {
+    opacity:0 !important;
+}
+
+.tg-enter-active{
+    opacity:1 !important;
+    transition: opacity .5s ease-in;
+}
+
+.tg-exit {
+    opacity: 1 !important;
+}
+
+.tg-exit-active {
+    opacity: 0 !important;
+    transition: opacity .5s ease-in;
+}
+
 @import './responsive';

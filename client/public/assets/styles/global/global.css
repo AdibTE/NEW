@@ -501,6 +501,27 @@ header + section:not(#SearchBox) {
   min-height: calc(100vh - 292px);
 }
 
+/* Transition Group */
+.tg-enter {
+  opacity: 0 !important;
+}
+
+.tg-enter-active {
+  opacity: 1 !important;
+  -webkit-transition: opacity .5s ease-in;
+  transition: opacity .5s ease-in;
+}
+
+.tg-exit {
+  opacity: 1 !important;
+}
+
+.tg-exit-active {
+  opacity: 0 !important;
+  -webkit-transition: opacity .5s ease-in;
+  transition: opacity .5s ease-in;
+}
+
 @media (min-width: 768px) {
   .container {
     width: 750px;

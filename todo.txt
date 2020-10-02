@@ -7,8 +7,8 @@
     usertype
 }
 
+*** TODO: [Server] more on categories and related
 ** TODO: [React + Server + design] applicant sending project files to employer
-* TODO: [Server] more on categories and related
 * TODO: [Server] sending email on register and forget password
 * TODO: [React + Design] profile Page
 * TODO: [Server + React] Search querys (character and category)
@@ -19,15 +19,6 @@
 * TODO: [Server] remove user projects array on delete
 * TODO: [React] stars optimization in profile link
 * TODO: [React] bug on project page filters ==tip==> make them radio input like register
-=== Done: [Design + React] 404
-=== Done: [React + Design] employer profile link
-=== Done: [React] validation for create project + server errors
-=== Done: [Server] file saving in create project
-=== Done: [Design] single project page
-=== Done: [Design] loading
-=== Done: [React + Design] pay or delete button in single project page
-=== Done: [BUG] guests can submit project! + improve visible projects(has bugs...)
-=== Done: [UX] پروژه ها به سه بخش همه، پروژه های من، پروژه های مخصوص من تقسیم شود
 
 // later on...
 [Payment]

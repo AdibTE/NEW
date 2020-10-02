@@ -31,7 +31,9 @@
     "nodemailer": "^6.4.11",
     "path": "^0.12.7",
     "persian-date": "^1.1.0",
-    "react-loading-skeleton": "^2.1.1"
+    "react-loading-skeleton": "^2.1.1",
+    "react-transition-group": "^4.4.1",
+    "styled-components": "^5.2.0"
   },
   "devDependencies": {
     "concurrently": "^5.1.0"
