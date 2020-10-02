@@ -146,21 +146,30 @@ header + section:not(#SearchBox) {
 
 /* Transition Group */
 .tg-enter {
-    opacity:0 !important;
+    opacity:0;
 }
 
 .tg-enter-active{
-    opacity:1 !important;
+    opacity:1;
     transition: opacity .5s ease-in;
 }
 
 .tg-exit {
-    opacity: 1 !important;
+    opacity: 1;
 }
 
 .tg-exit-active {
-    opacity: 0 !important;
+    opacity: 0;
     transition: opacity .5s ease-in;
+}
+
+.tg-appear {
+  opacity: 0.01;
+}
+
+.tg-appear.tg-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
 }
 
 @import './responsive';

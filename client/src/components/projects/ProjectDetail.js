@@ -3,15 +3,23 @@ import { connect } from 'react-redux';
 import { useParams, Link, useHistory } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import persianDate from 'persian-date';
-import { getProjectDetails, clearErrors, addProject, deleteProject, payProject } from '../../actions/projectActions';
+import {
+    getProjectDetails,
+    clearErrors,
+    addProject,
+    deleteProject,
+    payProject,
+    getCategories
+} from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
 import { statusEnum } from '../../utils/enums';
 import '../../assets/styles/detail/detail.css';
 
 const ProjectDetail = ({
-    projects: { current, error, loading },
+    projects: { current, categories, error, loading },
     auth: { user },
     getProjectDetails,
+    getCategories,
     clearErrors,
     setAlert,
     addProject,
@@ -23,6 +31,7 @@ const ProjectDetail = ({
     let [ isProjectOwner, setIsProjectOwner ] = useState(false);
     let [ isJustLoaded, setIsJustLoaded ] = useState(true);
     let [ statusTitle, setStatusTitle ] = useState('-');
+    let [ catName, setCatName ] = useState(null);
 
     const takeProjectHandler = async (e) => {
         e.preventDefault();
@@ -52,14 +61,21 @@ const ProjectDetail = ({
     };
     useEffect(
         () => {
+            getCategories();
             if (error) {
                 // clearErrors();
                 setAlert(error, 'danger');
             } else {
                 isJustLoaded && getProjectDetails(id) && setIsJustLoaded(false);
                 current && user && current.employer._id === user._id && setIsProjectOwner(true);
-                current && getStatusEnumName(current.status)
+                current && getStatusEnumName(current.status);
             }
+            categories &&
+                categories.forEach((cat) => {
+                    if (cat.ID === current.category) {
+                        setCatName(cat.title);
+                    }
+                });
         },
         // eslint-disable-next-line
         [ error, user, current ]
@@ -69,22 +85,27 @@ const ProjectDetail = ({
             <section id='Project_Details' className='container'>
                 <main>
                     <h1>{current ? current.title : <Skeleton />}</h1>
-                    <ul className='categories'>
-                        <li>
-                            <Link className='main' to='#'>
-                                کامپیوتر
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to='#'>ری‌اکت</Link>
-                        </li>
-                        <li>
-                            <Link to='#'>فرانت‌اند</Link>
-                        </li>
-                        <li>
-                            <Link to='#'>جاواسکریپت</Link>
-                        </li>
-                    </ul>
+                    {current ? (
+                        <ul className='categories'>
+                            {catName ? (
+                                <li>
+                                    <Link className='main' to='#'>
+                                        {catName}
+                                    </Link>
+                                </li>
+                            ) : (
+                                <Skeleton width={50} />
+                            )}
+                            {current.tags &&
+                                current.tags.map((tag, i) => (
+                                    <li key={i}>
+                                        <Link to='#'>{tag.title}</Link>
+                                    </li>
+                                ))}
+                        </ul>
+                    ) : (
+                        <Skeleton />
+                    )}
                     <p>{current ? current.description : <Skeleton />}</p>
                     <div className='attachments'>
                         {current ? (
@@ -212,5 +233,6 @@ export default connect(mapStateToProps, {
     setAlert,
     addProject,
     deleteProject,
-    payProject
+    payProject,
+    getCategories
 })(ProjectDetail);

@@ -63,9 +63,12 @@ export const createProject = (requestData) => async (dispatch) => {
             });
         }
         for (let name in requestData) {
-            formData.append(name, requestData[name]);
+            if(name === "tags"){
+                formData.append('tags', JSON.stringify(requestData.tags));
+            } else {
+                formData.append(name, requestData[name]);
+            }
         }
-
         let item = await axios.post('/api/projects/create', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -76,6 +79,7 @@ export const createProject = (requestData) => async (dispatch) => {
         return true;
     } catch (err) {
         console.log('PROJECTS_ERROR');
+        console.log(err);
         dispatch({ type: PROJECTS_ERROR, payload: err.response });
     }
 };

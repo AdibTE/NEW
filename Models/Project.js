@@ -32,6 +32,7 @@ const projectSchema = mongoose.Schema(
                 type: String
             }
         ],
+        tags: [ {} ],
         applyFile: String, // @type File
         applyFilePreview: String, // @type File
         applyFeedBack: String, // @type File

@@ -19,14 +19,14 @@ const NewProject = ({
 }) => {
     let history = useHistory();
     const initialState = {
-        title: '',
-        description: '',
-        category: '',
+        title: 'تست برچسب دار',
+        description: 'توضیحات تست برچسب دار',
+        category: '0',
         starsNeed: '0',
         tags: null,
         // price: '',
         attachments: null,
-        forceTime: ''
+        forceTime: '2020-10-15'
     };
     const [ formData, setFormData ] = useState(initialState);
     const [ fileInputLabel, setfileInputLabel ] = useState('انتخاب فایل');

@@ -1,36 +1,35 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { v4 } from 'uuid';
 
 const TagInput = ({ formData, setFormData }) => {
-    const changeHandler = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
     const addTag = (e) => {
-        if ((e.type === 'keydown' && e.keyCode === 13) || e.type === 'click') {
+        if ((e.type === 'keydown' && e.keyCode === 13 && e.target.value) || e.type === 'click') {
             e.preventDefault();
             input.current.focus();
-            e.type === 'keydown'
-                ? setSelectedTags([ ...selectedTags, e.target.value ])
-                : setSelectedTags([ ...selectedTags, e.currentTarget.innerText ]);
+            let value = e.type === 'keydown' ? e.target.value : e.currentTarget.innerText;
+            setSelectedTags([ ...selectedTags, { title: value, id: v4() } ]);
             setInputValue('');
             setSearchResult([]);
+            setFormData({ ...formData, tags: selectedTags });
         }
     };
     const removeTag = (e) => {
         setSelectedTags(
             selectedTags.filter((tag) => {
-                return tag !== e.currentTarget.innerText;
+                return tag.title !== e.currentTarget.innerText;
             })
         );
+        setFormData({ ...formData, tags: selectedTags });
     };
     const search = (e) => {
         let value = e.target.value;
         setInputValue(value);
         let result = tags.filter((tag) => {
-            return tag.includes(value);
+            return tag.title.includes(value);
         });
         if (value) {
-            result.length > 0 ? setSearchResult(result) : setSearchResult([ value ]);
+            result.length > 0 ? setSearchResult(result) : setSearchResult([ { title: value, id: 159753 } ]);
         } else {
             setSearchResult([]);
         }
@@ -40,9 +39,14 @@ const TagInput = ({ formData, setFormData }) => {
     const [ mouseIsOver, setMouseIsOver ] = useState(false);
     const [ selectedTags, setSelectedTags ] = useState([]);
     const [ searchResult, setSearchResult ] = useState([]);
-    const tags = [ 'جاوااسکریپت', 'پایتون', ' نود جی اس', 'دات نت کور', 'design patterns' ];
+    const tags = [
+        { title: 'جاوااسکریپت', id: v4() },
+        { title: 'پایتون', id: v4() },
+        { title: 'نود جی اس', id: v4() },
+        { title: 'دات نت کور', id: v4() },
+        { title: 'design patterns', id: v4() }
+    ];
     const input = useRef(inputValue);
-    useEffect(() => {});
     return (
         <div
             className={isFocused ? 'tag-input-container tag-input-Focused' : 'tag-input-container'}
@@ -50,12 +54,14 @@ const TagInput = ({ formData, setFormData }) => {
                 setIsFocused(true);
             }}
         >
+            <input type='hidden' name='tags' value={selectedTags} />
+
             {selectedTags.length > 0 ? (
                 <TransitionGroup component='ul'>
-                    {selectedTags.map((tag, i) => (
-                        <CSSTransition key={i} timeout={500} classNames='tg'>
+                    {selectedTags.map((tag) => (
+                        <CSSTransition key={tag.id} timeout={500} classNames='tg'>
                             <li onClick={removeTag} className='tag'>
-                                {tag}
+                                {tag.title}
                                 <i className='fas fa-minus' />
                             </li>
                         </CSSTransition>
@@ -90,13 +96,12 @@ const TagInput = ({ formData, setFormData }) => {
                         }}
                         onKeyDown={addTag}
                     />
-                    <input type='hidden' name='tags' value={selectedTags} onChange={changeHandler} />
                     {searchResult && (
                         <TransitionGroup component='ul'>
-                            {searchResult.map((tag, i) => (
-                                <CSSTransition key={i} timeout={500} classNames='tg'>
-                                    <li className='tag' onClick={addTag} key={i}>
-                                        {tag} <i className='fas fa-plus' />
+                            {searchResult.map((tag) => (
+                                <CSSTransition key={tag.id} timeout={500} classNames='tg'>
+                                    <li className='tag' onClick={addTag}>
+                                        {tag.title} <i className='fas fa-plus' />
                                     </li>
                                 </CSSTransition>
                             ))}

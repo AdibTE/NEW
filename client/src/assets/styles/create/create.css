@@ -157,7 +157,7 @@ section#CreateProject form .input input[type="file"] {
 
 section#CreateProject form .input input[type="file"]:focus + label,
 section#CreateProject form .input input[type="file"] + label:hover {
-  background-color: var(--grey);
+  background-color: var(--lightgrey);
 }
 
 section#CreateProject form .input input[type="file"] + label {

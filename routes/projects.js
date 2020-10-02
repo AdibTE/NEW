@@ -43,7 +43,7 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        let { title, description, category, starsNeed, price, forceTime, attachments } = req.body;
+        let { title, description, category, starsNeed, price, forceTime, attachments,tags } = req.body;
 
         try {
             let _star = await Star.findOne({ starCount: starsNeed });
@@ -85,6 +85,7 @@ router.post(
                 starsNeed,
                 price,
                 forceTime,
+                tags:JSON.parse(tags),
                 attachments: attachmentFileNames,
                 employer: req.user
             });
@@ -96,7 +97,7 @@ router.post(
             await project.save();
             return res.json(project);
         } catch (err) {
-            console.log(err);
+            console.log(err.message);
             return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
         }
     }

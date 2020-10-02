@@ -98,7 +98,7 @@ section#CreateProject {
                 z-index: -1;
                 &:focus + label,
                 & + label:hover {
-                    background-color: var(--grey);
+                    background-color: var(--lightgrey);
                 }
                 & + label {
                     cursor: pointer;
