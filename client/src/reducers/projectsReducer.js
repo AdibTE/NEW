@@ -9,7 +9,8 @@ import {
     GET_AllSTARS,
     DELETE_PROJECT,
     ADD_PROJECT,
-    PAY_PROJECT
+    PAY_PROJECT,
+    CREATE_CATEGORY
 } from '../actions/types';
 
 const initState = {
@@ -50,6 +51,7 @@ export default (state = initState, action) => {
             };
         case ADD_PROJECT:
         case PAY_PROJECT:
+        case CREATE_CATEGORY:
             return {
                 ...state,
                 loading: false

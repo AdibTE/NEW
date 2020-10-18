@@ -7,6 +7,10 @@ const categorySchema = mongoose.Schema(
             required: true,
             unique: true
         },
+        picture: {
+            type : String,
+            required: true            
+        },
         ID: {
             type: Number,
             required: true,

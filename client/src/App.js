@@ -13,6 +13,8 @@ import ForgotPassword from './components/auth/ForgotPassword';
 import Projects from './components/projects/Projects';
 import ProjectDetail from './components/projects/ProjectDetail';
 import NewProject from './components/projects/NewProject';
+import Categories from './components/settings/Categories';
+import NewCategory from './components/settings/NewCategory';
 import Alerts from './components/layout/Alerts';
 import Error from './components/pages/Error';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -41,6 +43,8 @@ const App = () => {
                                 <CustomRoute exact path='/projects' component={Projects} />
                                 <CustomRoute exact path='/projects/details/:id' component={ProjectDetail} />
                                 <PrivateRoute exact path='/projects/create' component={NewProject} />
+                                <PrivateRoute exact path='/settings/categories' component={Categories} authorize={0} />
+                                <PrivateRoute exact path='/settings/categories/create' component={NewCategory} authorize={0} />
                                 <CustomRoute exact path='/about' component={About} />
                                 <CustomRoute exact path='/register' component={Register} />
                                 <CustomRoute exact path='/login' component={Login} />

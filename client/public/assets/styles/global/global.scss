@@ -128,7 +128,7 @@ ul {
     }
 }
 
-.error-page {
+.error-page,.blank {
     display: grid;
     place-items: center;
     min-height: calc(100vh - 195px);

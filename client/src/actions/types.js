@@ -31,3 +31,6 @@ export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_AllSTARS = 'GET_AllSTARS';
 export const ADD_PROJECT = 'ADD_PROJECT';
 export const PAY_PROJECT = 'PAY_PROJECT';
+
+
+export const CREATE_CATEGORY = 'CREATE_CATEGORY';

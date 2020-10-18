@@ -10,7 +10,8 @@ import {
     DELETE_PROJECT,
     ADD_PROJECT,
     PAY_PROJECT,
-    GET_AllSTARS
+    GET_AllSTARS,
+    CREATE_CATEGORY
 } from './types';
 
 // get all projects
@@ -148,6 +149,35 @@ export const getAllStars = () => async (dispatch) => {
         dispatch({ type: GET_AllSTARS, payload: items.data });
     } catch (err) {
         console.log('PROJECTS_ERROR');
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
+    }
+};
+
+
+// create new Category
+export const createCategory = (requestData) => async (dispatch) => {
+    dispatch({ type: PROJECTS_LOADING });
+    try {
+        var formData = new FormData();
+        if (requestData.picture) {
+            Object.values(requestData.picture).forEach((file) => {
+                formData.append('picture', file);
+            });
+        }
+        for (let name in requestData) {
+            formData.append(name, requestData[name]);
+        }
+        let item = await axios.post('/api/settings/categories', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        dispatch({ type: CREATE_CATEGORY });
+        return true;
+    } catch (err) {
+        console.log('PROJECTS_ERROR');
+        console.log(err);
         dispatch({ type: PROJECTS_ERROR, payload: err.response });
     }
 };

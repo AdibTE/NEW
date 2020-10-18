@@ -484,7 +484,7 @@ ul {
   color: var(--darkgrey);
 }
 
-.error-page {
+.error-page, .blank {
   display: -ms-grid;
   display: grid;
   place-items: center;
@@ -492,7 +492,7 @@ ul {
   direction: rtl;
 }
 
-.error-page h1 {
+.error-page h1, .blank h1 {
   text-align: center;
   color: var(--black);
 }

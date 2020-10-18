@@ -497,7 +497,8 @@ ul {
   color: var(--black);
 }
 
-header + section:not(#SearchBox) {
+header + section:not(#SearchBox),
+.blank {
   min-height: calc(100vh - 292px);
 }
 
