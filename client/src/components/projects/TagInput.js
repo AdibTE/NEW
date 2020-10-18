@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { v4 } from 'uuid';
 
-const TagInput = ({ formData, setFormData }) => {
+const TagInput = ({ formData, setFormData, items }) => {
     const addTag = (e) => {
         if ((e.type === 'keydown' && e.keyCode === 13 && e.target.value) || e.type === 'click') {
             e.preventDefault();
@@ -39,13 +39,7 @@ const TagInput = ({ formData, setFormData }) => {
     const [ mouseIsOver, setMouseIsOver ] = useState(false);
     const [ selectedTags, setSelectedTags ] = useState([]);
     const [ searchResult, setSearchResult ] = useState([]);
-    const tags = [
-        { title: 'جاوااسکریپت', id: v4() },
-        { title: 'پایتون', id: v4() },
-        { title: 'نود جی اس', id: v4() },
-        { title: 'دات نت کور', id: v4() },
-        { title: 'design patterns', id: v4() }
-    ];
+    const tags = items;
     const input = useRef(inputValue);
     return (
         <div

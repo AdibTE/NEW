@@ -9,6 +9,7 @@ const UserType = require('../Models/UserType');
 const Status = require('../Models/Status');
 const Star = require('../Models/Star');
 const Category = require('../Models/Category');
+const Project = require('../Models/Project');
 
 // @router POST api/settings/types
 // @desc make a user type
@@ -41,7 +42,7 @@ router.post(
             return res.json(type);
         } catch (err) {
             console.log(err);
-            res.status(500).json({ msg: 'خطای سرور!',error:err.message });
+            res.status(500).json({ msg: 'خطای سرور!', error: err.message });
         }
     }
 );
@@ -55,48 +56,42 @@ router.get('/types', async (req, res) => {
         res.json(types);
     } catch (err) {
         console.log(err);
-        res.status(500).json({ msg: 'خطای سرور!',error:err.message });
+        res.status(500).json({ msg: 'خطای سرور!', error: err.message });
     }
 });
-
 
 // @ID دسته بندی ها
 // @router POST api/settings/categories
 // @desc make a category type
 // @access Private + Admin
-router.post(
-    '/categories',
-    auth,
-    [ check('title', 'این فیلد اجباری می‌باشد').not().isEmpty() ],
-    async (req, res) => {
-        if (req.user.type != 0) {
-            return res.status(401).json({ msg: 'شما به این صفحه دسترسی ندارید!' });
-        }
-
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-
-        let { title } = req.body;
-        let ID = await idGenerator(Category);
-
-        try {
-            let cat = await Category.findOne({ title });
-            if (cat) return res.status(400).json({ msg: 'این نام قبلا ثبت شده است' });
-
-            cat = new Category({
-                title,
-                ID
-            });
-            await cat.save();
-            return res.json(cat);
-        } catch (err) {
-            console.log(err);
-            res.status(500).json({ msg: 'خطای سرور!',error:err.message });
-        }
+router.post('/categories', auth, [ check('title', 'این فیلد اجباری می‌باشد').not().isEmpty() ], async (req, res) => {
+    if (req.user.type != 0) {
+        return res.status(401).json({ msg: 'شما به این صفحه دسترسی ندارید!' });
     }
-);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    let { title } = req.body;
+    let ID = await idGenerator(Category);
+
+    try {
+        let cat = await Category.findOne({ title });
+        if (cat) return res.status(400).json({ msg: 'این نام قبلا ثبت شده است' });
+
+        cat = new Category({
+            title,
+            ID
+        });
+        await cat.save();
+        return res.json(cat);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ msg: 'خطای سرور!', error: err.message });
+    }
+});
 
 // @router GET api/settings/categories
 // @desc Get all categories
@@ -107,11 +102,9 @@ router.get('/categories', async (req, res) => {
         res.json(cats);
     } catch (err) {
         console.log(err);
-        res.status(500).json({ msg: 'خطای سرور!',error:err.message });
+        res.status(500).json({ msg: 'خطای سرور!', error: err.message });
     }
 });
-
-
 
 // @router POST api/settings/status
 // @desc make a status type
@@ -144,7 +137,7 @@ router.post(
             return res.json(state);
         } catch (err) {
             console.log(err.message);
-            res.status(500).json({ msg: 'خطای سرور!',error:err.message });
+            res.status(500).json({ msg: 'خطای سرور!', error: err.message });
         }
     }
 );
@@ -152,17 +145,15 @@ router.post(
 // @router GET api/settings/status
 // @desc Get all project status
 // @access Private
-router.get('/status',auth, async (req, res) => {
+router.get('/status', auth, async (req, res) => {
     let all = await Status.find({});
     try {
         res.json(all);
     } catch (err) {
         console.log(err);
-        res.status(500).json({ msg: 'خطای سرور!',error:err.message });
+        res.status(500).json({ msg: 'خطای سرور!', error: err.message });
     }
 });
-
-
 
 // @router POST api/settings/stars
 // @desc make a star
@@ -197,7 +188,7 @@ router.post(
             return res.json(star);
         } catch (err) {
             console.log(err.message);
-            res.status(500).json({ msg: 'خطای سرور!',error:err.message });
+            res.status(500).json({ msg: 'خطای سرور!', error: err.message });
         }
     }
 );
@@ -205,13 +196,31 @@ router.post(
 // @router GET api/settings/stars
 // @desc Get all stars
 // @access Private
-router.get('/stars',auth, async (req, res) => {
+router.get('/stars', auth, async (req, res) => {
     let all = await Star.find({});
     try {
         res.json(all);
     } catch (err) {
         console.log(err);
-        res.status(500).json({ msg: 'خطای سرور!',error:err.message });
+        res.status(500).json({ msg: 'خطای سرور!', error: err.message });
+    }
+});
+
+// @router GET api/settings/tags
+// @desc Get all tags
+// @access Private
+router.get('/tags', auth, async (req, res) => {
+    try {
+        let all = await Project.find({}).select('tags');
+        // console.log(all);
+        let response = [];
+        all.forEach((obj) => {
+            response.push(obj.tags);
+        });
+        res.json([].concat.apply([], response));
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ msg: 'خطای سرور!', error: err.message });
     }
 });
 

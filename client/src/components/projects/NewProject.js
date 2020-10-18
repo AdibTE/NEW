@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { clearErrors, getCategories, createProject, getAllStars } from '../../actions/projectActions';
+import { clearErrors, getCategories, createProject, getAllStars, getTags } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
 import Spinner from '../layout/Spinner';
 import TagInput from './TagInput';
@@ -14,13 +14,14 @@ const NewProject = ({
     clearErrors,
     setAlert,
     getCategories,
+    getTags,
     getAllStars,
     createProject
 }) => {
     let history = useHistory();
     const initialState = {
-        title: 'تست برچسب دار',
-        description: 'توضیحات تست برچسب دار',
+        title: '',
+        description: '',
         category: '0',
         starsNeed: '0',
         tags: null,
@@ -30,6 +31,7 @@ const NewProject = ({
     };
     const [ formData, setFormData ] = useState(initialState);
     const [ fileInputLabel, setfileInputLabel ] = useState('انتخاب فایل');
+    const [ tagItems, setTagItems ] = useState([]);
 
     const changeHandler = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -65,13 +67,16 @@ const NewProject = ({
     };
     useEffect(
         () => {
-            if (error) {
-                setAlert(error, 'danger');
-                clearErrors();
-            } else {
-                getCategories();
-                getAllStars();
-            }
+            (async function(){
+                if (error) {
+                    // clearErrors();
+                    setAlert(error, 'danger');
+                } else {
+                    getCategories();
+                    getAllStars();
+                    setTagItems(await getTags());
+                }
+            })()
         },
         // eslint-disable-next-line
         [ error ]
@@ -129,7 +134,7 @@ const NewProject = ({
                         </div>
                         <div className='input'>
                             <label>برچسب ها</label>
-                            <TagInput formData={formData} setFormData={setFormData} />
+                            <TagInput formData={formData} setFormData={setFormData} items={tagItems} />
                         </div>
                         <div className='input'>
                             <label>کیفیت پروژه</label>
@@ -175,6 +180,6 @@ const mapStateToProps = (state) => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps, { clearErrors, setAlert, getCategories, getAllStars, createProject })(
+export default connect(mapStateToProps, { clearErrors, setAlert, getCategories, getAllStars, getTags, createProject })(
     NewProject
 );

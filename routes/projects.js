@@ -43,7 +43,7 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        let { title, description, category, starsNeed, price, forceTime, attachments,tags } = req.body;
+        let { title, description, category, starsNeed, price, forceTime, attachments, tags } = req.body;
 
         try {
             let _star = await Star.findOne({ starCount: starsNeed });
@@ -85,7 +85,7 @@ router.post(
                 starsNeed,
                 price,
                 forceTime,
-                tags:JSON.parse(tags),
+                tags: JSON.parse(tags),
                 attachments: attachmentFileNames,
                 employer: req.user
             });
@@ -498,6 +498,23 @@ router.get('/:id', async (req, res) => {
             { path: 'applicant', select: 'name' }
         ]);
         if (!project) return res.status(404).json({ msg: 'این صفحه هنوز وجود ندارد!' });
+        return res.json(project);
+    } catch (err) {
+        console.log('ERROR------', err);
+        return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
+    }
+});
+
+// @router GET api/projects/search
+// @desc Search
+// @access Public
+router.get('/search', async (req, res) => {
+    try {
+        let query = req.q;
+        console.log(query)
+        // let project = await Project.find({ title: { $text: query } });
+        console.log(project)
+        if (!project) return res.status(404).json({ msg: 'هیچ پروژه ای پیدا نشد!' });
         return res.json(project);
     } catch (err) {
         console.log('ERROR------', err);

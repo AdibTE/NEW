@@ -10,7 +10,9 @@ import {
     DELETE_PROJECT,
     ADD_PROJECT,
     PAY_PROJECT,
-    GET_AllSTARS
+    GET_AllSTARS,
+    GET_AllTAGS,
+    SEARCH
 } from './types';
 
 // get all projects
@@ -63,7 +65,7 @@ export const createProject = (requestData) => async (dispatch) => {
             });
         }
         for (let name in requestData) {
-            if(name === "tags"){
+            if (name === 'tags') {
                 formData.append('tags', JSON.stringify(requestData.tags));
             } else {
                 formData.append(name, requestData[name]);
@@ -146,6 +148,36 @@ export const getAllStars = () => async (dispatch) => {
     try {
         let items = await axios.get('/api/settings/stars');
         dispatch({ type: GET_AllSTARS, payload: items.data });
+    } catch (err) {
+        console.log('PROJECTS_ERROR');
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
+    }
+};
+
+// get all tags
+export const getTags = () => async (dispatch) => {
+    dispatch({ type: PROJECTS_LOADING });
+
+    try {
+        let items = await axios.get('/api/settings/tags');
+        dispatch({ type: GET_AllTAGS });
+        return items.data;
+    } catch (err) {
+        console.log('PROJECTS_ERROR');
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
+    }
+};
+
+// search
+export const search = (query, type = 'text') => async (dispatch) => {
+    dispatch({ type: PROJECTS_LOADING });
+
+    try {
+        console.log(query)
+        let items = await axios.get('/api/projects/search?q='+query);
+        dispatch({ type: SEARCH });
+        console.log(items.data)
+        return items.data;
     } catch (err) {
         console.log('PROJECTS_ERROR');
         dispatch({ type: PROJECTS_ERROR, payload: err.response });

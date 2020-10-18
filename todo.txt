@@ -7,15 +7,15 @@
     usertype
 }
 
-*** TODO: [Server] more on categories and related
 ** TODO: [React + Server + design] applicant sending project files to employer
+* TODO: [React + Server] category and tag route queries
 * TODO: [Server] sending email on register and forget password
 * TODO: [React + Design] profile Page
 * TODO: [Server + React] Search querys (character and category)
 * TODO: [Server + React] pagination
 * TODO: [React + Desgin + Server] project managment page for both admin and employer
 * TODO: [React] confirm for project deleting
-* TODO: [React] forget password page
+* TODO: [Server] forget password
 * TODO: [Server] remove user projects array on delete
 * TODO: [React] stars optimization in profile link
 * TODO: [React] bug on project page filters ==tip==> make them radio input like register

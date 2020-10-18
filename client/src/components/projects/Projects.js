@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getProjects, clearErrors, getUserProjects } from '../../actions/projectActions';
+import { getProjects, clearErrors, getUserProjects, search } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
 
 import Spinner from '../layout/Spinner';
@@ -13,11 +13,13 @@ const Projects = ({
     auth: { user },
     getProjects,
     clearErrors,
-    getUserProjects
+    getUserProjects,
+    search
 }) => {
     const [ filter, setFilter ] = useState('all');
     const [ justLoaded, setJustLoaded ] = useState(true);
     const [ userType, setUserType ] = useState(undefined);
+    const [ searchString, setSearchString ] = useState('');
 
     let filterHandler = useCallback(
         (e) => {
@@ -32,6 +34,14 @@ const Projects = ({
         // eslint-disable-next-line
         [ filter ]
     );
+    const searchHandler = (e) => {
+        e.preventDefault();
+        // console.log(searchString);
+        search(searchString);
+    };
+    const onChange = (e) => {
+        setSearchString(e.target.value);
+    };
     useEffect(
         () => {
             filterHandler();
@@ -51,8 +61,13 @@ const Projects = ({
         return (
             <Fragment>
                 <section id='SearchBox' className='container'>
-                    <form className='search-box'>
-                        <input type='text' placeholder='جستجو در میان هزاران پروژه...' />
+                    <form className='search-box' onSubmit={searchHandler}>
+                        <input
+                            type='text'
+                            value={searchString}
+                            onChange={onChange}
+                            placeholder='جستجو در میان هزاران پروژه...'
+                        />
                         <button>
                             <img src='/assets/images/icons/search-24px.svg' alt='' />
                         </button>
@@ -122,4 +137,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps, { getProjects, clearErrors, getUserProjects })(Projects);
+export default connect(mapStateToProps, { getProjects, clearErrors, getUserProjects, search })(Projects);
