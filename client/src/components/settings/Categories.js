@@ -11,17 +11,18 @@ const Categories = ({
 	projects: { loading, error, categories }
 }) => {
 	useEffect(
-		() => {
-			if (error) {
-				setAlert(error, 'danger');
+        () => {
+            if (error) {
+                setAlert(error, 'danger');
 				clearErrors();
 			} else {
-				getCategories();
-			}
+                getCategories();
+            }
 		},
 		// eslint-disable-next-line
 		[ error ]
-	);
+    );
+    
 	return loading && categories ? (
 		<div>
 			<table class="table">

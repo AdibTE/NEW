@@ -87,13 +87,7 @@ router.post(
 			let cat = await Category.findOne({ title });
 			if (cat) return res.status(400).json({ msg: 'این عنوان قبلا ثبت شده است' });
 
-            attachmentFileNames = upload(req.files.picture,`/categories/`, title)
-            
-			// req.files.picture.mv(uploadDir + `/categories/` + title, (err) => {
-			// 	if (err) {
-			// 		return res.status(500).json({ msg: 'خطایی در آپلود عکس رخ داد!' });
-			// 	}
-			// });
+			upload(req.files.picture, `/categories/`, title);
 
 			cat = new Category({
 				title,
