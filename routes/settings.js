@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs');
 const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
+const { uploadDir, upload } = require('../middleware/uploadHelper');
 const idGenerator = require('../middleware/idGenerator');
 
 // Models
@@ -64,34 +66,43 @@ router.get('/types', async (req, res) => {
 // @router POST api/settings/categories
 // @desc make a category type
 // @access Private + Admin
-router.post('/categories', auth, [ check('title', 'این فیلد اجباری می‌باشد').not().isEmpty() ], async (req, res) => {
-    if (req.user.type != 0) {
-        return res.status(401).json({ msg: 'شما به این صفحه دسترسی ندارید!' });
-    }
+router.post(
+	'/categories',
+	auth,
+	[ check('title', 'لطفا یک عنوان وارد نمایید').not().isEmpty() ],
+	[ check('picture', 'لطفا یک عکس برای دسته‌بندی انتخاب نمایید').not().isEmpty() ],
+	async (req, res) => {
+		if (req.user.type != 0) {
+			return res.status(401).json({ msg: 'شما به این صفحه دسترسی ندارید!' });
+		}
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ errors: errors.array() });
+		}
 
-    let { title } = req.body;
-    let ID = await idGenerator(Category);
+		let { title } = req.body;
+		let ID = await idGenerator(Category);
 
-    try {
-        let cat = await Category.findOne({ title });
-        if (cat) return res.status(400).json({ msg: 'این نام قبلا ثبت شده است' });
+		try {
+			let cat = await Category.findOne({ title });
+			if (cat) return res.status(400).json({ msg: 'این عنوان قبلا ثبت شده است' });
 
-        cat = new Category({
-            title,
-            ID
-        });
-        await cat.save();
-        return res.json(cat);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ msg: 'خطای سرور!', error: err.message });
-    }
-});
+			upload(req.files.picture, `/categories/`, title);
+
+			cat = new Category({
+				title,
+				ID,
+				picture: title
+			});
+			await cat.save();
+			return res.json(cat);
+		} catch (err) {
+			console.log(err);
+			res.status(500).json({ msg: 'خطای سرور!', error: err.message });
+		}
+	}
+);
 
 // @router GET api/settings/categories
 // @desc Get all categories
@@ -197,6 +208,7 @@ router.post(
 // @desc Get all stars
 // @access Private
 router.get('/stars', auth, async (req, res) => {
+
     let all = await Star.find({});
     try {
         res.json(all);
@@ -205,7 +217,6 @@ router.get('/stars', auth, async (req, res) => {
         res.status(500).json({ msg: 'خطای سرور!', error: err.message });
     }
 });
-
 // @router GET api/settings/tags
 // @desc Get all tags
 // @access Private
@@ -222,6 +233,13 @@ router.get('/tags', auth, async (req, res) => {
         console.log(err);
         res.status(500).json({ msg: 'خطای سرور!', error: err.message });
     }
+	let all = await Star.find({});
+	try {
+		res.json(all);
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({ msg: 'خطای سرور!', error: err.message });
+	}
 });
 
 module.exports = router;

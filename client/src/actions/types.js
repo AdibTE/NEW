@@ -33,3 +33,6 @@ export const GET_AllTAGS = 'GET_AllTAGS';
 export const ADD_PROJECT = 'ADD_PROJECT';
 export const PAY_PROJECT = 'PAY_PROJECT';
 export const SEARCH = 'SEARCH';
+
+
+export const CREATE_CATEGORY = 'CREATE_CATEGORY';
