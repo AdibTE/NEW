@@ -88,12 +88,12 @@ router.post(
 			let cat = await Category.findOne({ title });
 			if (cat) return res.status(400).json({ msg: 'این عنوان قبلا ثبت شده است' });
 
-			upload(req.files.picture, `/categories/`, title);
+			let picName = upload(req.files.picture, `/categories/`, title);
 
 			cat = new Category({
 				title,
 				ID,
-				picture: title
+				picture: picName
 			});
 			await cat.save();
 			return res.json(cat);
@@ -233,13 +233,6 @@ router.get('/tags', auth, async (req, res) => {
         console.log(err);
         res.status(500).json({ msg: 'خطای سرور!', error: err.message });
     }
-	let all = await Star.find({});
-	try {
-		res.json(all);
-	} catch (err) {
-		console.log(err);
-		res.status(500).json({ msg: 'خطای سرور!', error: err.message });
-	}
 });
 
 module.exports = router;

@@ -4,8 +4,8 @@ footer {
   padding: 1.5rem;
   line-height: 12px;
   color: var(--black);
-  -webkit-box-shadow: 0 5px 20px var(--grey) inset;
-          box-shadow: 0 5px 20px var(--grey) inset;
+  border-top: 1px solid var(--grey);
+  background: #f3f3f3;
 }
 
 footer img {
@@ -338,6 +338,57 @@ header nav .nav-logo a img {
   }
 }
 
+table {
+  width: 100%;
+  direction: rtl;
+  padding: 2rem;
+  background: var(--light2);
+  -webkit-box-shadow: 0 0 10px var(--blue-shadow), 0 20px 50px var(--blue-shadow);
+          box-shadow: 0 0 10px var(--blue-shadow), 0 20px 50px var(--blue-shadow);
+  padding: 2rem;
+  border-radius: var(--radius);
+  background-color: #fff;
+  border-collapse: collapse;
+}
+
+table td,
+table th {
+  text-align: center;
+  color: var(--black);
+  padding: 1rem;
+}
+
+table thead tr th {
+  background: var(--blue);
+  color: white;
+}
+
+table thead tr th:first-of-type {
+  border-radius: 0 var(--radius) 0 0;
+}
+
+table thead tr th:last-of-type {
+  border-radius: var(--radius) 0 0 0;
+}
+
+table tbody tr {
+  border-bottom: 1px solid var(--lightgrey);
+}
+
+table .thumb {
+  width: 50px;
+  height: 50px;
+}
+
+table tr {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}
+
+table tr td:last-of-type a:first-of-type {
+  margin-left: 1rem;
+}
+
 @font-face {
   font-family: 'IranSans';
   src: url("../../fonts/IRANSansWeb.eot");
@@ -499,6 +550,10 @@ ul {
 
 header + section:not(#SearchBox) {
   min-height: calc(100vh - 292px);
+}
+
+#Categories {
+  min-height: calc(100vh - 522px);
 }
 
 /* Transition Group */

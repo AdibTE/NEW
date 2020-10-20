@@ -1,6 +1,7 @@
 @import './footer';
 @import './header';
 @import "./keyframes";
+@import "./tables";
 
 @font-face {
     font-family: 'IranSans';
@@ -142,6 +143,10 @@ ul {
 //fix min-height of all pages section
 header + section:not(#SearchBox) {
     min-height: calc(100vh - 292px);
+}
+
+#Categories{
+    min-height: calc(100vh - 522px);
 }
 
 /* Transition Group */

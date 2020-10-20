@@ -11,17 +11,18 @@ module.exports = {
         files = !files.length ? [ files ] : files;
 		files.forEach((file) => {
             let filename = fileName ?? `${Date.now()}-${file.name}`;
-            let fileExtenstion = file.name.split(".")[file.name.split(".").length - 1];
-            returnFileNames.push(filename);
-
+			let fileExtenstion = file.name.split(".")[file.name.split(".").length - 1];
+			let finalName = ud + path  + filename + "." + fileExtenstion;
+			
+            returnFileNames.push(filename + "." + fileExtenstion);
 			let fileError = false;
-			file.mv(ud + path  + filename + "." + fileExtenstion, (err) => {
+			file.mv(finalName, (err) => {
 				if (err) {
 					fileError = true;
 				}
 			});
 			if (fileError) return res.status(500).json({ msg: 'خطایی در آپلود فایل رخ داد!' });
 		});
-		return returnFileNames;
+		return returnFileNames.length == 1 ? returnFileNames[0] : returnFileNames;
 	}
 };

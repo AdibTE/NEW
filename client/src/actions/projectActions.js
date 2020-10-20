@@ -199,7 +199,7 @@ export const createCategory = (requestData) => async (dispatch) => {
         for (let name in requestData) {
             formData.append(name, requestData[name]);
         }
-        let item = await axios.post('/api/settings/categories', formData, {
+        await axios.post('/api/settings/categories', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
