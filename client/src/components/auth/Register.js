@@ -21,6 +21,7 @@ const Register = ({ auth: { isAuthenticated, error }, clearErrors, register, set
         () => {
             if (isAuthenticated) {
                 query.get('returnURL') ? history.push(query.get('returnURL')) : history.push('/');
+                setAlert('خوش آمدید', 'success');
             } else if (error) {
                 setAlert(error, 'danger');
                 clearErrors();
