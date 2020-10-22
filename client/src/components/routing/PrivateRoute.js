@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import { loadUser } from '../../actions/authActions';
+import Spinner from '../layout/Spinner';
+import Error from '../pages/Error';
 
 const PrivateRoute = ({
 	auth: { isAuthenticated, loading, user },
@@ -12,17 +14,21 @@ const PrivateRoute = ({
 	...rest
 }) => {
 	useEffect(() => {
-		loadUser();
+		(async () => {
+			await loadUser();
+		})();
 		// eslint-disable-next-line
 	}, []);
-	return (
+	return loading ? (
+		<Spinner />
+	) : (
 		<Route
 			{...rest}
 			render={(props) =>
-				!loading && !isAuthenticated ? (
+				authorize != null && isAuthenticated && user.type !== authorize ? (
+					<Error  content="Restricted!"/>
+				) : !isAuthenticated ? (
 					<Redirect to={'/login?returnURL=' + path} />
-				) : authorize && user.type !== authorize ? (
-					<Redirect to={'/restricted'} content="Restricted!" />
 				) : (
 					<Component {...props} />
 				)}
