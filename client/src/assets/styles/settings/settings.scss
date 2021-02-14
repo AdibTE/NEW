@@ -1,0 +1,37 @@
+.settings-container {
+    direction: rtl;
+    display: block;
+    min-height: calc(100vh - 200px);
+    padding: 3rem;
+    h3 {
+        color: var(--black);
+        font-size: 32px;
+        text-align: center;
+        display: block;
+        padding-bottom: 3rem;
+    }
+    .wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        align-items: baseline;
+        grid-gap: 2rem;
+        .setting {
+            a {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: var(--grey);
+                height: 100px;
+                width: 100%;
+                color: var(--blue);
+                border: 1px solid transparent;
+                transition: .3s ease;
+                border-radius: var(--radius);
+                &:hover {
+                    background-color: var(--lightgrey);
+                    border: 1px solid var(--grey);
+                }
+            }
+        }
+    }
+}

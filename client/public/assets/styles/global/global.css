@@ -535,7 +535,8 @@ ul {
   color: var(--darkgrey);
 }
 
-.error-page, .blank {
+.error-page,
+.blank {
   display: -ms-grid;
   display: grid;
   place-items: center;
@@ -543,17 +544,15 @@ ul {
   direction: rtl;
 }
 
-.error-page h1, .blank h1 {
+.error-page h1,
+.blank h1 {
   text-align: center;
   color: var(--black);
 }
 
-header + section:not(#SearchBox) {
+header + section:not(#SearchBox),
+section#Login {
   min-height: calc(100vh - 292px);
-}
-
-#Categories {
-  min-height: calc(100vh - 522px);
 }
 
 /* Transition Group */

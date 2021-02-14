@@ -22,19 +22,25 @@ const NewProject = ({
     const initialState = {
         title: '',
         description: '',
-        category: '0',
-        starsNeed: '0',
+        category: '',
+        starsNeed: '',
         tags: null,
         // price: '',
         attachments: null,
-        forceTime: '2020-10-15'
+        forceTime: '2021-10-15'
     };
     const [ formData, setFormData ] = useState(initialState);
     const [ fileInputLabel, setfileInputLabel ] = useState('انتخاب فایل');
     const [ tagItems, setTagItems ] = useState([]);
+    const [ stars, setStars ] = useState([]);
 
     const changeHandler = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        if(e.target.name === "category"){
+            setStars(allStars.filter((str)=>{
+                return str.category.ID === Number(e.target.value)
+            }))
+        }
     };
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -43,7 +49,8 @@ const NewProject = ({
             formData.title === '' ||
             formData.description === '' ||
             formData.category === '' ||
-            formData.forceTime === ''
+            formData.forceTime === '' ||
+            formData.starsNeed === ''
         ) {
             setAlert('لطفا همه فیلد ها را پر کنید', 'danger');
         } else if (new Date(formData.forceTime) < new Date()) {
@@ -142,9 +149,9 @@ const NewProject = ({
                                 <option value='' disabled>
                                     -- انتخاب کنید --
                                 </option>
-                                {allStars.map((star) => {
+                                {stars.map((star) => {
                                     return (
-                                        <option value={star.starCount} key={star.starCount}>
+                                        <option value={star.starCount} key={star.category.ID + star.starCount}>
                                             {star.starCount} ستاره - {star.price} تومان
                                         </option>
                                     );

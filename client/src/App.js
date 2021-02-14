@@ -16,6 +16,8 @@ import NewProject from './components/projects/NewProject';
 import Settings from './components/settings/Settings';
 import Categories from './components/settings/Categories';
 import NewCategory from './components/settings/NewCategory';
+import Stars from './components/settings/Stars';
+import NewStar from './components/settings/NewStar';
 
 import Alerts from './components/layout/Alerts';
 import Error from './components/pages/Error';
@@ -48,6 +50,8 @@ const App = () => {
                                 <PrivateRoute exact path='/settings' component={Settings} authorize={0} />
                                 <PrivateRoute exact path='/settings/categories' component={Categories} authorize={0} />
                                 <PrivateRoute exact path='/settings/categories/create' component={NewCategory} authorize={0} />
+                                <PrivateRoute exact path='/settings/stars' component={Stars} authorize={0} />
+                                <PrivateRoute exact path='/settings/stars/create' component={NewStar} authorize={0} />
                                 <CustomRoute exact path='/about' component={About} />
                                 <CustomRoute exact path='/register' component={Register} />
                                 <CustomRoute exact path='/login' component={Login} />

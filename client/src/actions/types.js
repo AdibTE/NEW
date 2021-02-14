@@ -36,3 +36,4 @@ export const SEARCH = 'SEARCH';
 
 
 export const CREATE_CATEGORY = 'CREATE_CATEGORY';
+export const CREATE_STAR = 'CREATE_STAR';

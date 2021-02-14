@@ -30,7 +30,7 @@ section#SearchBox {
             padding: 0 1rem 0 2rem;
             color: var(--black);
         }
-        select + i {
+        select+i {
             transform: translateX(23px);
             display: flex;
             align-items: center;
@@ -89,13 +89,14 @@ section#SearchBox {
             font-size: 12px;
             display: flex;
             align-items: center;
+            margin-left: 1rem;
             i {
                 margin-left: .5rem;
                 color: var(--grey);
                 transition: .3s;
             }
-            &:first-of-type {
-                margin-left: 1rem;
+            &:last-of-type {
+                margin-left: 0;
             }
             &:hover:not(.active) {
                 i {
@@ -165,6 +166,7 @@ section#Categories {
 section#Projects {
     direction: rtl;
     margin-bottom: 5rem;
+    min-height: 300px;
     .project-list {
         column-count: 2;
         .project-item {

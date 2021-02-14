@@ -5,16 +5,19 @@ const starSchema = mongoose.Schema(
         starCount: {
             type: Number,
             required: true,
-            unique: true
         },
         point: {
             type: Number,
             required: true,
-            unique: true
         },
         price: {
             type: Number,
             required: true,
+        },
+        category: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Category',
+            require: true
         }
     },
     { versionKey: false }

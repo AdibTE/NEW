@@ -1,11 +1,21 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import '../../assets/styles/settings/settings.css';
 
 const Settings = () => {
-    return (
-        <div>
-            <a href="settings/categories">دسته بندی ها</a>
-        </div>
-    )
-}
+	return (
+		<section className="settings-container container">
+			<h3>تنظیمات</h3>
+			<div className="wrapper">
+				<div className="setting">
+					<Link to="settings/categories">دسته بندی ها</Link>
+				</div>
+				<div className="setting">
+					<Link to="settings/stars">مدیریت ستاره ها</Link>
+				</div>
+			</div>
+		</section>
+	);
+};
 
-export default Settings
+export default Settings;

@@ -1,0 +1,51 @@
+.settings-container {
+  direction: rtl;
+  display: block;
+  min-height: calc(100vh - 200px);
+  padding: 3rem;
+}
+
+.settings-container h3 {
+  color: var(--black);
+  font-size: 32px;
+  text-align: center;
+  display: block;
+  padding-bottom: 3rem;
+}
+
+.settings-container .wrapper {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  grid-gap: 2rem;
+}
+
+.settings-container .wrapper .setting a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: var(--grey);
+  height: 100px;
+  width: 100%;
+  color: var(--blue);
+  border: 1px solid transparent;
+  -webkit-transition: .3s ease;
+  transition: .3s ease;
+  border-radius: var(--radius);
+}
+
+.settings-container .wrapper .setting a:hover {
+  background-color: var(--lightgrey);
+  border: 1px solid var(--grey);
+}
+/*# sourceMappingURL=settings.css.map */

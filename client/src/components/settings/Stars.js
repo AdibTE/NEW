@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { clearErrors, getCategories } from '../../actions/projectActions';
+import { clearErrors, getAllStars } from '../../actions/projectActions';
 import { setAlert } from '../../actions/alertActions';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -30,44 +30,44 @@ const Div = styled.div`
 		}
 	}
 `;
-const Categories = ({ setAlert, clearErrors, getCategories, auth: { user }, projects: { error, categories } }) => {
+const Stars = ({ setAlert, clearErrors,getAllStars , auth: { user }, projects: { error, allStars } }) => {
 	useEffect(
 		() => {
 			if (error) {
 				setAlert(error, 'danger');
 				clearErrors();
 			}
-			getCategories();
+			getAllStars();
 		},
 		// eslint-disable-next-line
-		[ error, categories ]
+		[ error, allStars ]
 	);
 
 	return user.type !== 0 ? (
 		<Error type={401} />
-	) : categories ? (
+	) : allStars ? (
 		<Div>
 			<div className="panel-heading">
-				<h3>دسته‌بندی ها</h3>
-				<Link to="categories/create">ایجاد دسته‌بندی</Link>
+				<h3>مدیریت ستاره‌ها</h3>
+				<Link to="stars/create">ایجاد ستاره</Link>
 			</div>
 			<table>
 				<thead>
 					<tr>
-						<th>آیدی</th>
-						<th>عنوان</th>
-						<th>تصویر</th>
+						<th>دسته‌بندی</th>
+						<th>عدد</th>
+						<th>امتیاز لازم</th>
+						<th>قیمت</th>
 						<th>اقدامات</th>
 					</tr>
 				</thead>
 				<tbody>
-					{categories.map((cat) => (
-						<tr key={cat.ID}>
-							<td>{cat.ID}</td>
-							<td>{cat.title}</td>
-							<td>
-								<img className="thumb" src={'/uploads/categories/' + cat.picture} alt={cat.title} />
-							</td>
+					{allStars.map((star) => (
+						<tr key={star._id}>
+							<td>{star.category.title}</td>
+							<td>{star.starCount}</td>
+							<td>{star.point}</td>
+							<td>{star.price}</td>
 							<td>
 								<a href="#?">
 									<i className="fas fa-edit" />
@@ -91,4 +91,4 @@ const mapStateToProps = (state) => ({
 	auth: state.auth
 });
 
-export default connect(mapStateToProps, { getCategories, setAlert, clearErrors })(Categories);
+export default connect(mapStateToProps, { getAllStars, setAlert, clearErrors })(Stars);

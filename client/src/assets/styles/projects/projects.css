@@ -138,6 +138,7 @@ section#SearchBox .filter-box span {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  margin-left: 1rem;
 }
 
 section#SearchBox .filter-box span i {
@@ -147,8 +148,8 @@ section#SearchBox .filter-box span i {
   transition: .3s;
 }
 
-section#SearchBox .filter-box span:first-of-type {
-  margin-left: 1rem;
+section#SearchBox .filter-box span:last-of-type {
+  margin-left: 0;
 }
 
 section#SearchBox .filter-box span:hover:not(.active) {
@@ -230,6 +231,7 @@ section#Categories .categories .category:hover:after {
 section#Projects {
   direction: rtl;
   margin-bottom: 5rem;
+  min-height: 300px;
 }
 
 section#Projects .project-list {

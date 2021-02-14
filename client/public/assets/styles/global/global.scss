@@ -2,19 +2,16 @@
 @import './header';
 @import "./keyframes";
 @import "./tables";
-
 @font-face {
     font-family: 'IranSans';
     src: url("../../fonts/IRANSansWeb.eot");
-    src: url("../../fonts/IRANSansWeb.woff2") format("woff2"), url("../../fonts/IRANSansWeb.woff") format("woff"),
-        url("../../fonts/IRANSansWeb.ttf") format("truetype");
+    src: url("../../fonts/IRANSansWeb.woff2") format("woff2"), url("../../fonts/IRANSansWeb.woff") format("woff"), url("../../fonts/IRANSansWeb.ttf") format("truetype");
 }
+
 @font-face {
     font-family: 'IranSans';
     src: url("../../fonts/IRANSansWeb_Bold.eot");
-    src: url("../../fonts/IRANSansWeb_Bold.ttf") format("woff2"),
-        url("../../fonts/IRANSansWeb_Bold.woff") format("woff"),
-        url("../../fonts/IRANSansWeb_Bold.woff2") format("truetype");
+    src: url("../../fonts/IRANSansWeb_Bold.ttf") format("woff2"), url("../../fonts/IRANSansWeb_Bold.woff") format("woff"), url("../../fonts/IRANSansWeb_Bold.woff2") format("truetype");
     font-weight: bold;
 }
 
@@ -100,7 +97,7 @@ ul {
         box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1), 0 5px 20px rgba(0, 0, 0, 0.05);
         animation: alertIn .8s ease 1 forwards;
         position: relative;
-        > i {
+        >i {
             margin-left: 1rem;
             width: 30px;
             height: 30px;
@@ -129,7 +126,8 @@ ul {
     }
 }
 
-.error-page,.blank {
+.error-page,
+.blank {
     display: grid;
     place-items: center;
     min-height: calc(100vh - 195px);
@@ -141,21 +139,20 @@ ul {
 }
 
 //fix min-height of all pages section
-header + section:not(#SearchBox) {
+header+section:not(#SearchBox),
+section#Login {
     min-height: calc(100vh - 292px);
 }
 
-#Categories{
-    min-height: calc(100vh - 522px);
-}
 
 /* Transition Group */
+
 .tg-enter {
-    opacity:0;
+    opacity: 0;
 }
 
-.tg-enter-active{
-    opacity:1;
+.tg-enter-active {
+    opacity: 1;
     transition: opacity .5s ease-in;
 }
 
@@ -169,12 +166,12 @@ header + section:not(#SearchBox) {
 }
 
 .tg-appear {
-  opacity: 0.01;
+    opacity: 0.01;
 }
 
 .tg-appear.tg-appear-active {
-  opacity: 1;
-  transition: opacity .5s ease-in;
+    opacity: 1;
+    transition: opacity .5s ease-in;
 }
 
 @import './responsive';

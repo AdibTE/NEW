@@ -13,7 +13,8 @@ import {
     GET_AllSTARS,
     GET_AllTAGS,
     SEARCH,
-    CREATE_CATEGORY
+    CREATE_CATEGORY,
+    CREATE_STAR
 } from './types';
 
 // get all projects
@@ -35,6 +36,19 @@ export const getUserProjects = () => async (dispatch) => {
 
     try {
         let items = await axios.get('/api/projects/me');
+        dispatch({ type: GET_PROJECTS, payload: items.data });
+    } catch (err) {
+        console.log('PROJECTS_ERROR');
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
+    }
+};
+
+// get all user specefic projects
+export const getMyProjects = () => async (dispatch) => {
+    dispatch({ type: PROJECTS_LOADING });
+
+    try {
+        let items = await axios.get('/api/projects/my');
         dispatch({ type: GET_PROJECTS, payload: items.data });
     } catch (err) {
         console.log('PROJECTS_ERROR');
@@ -208,6 +222,22 @@ export const createCategory = (requestData) => async (dispatch) => {
         dispatch({ type: CREATE_CATEGORY });
         return true;
     } catch (err) {
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
+        console.log('PROJECTS_ERROR');
+        console.log(err);
+    }
+}
+
+// create new Star
+export const createStar = (requestData) => async (dispatch) => {
+    dispatch({ type: PROJECTS_LOADING });
+    try {
+        console.log(requestData)
+        await axios.post('/api/settings/star', requestData);
+        dispatch({ type: CREATE_STAR });
+        return true;
+    } catch (err) {
+        dispatch({ type: PROJECTS_ERROR, payload: err.response });
         console.log('PROJECTS_ERROR');
         console.log(err);
     }

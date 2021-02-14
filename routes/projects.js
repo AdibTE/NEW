@@ -23,84 +23,84 @@ const Star = require('../Models/Star');
 // @step 100
 // @todo remove default forceTime + attachment handling
 router.post(
-    '/create',
-    auth,
-    [ check('title', 'فیلد عنوان اجبارری می‌باشد').not().isEmpty() ],
-    [ check('description', 'فیلد توضیحات اجبارری می‌باشد').not().isEmpty() ],
-    [ check('category', 'فیلد دسته‌بندی اجبارری می‌باشد').not().isEmpty() ],
-    [ check('starsNeed', 'فیلد کیفیت پروژه اجبارری می‌باشد').not().isEmpty() ],
-    [ check('starsNeed', 'مقدار ستاره باید عدد باشد').isInt() ],
-    // [ check('price', 'فیلد عنوان اجبارری می‌باشد').not().isEmpty() ],
-    // [ check('price', 'قیمت پروژه باید عدد باشد').isInt() ],
-    [ check('forceTime', 'فیلد زمان تحویل اجبارری می‌باشد').not().isEmpty() ],
-    async (req, res) => {
-        if (req.user.type == 2) {
-            return res.status(401).json({ msg: 'شما به این صفحه دسترسی ندارید!' });
-        }
+	'/create',
+	auth,
+	[ check('title', 'فیلد عنوان اجبارری می‌باشد').not().isEmpty() ],
+	[ check('description', 'فیلد توضیحات اجبارری می‌باشد').not().isEmpty() ],
+	[ check('category', 'فیلد دسته‌بندی اجبارری می‌باشد').not().isEmpty() ],
+	[ check('starsNeed', 'فیلد کیفیت پروژه اجبارری می‌باشد').not().isEmpty() ],
+	[ check('starsNeed', 'مقدار ستاره باید عدد باشد').isInt() ],
+	// [ check('price', 'فیلد عنوان اجبارری می‌باشد').not().isEmpty() ],
+	// [ check('price', 'قیمت پروژه باید عدد باشد').isInt() ],
+	[ check('forceTime', 'فیلد زمان تحویل اجبارری می‌باشد').not().isEmpty() ],
+	async (req, res) => {
+		if (req.user.type == 2) {
+			return res.status(401).json({ msg: 'شما به این صفحه دسترسی ندارید!' });
+		}
 
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ errors: errors.array() });
+		}
 
-        let { title, description, category, starsNeed, price, forceTime, attachments, tags } = req.body;
+		let { title, description, category, starsNeed, price, forceTime, attachments, tags } = req.body;
 
-        try {
-            let _star = await Star.findOne({ starCount: starsNeed });
-            if (!_star) return res.status(403).json({ msg: 'تعداد ستاره های انتخاب شده مجاز نمی‌باشد!' });
+		try {
+			let _category = await Category.findOne({ ID: category });
+			if (!_category) return res.status(403).json({ msg: 'دسته‌بندی انتخاب شده مجاز نمی‌باشد!' });
 
-            price = price ? price : _star.price;
+			let _star = await Star.findOne({ starCount: starsNeed, category: _category });
+			if (!_star) return res.status(403).json({ msg: 'ستاره انتخاب شده مجاز نمی‌باشد!' });
 
-            let _category = await Category.findOne({ ID: category });
-            if (!_category) return res.status(403).json({ msg: 'دسته‌بندی انتخاب شده مجاز نمی‌باشد!' });
+			price = _star.price;
 
-            let attachmentFileNames = [];
-            if (req.files) {
-                console.log();
-                attachments = req.files.attachments;
-                if (attachments.length > 5) {
-                    return res.status(416).json({ msg: 'شما حداکثر 5 پیوست می‌توانید اضافه کنید!' });
-                } else if (!req.files.attachments.length) {
-                    attachments = [ req.files.attachments ];
-                }
-                attachments.forEach((file) => {
-                    filename = `${Date.now()}-${file.name}`;
-                    attachmentFileNames.push(filename);
-                    let fileError = false;
-                    file.mv(uploadDir + `/${req.user._id}/` + filename, (err) => {
-                        if (err) {
-                            fileError = true;
-                        }
-                    });
-                    if (fileError) return res.status(500).json({ msg: 'خطایی در آپلود فایل رخ داد!' });
-                });
-            }
+			let attachmentFileNames = [];
+			if (req.files) {
+				console.log();
+				attachments = req.files.attachments;
+				if (attachments.length > 5) {
+					return res.status(416).json({ msg: 'شما حداکثر 5 پیوست می‌توانید اضافه کنید!' });
+				} else if (!req.files.attachments.length) {
+					attachments = [ req.files.attachments ];
+				}
+				attachments.forEach((file) => {
+					filename = `${Date.now()}-${file.name}`;
+					attachmentFileNames.push(filename);
+					let fileError = false;
+					file.mv(uploadDir + `/${req.user._id}/` + filename, (err) => {
+						if (err) {
+							fileError = true;
+						}
+					});
+					if (fileError) return res.status(500).json({ msg: 'خطایی در آپلود فایل رخ داد!' });
+				});
+			}
 
-            let ID = await idGenerator(Project);
-            let project = new Project({
-                ID,
-                title,
-                description,
-                category: _category.ID,
-                starsNeed,
-                price,
-                forceTime,
-                tags: JSON.parse(tags),
-                attachments: attachmentFileNames,
-                employer: req.user
-            });
+			let ID = await idGenerator(Project);
+			let project = new Project({
+				ID,
+				title,
+				description,
+				category: _category.ID,
+				starsNeed,
+				price,
+				forceTime,
+				tags: JSON.parse(tags),
+				attachments: attachmentFileNames,
+				employer: req.user
+			});
 
-            let user = await User.findOne({ _id: req.user.id });
-            user.projects.push(project.id);
-            await user.save();
+			let user = await User.findOne({ _id: req.user.id });
+			user.projects.push(project.id);
+			await user.save();
 
-            await project.save();
-            return res.json(project);
-        } catch (err) {
-            console.log(err.message);
-            return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
-        }
-    }
+			await project.save();
+			return res.json(project);
+		} catch (err) {
+			console.log(err.message);
+			return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
+		}
+	}
 );
 
 // @router POST api/projects/:id/pay
@@ -453,6 +453,27 @@ router.get('/me', auth, async (req, res) => {
 	}
 });
 
+
+// @router GET api/projects/my
+// @desc Get all user specefic projects
+// @access Private
+router.get('/my', auth, async (req, res) => {
+	var projects;
+	try {
+		if (req.user.type == 2) {
+			projects = await Project.find({
+				applicant: req.user._id
+			}).populate([ { path: 'employer', select: 'email' } ]);
+			return res.json(projects);
+		} else {
+			return res.status(401).json({ msg: 'این صفحه مخصوص کارجو می‌باشد!' });
+		}
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
+	}
+});
+
 // @router GET api/projects/:id/status
 // @desc Get project status
 // @access Public
@@ -509,17 +530,17 @@ router.get('/:id', async (req, res) => {
 // @desc Search
 // @access Public
 router.get('/search', async (req, res) => {
-    try {
-        let query = req.q;
-        console.log(query)
-        // let project = await Project.find({ title: { $text: query } });
-        console.log(project)
-        if (!project) return res.status(404).json({ msg: 'هیچ پروژه ای پیدا نشد!' });
-        return res.json(project);
-    } catch (err) {
-        console.log('ERROR------', err);
-        return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
-    }
+	try {
+		let query = req.q;
+		console.log(query);
+		// let project = await Project.find({ title: { $text: query } });
+		console.log(project);
+		if (!project) return res.status(404).json({ msg: 'هیچ پروژه ای پیدا نشد!' });
+		return res.json(project);
+	} catch (err) {
+		console.log('ERROR------', err);
+		return res.status(500).json({ msg: 'خطای سرور!', error: err.message });
+	}
 });
 
 module.exports = router;

@@ -9,9 +9,9 @@ const TagInput = ({ formData, setFormData, items }) => {
             input.current.focus();
             let value = e.type === 'keydown' ? e.target.value : e.currentTarget.innerText;
             setSelectedTags([ ...selectedTags, { title: value, id: v4() } ]);
+            setFormData({ ...formData, tags: [ ...selectedTags, { title: value, id: v4() } ] });
             setInputValue('');
             setSearchResult([]);
-            setFormData({ ...formData, tags: selectedTags });
         }
     };
     const removeTag = (e) => {

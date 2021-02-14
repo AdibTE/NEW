@@ -12,7 +12,8 @@ import {
     PAY_PROJECT,
     GET_AllTAGS,
     SEARCH,
-    CREATE_CATEGORY
+    CREATE_CATEGORY,
+    CREATE_STAR
 } from '../actions/types';
 
 const initState = {
@@ -56,6 +57,7 @@ export default (state = initState, action) => {
         case GET_AllTAGS:
         case SEARCH:
         case CREATE_CATEGORY:
+        case CREATE_STAR:
             return {
                 ...state,
                 loading: false
